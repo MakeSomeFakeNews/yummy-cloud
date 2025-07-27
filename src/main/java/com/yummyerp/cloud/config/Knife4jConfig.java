@@ -20,7 +20,7 @@ public class Knife4jConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("com.yummyerp.cloud.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.yummyerp.cloud.modules"))
                 .paths(PathSelectors.any())
                 .build();
     }

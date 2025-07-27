@@ -1,5 +1,6 @@
 package com.yummyerp.cloud.modules.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.service.SysDictService;
@@ -30,6 +31,7 @@ public class SysDictController {
 
     @ApiOperation("获取字典分页列表")
     @GetMapping("/getList")
+    @SaCheckPermission("sys:dict:list")
     public Result<Map<String, Object>> getList(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -47,6 +49,7 @@ public class SysDictController {
 
     @ApiOperation("新增字典")
     @PostMapping("/add")
+    @SaCheckPermission("sys:dict:add")
     public Result<SysDict> add(@RequestBody SysDict sysDict) {
         sysDictService.save(sysDict);
         return Result.success(sysDict);
@@ -54,6 +57,7 @@ public class SysDictController {
 
     @ApiOperation("修改字典")
     @PostMapping("/update")
+    @SaCheckPermission("sys:dict:edit")
     public Result<SysDict> update(@RequestBody SysDict sysDict) {
         sysDictService.updateById(sysDict);
         return Result.success(sysDict);
@@ -61,6 +65,7 @@ public class SysDictController {
 
     @ApiOperation("删除字典")
     @PostMapping("/delete")
+    @SaCheckPermission("sys:dict:del")
     public Result<Boolean> delete(@RequestBody Map<String, Object> params) {
         @SuppressWarnings("unchecked")
         List<Object> ids = (List<Object>) params.get("ids");

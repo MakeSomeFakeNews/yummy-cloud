@@ -14,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * <p>
@@ -55,17 +54,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
     @Override
     @Transactional
-    public boolean saveDeptWithAncestors(SysDept sysDept) {
+    public void saveDeptWithAncestors(SysDept sysDept) {
         // 设置祖级信息
         setAncestors(sysDept);
         
         // 保存部门
-        return this.save(sysDept);
+        this.save(sysDept);
     }
 
     @Override
     @Transactional
-    public boolean updateDeptWithAncestors(SysDept sysDept) {
+    public void updateDeptWithAncestors(SysDept sysDept) {
         // 设置祖级信息
         setAncestors(sysDept);
         
@@ -76,8 +75,7 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
             // 更新子部门的祖级信息
             updateChildrenAncestors(sysDept);
         }
-        
-        return result;
+
     }
 
     @Override

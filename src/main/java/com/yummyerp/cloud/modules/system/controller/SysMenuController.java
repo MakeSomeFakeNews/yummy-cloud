@@ -1,5 +1,6 @@
 package com.yummyerp.cloud.modules.system.controller;
 
+import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.entity.SysMenu;
 import com.yummyerp.cloud.modules.system.service.SysMenuService;
@@ -30,6 +31,7 @@ public class SysMenuController {
 
     @ApiOperation("获取菜单列表（树形结构）")
     @GetMapping("/getList")
+    @SaCheckPermission("sys:menu:list")
     public Result<List<SysMenu>> getList(
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer status) {
@@ -39,6 +41,7 @@ public class SysMenuController {
 
     @ApiOperation("获取菜单详情")
     @GetMapping("/getDetail")
+    @SaCheckPermission("sys:menu:detail")
     public Result<SysMenu> getDetail(@RequestParam String id) {
         SysMenu menu = sysMenuService.getById(Long.parseLong(id));
         return Result.success(menu);
@@ -46,6 +49,7 @@ public class SysMenuController {
 
     @ApiOperation("新增菜单")
     @PostMapping("/add")
+    @SaCheckPermission("sys:menu:add")
     public Result<SysMenu> add(@RequestBody SysMenu sysMenu) {
         sysMenuService.save(sysMenu);
         return Result.success(sysMenu);
@@ -53,22 +57,29 @@ public class SysMenuController {
 
     @ApiOperation("修改菜单")
     @PostMapping("/update")
+    @SaCheckPermission("sys:menu:edit")
     public Result<SysMenu> update(@RequestBody SysMenu sysMenu) {
+        System.out.println(sysMenu);
         sysMenuService.updateById(sysMenu);
         return Result.success(sysMenu);
     }
 
     @ApiOperation("删除菜单")
     @PostMapping("/delete")
-    public Result<Boolean> delete(@RequestBody Map<String, Object> params) {
-        @SuppressWarnings("unchecked")
-        List<Object> ids = (List<Object>) params.get("ids");
+    @SaCheckPermission("sys:menu:del")
+    public Result<Boolean> delete(@RequestBody Map<String, List<Integer>> params) {
+        List<Integer> ids = params.get("ids");
+        if (ids == null || ids.isEmpty()) {
+            return Result.success(false);
+        }
+
         List<Long> menuIds = ids.stream()
-                .map(id -> Long.parseLong(id.toString()))
+                .map(Long::valueOf)
                 .collect(Collectors.toList());
         boolean result = sysMenuService.deleteMenuWithRelations(menuIds);
         return Result.success(result);
     }
+
 
     @ApiOperation("获取菜单选项（用于下拉选择）")
     @GetMapping("/getMenuOptions")

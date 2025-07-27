@@ -23,12 +23,12 @@ public interface SysDeptService extends IService<SysDept> {
     /**
      * 保存部门及祖级信息
      */
-    boolean saveDeptWithAncestors(SysDept sysDept);
+    void saveDeptWithAncestors(SysDept sysDept);
 
     /**
      * 更新部门及祖级信息
      */
-    boolean updateDeptWithAncestors(SysDept sysDept);
+    void updateDeptWithAncestors(SysDept sysDept);
 
     /**
      * 删除部门及相关关联数据
