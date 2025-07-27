@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(mv:*)",
+      "WebFetch(domain:baomidou.com)",
+      "Bash(mkdir:*)"
+    ],
+    "deny": []
+  }
+}
