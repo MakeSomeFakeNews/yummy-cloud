@@ -1,10 +1,10 @@
 /** @file 路由权限守卫模块 - 处理路由访问权限和动态路由加载 */
 
-import { Message } from '@arco-design/web-vue'
-import type { RouteLocationNormalized, Router } from 'vue-router'
-import { useRouteStore, useUserStore } from '@/stores'
-import { getToken } from '@/utils/auth'
-import { isHttp } from '@/utils/validate'
+import {Message} from '@arco-design/web-vue'
+import type {RouteLocationNormalized, Router} from 'vue-router'
+import {useRouteStore, useUserStore} from '@/stores'
+import {getToken} from '@/utils/auth'
+import {isHttp} from '@/utils/validate'
 
 /** 免登录白名单路径 */
 const whiteList = ['/login', '/register']

@@ -1,7 +1,7 @@
 package com.yummyerp.cloud.modules.basic.mapper;
 
-import com.yummyerp.cloud.modules.basic.entity.ErpSupplier;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yummyerp.cloud.modules.basic.entity.ErpSupplier;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

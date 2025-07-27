@@ -3,15 +3,15 @@
  * @description 处理动态路由的加载、格式化和状态管理
  */
 
-import { ref } from 'vue'
-import { defineStore } from 'pinia'
-import type { RouteRecordRaw } from 'vue-router'
-import { mapTree } from 'xe-utils'
-import { cloneDeep } from 'lodash-es'
-import { constantRoutes } from '@/router'
-import { transformPathToName } from '@/utils'
-import type { ListItem } from '@/apis/system/menu'
-import { getUserRoutes } from '@/apis/user'
+import {ref} from 'vue'
+import {defineStore} from 'pinia'
+import type {RouteRecordRaw} from 'vue-router'
+import {mapTree} from 'xe-utils'
+import {cloneDeep} from 'lodash-es'
+import {constantRoutes} from '@/router'
+import {transformPathToName} from '@/utils'
+import type {ListItem} from '@/apis/system/menu'
+import {getUserRoutes} from '@/apis/user'
 import ParentView from '@/components/ParentView/index.vue'
 
 /**

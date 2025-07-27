@@ -4,8 +4,8 @@
  */
 
 import type * as A from '@arco-design/web-vue'
-import type { VNode } from 'vue'
-import type { FormItemProps, GridItemProps } from '@arco-design/web-vue'
+import type {FormItemProps, GridItemProps} from '@arco-design/web-vue'
+import type {VNode} from 'vue'
 
 /** 支持的表单项类型 */
 export type ColumnItemType =

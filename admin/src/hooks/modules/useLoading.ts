@@ -1,4 +1,4 @@
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 /**
  * 加载状态管理 Hook

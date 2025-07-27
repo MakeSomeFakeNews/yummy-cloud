@@ -1,6 +1,6 @@
-import { findTree } from 'xe-utils'
-import { defineMock } from '../_base'
-import { getBaseApi, resultError, resultSuccess } from '../_utils'
+import {findTree} from 'xe-utils'
+import {defineMock} from '../_base'
+import {getBaseApi, resultError, resultSuccess} from '../_utils'
 import deptData from '../_data/system_dept'
 
 export default defineMock([

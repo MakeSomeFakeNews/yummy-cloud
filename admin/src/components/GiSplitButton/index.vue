@@ -10,7 +10,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue'
+import {computed} from 'vue'
 
 /** 按钮类型 */
 type ButtonType = 'default' | 'circle'

@@ -1,5 +1,5 @@
-import type { SelectOptionData } from '@arco-design/web-vue'
-import { getBaseApi } from '@/apis/base'
+import type {SelectOptionData} from '@arco-design/web-vue'
+import {getBaseApi} from '@/apis/base'
 import http from '@/utils/http'
 
 export interface ListItem {

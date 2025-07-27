@@ -1,5 +1,7 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.dto.MenuTreeResponse;
 import com.yummyerp.cloud.modules.system.entity.SysMenu;
 import com.yummyerp.cloud.modules.system.entity.SysRoleMenu;
@@ -7,8 +9,6 @@ import com.yummyerp.cloud.modules.system.mapper.SysMenuMapper;
 import com.yummyerp.cloud.modules.system.mapper.SysRoleMenuMapper;
 import com.yummyerp.cloud.modules.system.mapper.SysUserMapper;
 import com.yummyerp.cloud.modules.system.service.SysMenuService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

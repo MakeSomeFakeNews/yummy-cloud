@@ -49,10 +49,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Message } from '@arco-design/web-vue'
-import { getRoleMenuIds, setRoleMenus } from '@/apis/system/role'
-import { type MenuOptionsItem, getMenuOptions } from '@/apis/system/menu'
-import { isMobile } from '@/utils'
+import {Message} from '@arco-design/web-vue'
+import {getRoleMenuIds, setRoleMenus} from '@/apis/system/role'
+import {getMenuOptions, type MenuOptionsItem} from '@/apis/system/menu'
+import {isMobile} from '@/utils'
 
 const treeRef = useTemplateRef('treeRef')
 const treeData = ref<MenuOptionsItem[]>([])

@@ -22,7 +22,7 @@
 </template>
 
 <script setup lang="ts">
-import { useArea } from './useArea'
+import {useArea} from './useArea'
 
 defineOptions({ name: 'TheArea' })
 

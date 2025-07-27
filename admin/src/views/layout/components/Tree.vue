@@ -11,8 +11,8 @@
 </template>
 
 <script lang="ts" setup>
-import type { TreeNodeData } from '@arco-design/web-vue'
-import { getCateTree } from '@/apis/cate'
+import type {TreeNodeData} from '@arco-design/web-vue'
+import {getCateTree} from '@/apis/cate'
 
 const emit = defineEmits<{
   (e: 'node-click'): void

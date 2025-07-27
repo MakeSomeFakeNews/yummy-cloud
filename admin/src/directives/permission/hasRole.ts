@@ -1,5 +1,5 @@
-import type { Directive, DirectiveBinding } from 'vue'
-import { hasRoleOr } from '@/utils/has'
+import type {Directive, DirectiveBinding} from 'vue'
+import {hasRoleOr} from '@/utils/has'
 
 /**
  * 角色检查函数

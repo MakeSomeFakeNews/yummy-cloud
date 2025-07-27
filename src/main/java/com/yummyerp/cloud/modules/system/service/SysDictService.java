@@ -1,8 +1,8 @@
 package com.yummyerp.cloud.modules.system.service;
 
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.entity.SysDictData;
-import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
 import java.util.Map;

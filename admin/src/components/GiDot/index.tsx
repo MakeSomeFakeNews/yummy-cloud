@@ -2,7 +2,7 @@
  * @file GiDot 组件 - 用于显示带有可选动画效果的状态点
  */
 
-import { type PropType, defineComponent } from 'vue'
+import {defineComponent, type PropType} from 'vue'
 import './dot.scss'
 
 /** 点的类型 */

@@ -1,4 +1,4 @@
-import type { MockFileItem } from './_type'
+import type {MockFileItem} from './_type'
 
 const data: MockFileItem[] = [
   {

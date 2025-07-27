@@ -8,8 +8,8 @@
 </template>
 
 <script lang="tsx" setup>
-import { Modal } from '@arco-design/web-vue'
-import { openAddUserModal } from './tool'
+import {Modal} from '@arco-design/web-vue'
+import {openAddUserModal} from './tool'
 import AddUserForm from './components/AddUserForm.vue'
 
 // 方式1

@@ -51,13 +51,13 @@
 </template>
 
 <script setup lang="ts">
-import { Drawer, Link, Message, type PopconfirmInstance, type TableInstance } from '@arco-design/web-vue'
+import {Drawer, Link, Message, type PopconfirmInstance, type TableInstance} from '@arco-design/web-vue'
 import CodeJson from './code-json'
-import { useTable } from '@/hooks'
-import { useDict } from '@/hooks/app'
-import { baseAPI } from '@/apis/person'
+import {useTable} from '@/hooks'
+import {useDict} from '@/hooks/app'
 import type * as T from '@/apis/person'
-import type { ColumnItem } from '@/components/GiForm'
+import {baseAPI} from '@/apis/person'
+import type {ColumnItem} from '@/components/GiForm'
 import GiCodeView from '@/components/GiCodeView/index.vue'
 
 defineOptions({ name: 'TableCustom2' })

@@ -1,7 +1,7 @@
 package com.yummyerp.cloud.modules.product.service;
 
-import com.yummyerp.cloud.modules.product.entity.ErpProduct;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.product.entity.ErpProduct;
 
 /**
  * <p>

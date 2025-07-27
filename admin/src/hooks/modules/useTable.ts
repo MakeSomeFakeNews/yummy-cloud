@@ -1,6 +1,6 @@
-import type { TableData, TableInstance } from '@arco-design/web-vue'
-import { Message, Modal } from '@arco-design/web-vue'
-import { useBreakpoint, usePagination } from '@/hooks'
+import type {TableData, TableInstance} from '@arco-design/web-vue'
+import {Message, Modal} from '@arco-design/web-vue'
+import {useBreakpoint, usePagination} from '@/hooks'
 
 interface Options<T, U> {
   formatResult?: (data: T[]) => U[]

@@ -14,10 +14,10 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
+import type {Component} from 'vue'
 import Pane1 from './Pane1.vue'
 import Pane2 from './Pane2.vue'
-import { useRouteListener } from '@/hooks'
+import {useRouteListener} from '@/hooks'
 
 defineOptions({ name: 'DataIndex' })
 const route = useRoute()

@@ -73,14 +73,14 @@
 </template>
 
 <script setup lang="ts">
-import { Drawer, Message } from '@arco-design/web-vue'
-import { useWindowSize } from '@vueuse/core'
+import {Drawer, Message} from '@arco-design/web-vue'
+import {useWindowSize} from '@vueuse/core'
 import CateTree from './CateTree/index.vue'
 import Pane1Json from './code/pane1-json'
-import { useTable } from '@/hooks'
-import { baseAPI } from '@/apis/person'
+import {useTable} from '@/hooks'
 import type * as T from '@/apis/person'
-import { useDict } from '@/hooks/app'
+import {baseAPI} from '@/apis/person'
+import {useDict} from '@/hooks/app'
 import GiCodeView from '@/components/GiCodeView/index.vue'
 
 const { width } = useWindowSize()

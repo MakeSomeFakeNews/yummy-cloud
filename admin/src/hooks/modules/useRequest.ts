@@ -1,6 +1,6 @@
-import { type UnwrapRef, ref } from 'vue'
-import type { AxiosResponse } from 'axios'
-import { useLoading } from '@/hooks'
+import {ref, type UnwrapRef} from 'vue'
+import type {AxiosResponse} from 'axios'
+import {useLoading} from '@/hooks'
 
 export function useRequest<T>(
   api: () => Promise<AxiosResponse<ApiRes<T>>>,

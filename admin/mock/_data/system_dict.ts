@@ -1,4 +1,4 @@
-import type { MockSystemDictItem } from './_type'
+import type {MockSystemDictItem} from './_type'
 
 const data: MockSystemDictItem[] = [
   {

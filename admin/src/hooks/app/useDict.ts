@@ -1,6 +1,6 @@
-import { computed } from 'vue'
+import {computed} from 'vue'
 import type * as A from '@arco-design/web-vue'
-import { useDictStore } from '@/stores'
+import {useDictStore} from '@/stores'
 
 type Options =
   & A.SelectInstance['$props']['options']

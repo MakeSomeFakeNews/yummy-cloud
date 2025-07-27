@@ -1,9 +1,9 @@
 package com.yummyerp.cloud.modules.product.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.product.entity.ErpProductImage;
 import com.yummyerp.cloud.modules.product.mapper.ErpProductImageMapper;
 import com.yummyerp.cloud.modules.product.service.ErpProductImageService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

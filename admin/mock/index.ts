@@ -1,4 +1,4 @@
-import { createProdMockServer } from 'vite-plugin-mock/es/createProdMockServer'
+import {createProdMockServer} from 'vite-plugin-mock/es/createProdMockServer'
 
 import system_dept from './system/dept'
 import system_dict from './system/dict'

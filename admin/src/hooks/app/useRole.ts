@@ -1,6 +1,6 @@
-import { ref } from 'vue'
-import { baseAPI } from '@/apis/system/role'
+import {ref} from 'vue'
 import type * as T from '@/apis/system/role'
+import {baseAPI} from '@/apis/system/role'
 
 /** 角色模块 */
 export function useRole() {

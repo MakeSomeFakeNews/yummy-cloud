@@ -1,19 +1,21 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.yummyerp.cloud.modules.system.entity.SysDept;
-import com.yummyerp.cloud.modules.system.entity.SysUser;
-import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
-import com.yummyerp.cloud.modules.system.mapper.SysDeptMapper;
-import com.yummyerp.cloud.modules.system.mapper.SysUserMapper;
-import com.yummyerp.cloud.modules.system.mapper.SysRoleDeptMapper;
-import com.yummyerp.cloud.modules.system.service.SysDeptService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yummyerp.cloud.modules.system.entity.SysDept;
+import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
+import com.yummyerp.cloud.modules.system.entity.SysUser;
+import com.yummyerp.cloud.modules.system.mapper.SysDeptMapper;
+import com.yummyerp.cloud.modules.system.mapper.SysRoleDeptMapper;
+import com.yummyerp.cloud.modules.system.mapper.SysUserMapper;
+import com.yummyerp.cloud.modules.system.service.SysDeptService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * <p>

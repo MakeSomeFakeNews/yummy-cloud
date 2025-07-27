@@ -12,8 +12,8 @@
 </template>
 
 <script setup lang="ts">
-import { useDark, useToggle } from '@vueuse/core'
-import { useAppStore } from '@/stores'
+import {useDark, useToggle} from '@vueuse/core'
+import {useAppStore} from '@/stores'
 
 defineOptions({ name: 'GiThemeBtn' })
 const appStore = useAppStore()

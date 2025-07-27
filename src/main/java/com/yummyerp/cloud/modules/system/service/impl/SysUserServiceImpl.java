@@ -3,20 +3,23 @@ package com.yummyerp.cloud.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yummyerp.cloud.modules.system.entity.SysDept;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.yummyerp.cloud.modules.system.entity.SysUserRole;
-import com.yummyerp.cloud.modules.system.entity.SysDept;
+import com.yummyerp.cloud.modules.system.mapper.SysDeptMapper;
 import com.yummyerp.cloud.modules.system.mapper.SysUserMapper;
 import com.yummyerp.cloud.modules.system.mapper.SysUserRoleMapper;
-import com.yummyerp.cloud.modules.system.mapper.SysDeptMapper;
 import com.yummyerp.cloud.modules.system.service.SysUserService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -145,7 +148,26 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 删除用户
         return this.removeByIds(userIds);
     }
-
+    
+    @Override
+    public SysUser getUserById(Long userId) {
+        if (userId == null) {
+            return null;
+        }
+        
+        SysUser user = this.getById(userId);
+        
+        // 如果找到用户，填充部门信息
+        if (user != null && user.getDeptId() != null) {
+            SysDept dept = sysDeptMapper.selectById(user.getDeptId());
+            if (dept != null) {
+                user.setDeptName(dept.getName());
+            }
+        }
+        
+        return user;
+    }
+    
     /**
      * 填充用户额外信息（部门名称、角色信息等）
      */

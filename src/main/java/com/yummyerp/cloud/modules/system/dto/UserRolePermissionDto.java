@@ -2,8 +2,6 @@ package com.yummyerp.cloud.modules.system.dto;
 
 import lombok.Data;
 
-import java.util.List;
-
 /**
  * 用户角色权限信息DTO
  */

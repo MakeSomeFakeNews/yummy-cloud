@@ -62,13 +62,13 @@
 </template>
 
 <script setup lang="ts">
-import { type FormInstance, Message } from '@arco-design/web-vue'
+import {type FormInstance, Message} from '@arco-design/web-vue'
 import LoginBg from './components/LoginBg/index.vue'
-import { useTabsStore, useUserStore } from '@/stores'
-import { useLoading } from '@/hooks'
+import {useTabsStore, useUserStore} from '@/stores'
+import {useLoading} from '@/hooks'
 import * as Regexp from '@/utils/regexp'
-import { isMobile } from '@/utils'
-import { getCaptcha } from '@/apis/user'
+import {isMobile} from '@/utils'
+import {getCaptcha} from '@/apis/user'
 
 defineOptions({ name: 'Login' })
 const router = useRouter()

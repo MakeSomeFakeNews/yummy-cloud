@@ -17,8 +17,8 @@
 </template>
 
 <script setup lang='ts'>
-import type { ColProps } from '@arco-design/web-vue'
-import type { CSSProperties } from 'vue'
+import type {ColProps} from '@arco-design/web-vue'
+import type {CSSProperties} from 'vue'
 
 defineOptions({ name: 'GiPageLayout' })
 

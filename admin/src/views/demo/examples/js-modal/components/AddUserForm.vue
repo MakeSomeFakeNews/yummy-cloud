@@ -10,7 +10,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { FormInstance } from '@arco-design/web-vue'
+import type {FormInstance} from '@arco-design/web-vue'
 import * as Regexp from '@/utils/regexp'
 
 defineOptions({ name: 'AddUserForm' })

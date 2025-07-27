@@ -1,6 +1,8 @@
 package com.yummyerp.cloud.modules.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.yummyerp.cloud.annotation.Log;
+import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.service.SysDictService;
@@ -32,6 +34,7 @@ public class SysDictController {
     @ApiOperation("获取字典分页列表")
     @GetMapping("/getList")
     @SaCheckPermission("sys:dict:list")
+    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.OTHER)
     public Result<Map<String, Object>> getList(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -42,6 +45,7 @@ public class SysDictController {
 
     @ApiOperation("获取字典详情")
     @GetMapping("/getDetail")
+    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.OTHER)
     public Result<SysDict> getDetail(@RequestParam String id) {
         SysDict dict = sysDictService.getById(Long.parseLong(id));
         return Result.success(dict);
@@ -50,6 +54,7 @@ public class SysDictController {
     @ApiOperation("新增字典")
     @PostMapping("/add")
     @SaCheckPermission("sys:dict:add")
+    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.INSERT)
     public Result<SysDict> add(@RequestBody SysDict sysDict) {
         sysDictService.save(sysDict);
         return Result.success(sysDict);
@@ -58,6 +63,7 @@ public class SysDictController {
     @ApiOperation("修改字典")
     @PostMapping("/update")
     @SaCheckPermission("sys:dict:edit")
+    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.UPDATE)
     public Result<SysDict> update(@RequestBody SysDict sysDict) {
         sysDictService.updateById(sysDict);
         return Result.success(sysDict);
@@ -66,6 +72,7 @@ public class SysDictController {
     @ApiOperation("删除字典")
     @PostMapping("/delete")
     @SaCheckPermission("sys:dict:del")
+    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.DELETE)
     public Result<Boolean> delete(@RequestBody Map<String, Object> params) {
         @SuppressWarnings("unchecked")
         List<Object> ids = (List<Object>) params.get("ids");
@@ -78,6 +85,7 @@ public class SysDictController {
 
     @ApiOperation("获取字典数据列表")
     @GetMapping("/getDictDataList")
+    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
     public Result<Map<String, Object>> getDictDataList(
             @RequestParam String code,
             @RequestParam(defaultValue = "1") Integer page,
@@ -87,6 +95,7 @@ public class SysDictController {
 
     @ApiOperation("获取字典数据详情")
     @GetMapping("/getDictDataDetail")
+    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
     public Result<Object> getDictDataDetail(@RequestParam String id, @RequestParam String code) {
         Object dictData = sysDictService.getDictDataDetail(Long.parseLong(id));
         return Result.success(dictData);
@@ -94,6 +103,7 @@ public class SysDictController {
 
     @ApiOperation("获取所有字典数据映射")
     @GetMapping("/getDictData")
+    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
     public Result<Map<String, Object>> getDictData() {
         return Result.success(sysDictService.getAllDictDataMap());
     }

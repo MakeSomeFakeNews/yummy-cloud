@@ -30,6 +30,13 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- Spring Boot AOP支持，用于日志记录切面 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        
+
         <!-- Spring Boot开发工具，提供热重载等开发便利功能 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -118,6 +125,13 @@
             <artifactId>spring-security-crypto</artifactId>
         </dependency>
         
+        <!-- ip2region IP地址定位库 -->
+        <dependency>
+            <groupId>org.lionsoul</groupId>
+            <artifactId>ip2region</artifactId>
+            <version>2.7.0</version>
+        </dependency>
+        
         <!-- Spring Boot测试框架 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -144,8 +158,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>9</source>
+                    <target>9</target>
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>

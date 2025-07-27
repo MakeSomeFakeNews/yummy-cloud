@@ -35,8 +35,8 @@
 </template>
 
 <script lang='ts' setup generic="T extends TableData">
-import type { TableColumnData, TableData } from '@arco-design/web-vue'
-import type { ColumnItem, Disabled } from './type'
+import type {TableColumnData, TableData} from '@arco-design/web-vue'
+import type {ColumnItem, Disabled} from './type'
 
 defineOptions({ name: 'GiEditTable', inheritAttrs: false })
 

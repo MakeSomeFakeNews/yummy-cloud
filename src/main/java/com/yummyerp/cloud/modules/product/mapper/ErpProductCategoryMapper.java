@@ -1,7 +1,7 @@
 package com.yummyerp.cloud.modules.product.mapper;
 
-import com.yummyerp.cloud.modules.product.entity.ErpProductCategory;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.yummyerp.cloud.modules.product.entity.ErpProductCategory;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

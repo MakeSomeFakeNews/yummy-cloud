@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTabsStore } from '@/stores'
+import {useTabsStore} from '@/stores'
 
 /** 组件名称 */
 defineOptions({ name: 'ReloadIcon' })

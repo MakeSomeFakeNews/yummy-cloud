@@ -68,11 +68,11 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from '@arco-design/web-vue'
-import { Message } from '@arco-design/web-vue'
+import type {FormInstance} from '@arco-design/web-vue'
+import {Message} from '@arco-design/web-vue'
 import * as Regexp from '@/utils/regexp'
-import { isMobile } from '@/utils'
-import { useDict } from '@/hooks/app'
+import {isMobile} from '@/utils'
+import {useDict} from '@/hooks/app'
 
 defineOptions({ name: 'FormBase' })
 const { data: options } = useDict({ code: 'hobbys' })

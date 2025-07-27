@@ -1,9 +1,9 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
 import com.yummyerp.cloud.modules.system.mapper.SysRoleDeptMapper;
 import com.yummyerp.cloud.modules.system.service.SysRoleDeptService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 /**

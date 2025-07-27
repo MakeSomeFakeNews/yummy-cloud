@@ -1,6 +1,6 @@
-import Mock, { Random } from 'mockjs'
-import { defineMock } from '../_base'
-import { getBaseApi, resultSuccess } from '../_utils'
+import Mock, {Random} from 'mockjs'
+import {defineMock} from '../_base'
+import {getBaseApi, resultSuccess} from '../_utils'
 
 /**
  * @param {number} times 回调函数需要执行的次数

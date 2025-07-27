@@ -23,8 +23,8 @@
 </template>
 
 <script setup lang="ts">
-import type { RouteLocationMatched, RouteLocationNormalized } from 'vue-router'
-import { useRouteListener } from '@/hooks'
+import type {RouteLocationMatched, RouteLocationNormalized} from 'vue-router'
+import {useRouteListener} from '@/hooks'
 
 /** 组件名称 */
 defineOptions({ name: 'Breadcrumb' })

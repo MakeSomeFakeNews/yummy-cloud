@@ -1,4 +1,4 @@
-import type { MockMethod } from 'vite-plugin-mock'
+import type {MockMethod} from 'vite-plugin-mock'
 
 /** 前缀 */
 const prefix = '/mock'

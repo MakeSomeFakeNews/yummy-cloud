@@ -21,10 +21,10 @@
 </template>
 
 <script setup lang="ts">
-import { type FormInstance, Message } from '@arco-design/web-vue'
+import {type FormInstance, Message} from '@arco-design/web-vue'
 import * as Regexp from '@/utils/regexp'
-import { useResetReactive } from '@/hooks'
-import { baseAPI } from '@/apis/system/dict'
+import {useResetReactive} from '@/hooks'
+import {baseAPI} from '@/apis/system/dict'
 
 const emit = defineEmits<{
   (e: 'save-success'): void

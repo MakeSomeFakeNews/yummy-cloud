@@ -70,13 +70,12 @@
 </template>
 
 <script setup lang="ts">
-import { Message, Modal } from '@arco-design/web-vue'
-import { useFullscreen } from '@vueuse/core'
+import {Modal} from '@arco-design/web-vue'
+import {useFullscreen} from '@vueuse/core'
 import SettingDrawer from './SettingDrawer.vue'
-import Notice from './Notice.vue'
 import ChangePasswordModal from './ChangePasswordModal.vue'
-import { useUserStore } from '@/stores'
-import { useBreakpoint } from '@/hooks'
+import {useUserStore} from '@/stores'
+import {useBreakpoint} from '@/hooks'
 
 /** 组件名称 */
 defineOptions({ name: 'HeaderRight' })

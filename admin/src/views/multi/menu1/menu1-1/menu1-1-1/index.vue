@@ -16,7 +16,7 @@
 </template>
 
 <script lang="ts" setup>
-import { Message } from '@arco-design/web-vue'
+import {Message} from '@arco-design/web-vue'
 
 defineOptions({ name: 'MultiMenu1Menu11Menu111' })
 const route = useRoute()

@@ -1,6 +1,6 @@
-import { eachTree } from 'xe-utils'
-import { defineMock } from '../_base'
-import { getBaseApi, getDelayTime, resultError, resultSuccess } from '../_utils'
+import {eachTree} from 'xe-utils'
+import {defineMock} from '../_base'
+import {getBaseApi, getDelayTime, resultError, resultSuccess} from '../_utils'
 import menuData from '../_data/system_menu'
 import roleData from '../_data/system_role'
 

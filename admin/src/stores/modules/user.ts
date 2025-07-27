@@ -1,10 +1,16 @@
 /** @file 用户状态管理模块 - 处理用户登录、权限和信息管理 */
 
-import { defineStore } from 'pinia'
-import { computed, reactive, ref } from 'vue'
-import { resetRouter } from '@/router'
-import { type UserInfo, getUserInfo as getUserInfoApi, login as loginApi, logout as logoutApi, changePassword as changePasswordApi } from '@/apis/user'
-import { clearToken, getToken, setToken } from '@/utils/auth'
+import {defineStore} from 'pinia'
+import {computed, reactive, ref} from 'vue'
+import {resetRouter} from '@/router'
+import {
+    changePassword as changePasswordApi,
+    getUserInfo as getUserInfoApi,
+    login as loginApi,
+    logout as logoutApi,
+    type UserInfo
+} from '@/apis/user'
+import {clearToken, getToken, setToken} from '@/utils/auth'
 
 /** 登录参数接口 */
 interface LoginParams {

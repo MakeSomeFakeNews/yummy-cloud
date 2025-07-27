@@ -75,13 +75,13 @@
 </template>
 
 <script setup lang="ts">
-import { Message } from '@arco-design/web-vue'
+import {Message} from '@arco-design/web-vue'
 import AddDictModal from './AddDictModal.vue'
 import DictDataModal from './DictDataModal/index.vue'
-import { useTable } from '@/hooks'
-import { useDict } from '@/hooks/app'
-import { baseAPI } from '@/apis/system/dict'
+import {useTable} from '@/hooks'
+import {useDict} from '@/hooks/app'
 import type * as T from '@/apis/system/dict'
+import {baseAPI} from '@/apis/system/dict'
 
 defineOptions({ name: 'SystemRole' })
 

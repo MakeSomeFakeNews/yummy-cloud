@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore } from '@/stores'
+import {useAppStore} from '@/stores'
 
 defineOptions({
   name: 'LayoutModeItem'

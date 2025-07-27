@@ -1,4 +1,4 @@
-import type { MockAreaItem } from './_type'
+import type {MockAreaItem} from './_type'
 
 const data: MockAreaItem[] = [
   {

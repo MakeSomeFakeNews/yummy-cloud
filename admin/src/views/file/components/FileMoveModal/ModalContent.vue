@@ -12,8 +12,8 @@
 </template>
 
 <script lang="tsx" setup>
-import type { TreeInstance } from '@arco-design/web-vue'
-import { mapTree } from 'xe-utils'
+import type {TreeInstance} from '@arco-design/web-vue'
+import {mapTree} from 'xe-utils'
 import GiSvgIcon from '@/components/GiSvgIcon/index.vue'
 
 const formRef = useTemplateRef('formRef')

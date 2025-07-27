@@ -1,9 +1,8 @@
-import { createApp } from 'vue'
-import ArcoVue, { Card, Drawer, Modal } from '@arco-design/web-vue'
+import {createApp} from 'vue'
+import ArcoVue, {Card, Drawer, Modal} from '@arco-design/web-vue'
 import '@/styles/arco-ui/index.less'
 // import '@arco-themes/vue-gi-demo/index.less'
 // import '@arco-design/web-vue/dist/arco.css'
-
 // 额外引入 Arco Design Icon图标库
 import ArcoVueIcon from '@arco-design/web-vue/es/icon'
 import App from './App.vue'

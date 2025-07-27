@@ -40,10 +40,10 @@
 </template>
 
 <script lang="ts" setup>
-import { Link, Message, type PopconfirmInstance, type TableInstance } from '@arco-design/web-vue'
-import { useTable } from '@/hooks'
-import { baseAPI } from '@/apis/person'
+import {Link, Message, type PopconfirmInstance, type TableInstance} from '@arco-design/web-vue'
+import {useTable} from '@/hooks'
 import type * as T from '@/apis/person'
+import {baseAPI} from '@/apis/person'
 
 const columns: TableInstance['columns'] = [
   { title: '序号', width: 66, align: 'center', render: ({ rowIndex }) => h('span', {}, rowIndex + 1) },

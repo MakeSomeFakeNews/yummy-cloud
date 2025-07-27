@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang='ts'>
-import { ref } from 'vue'
+import {ref} from 'vue'
 
 /** 组件名称 */
 defineOptions({ name: 'GiSplitPane' })

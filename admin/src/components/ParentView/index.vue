@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { useTabsStore } from '@/stores'
+import {useTabsStore} from '@/stores'
 
 defineOptions({ name: 'ParentView' })
 

@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore, useDictStore } from '@/stores'
+import {useAppStore, useDictStore} from '@/stores'
 
 defineOptions({ name: 'App' })
 const appStore = useAppStore()

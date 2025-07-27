@@ -59,11 +59,11 @@
 </template>
 
 <script setup lang="ts">
-import { type ColProps, type FormInstance, Message } from '@arco-design/web-vue'
+import {type ColProps, type FormInstance, Message} from '@arco-design/web-vue'
 import * as Regexp from '@/utils/regexp'
-import { baseAPI } from '@/apis/system/user'
-import { useDept, useRole } from '@/hooks/app'
-import { useResetReactive } from '@/hooks'
+import {baseAPI} from '@/apis/system/user'
+import {useDept, useRole} from '@/hooks/app'
+import {useResetReactive} from '@/hooks'
 
 const emit = defineEmits<{
   (e: 'save-success'): void

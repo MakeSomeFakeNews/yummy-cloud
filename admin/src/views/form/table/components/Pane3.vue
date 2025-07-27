@@ -37,10 +37,10 @@
 </template>
 
 <script lang='tsx' setup>
-import { Message, type TableColumnData } from '@arco-design/web-vue'
-import type { ColumnItem, Disabled } from '@/components/GiEditTable'
+import {Message, type TableColumnData} from '@arco-design/web-vue'
+import type {ColumnItem, Disabled} from '@/components/GiEditTable'
 import * as Regexp from '@/utils/regexp'
-import { useDict } from '@/hooks/app'
+import {useDict} from '@/hooks/app'
 
 defineOptions({ name: 'FormTable' })
 

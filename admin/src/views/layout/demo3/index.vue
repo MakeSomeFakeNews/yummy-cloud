@@ -13,7 +13,7 @@
 
 <script lang="ts" setup>
 import Table from '../components/Table.vue'
-import type { ColumnItem } from '@/components/GiForm'
+import type {ColumnItem} from '@/components/GiForm'
 
 defineOptions({ name: 'LayoutDemo3' })
 const TableRef = useTemplateRef('TableRef')

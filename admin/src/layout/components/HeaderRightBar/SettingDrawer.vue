@@ -61,10 +61,10 @@
 </template>
 
 <script setup lang="ts">
-import { ColorPicker } from 'vue-color-kit'
+import {ColorPicker} from 'vue-color-kit'
 import 'vue-color-kit/dist/vue-color-kit.css'
 import LayoutModeItem from './components/LayoutModeItem.vue'
-import { useAppStore } from '@/stores'
+import {useAppStore} from '@/stores'
 import AppSetting from '@/config/setting.json'
 
 /** 组件名称 */

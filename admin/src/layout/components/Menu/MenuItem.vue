@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts" setup>
-import type { RouteRecordRaw } from 'vue-router'
+import type {RouteRecordRaw} from 'vue-router'
 import MenuIcon from './MenuIcon.vue'
 
 defineOptions({ name: 'MenuItem' })

@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores'
+import {useUserStore} from '@/stores'
 
 /** 超级管理员权限标识 */
 const SUPER_ADMIN_PERMISSION = '*:*:*'

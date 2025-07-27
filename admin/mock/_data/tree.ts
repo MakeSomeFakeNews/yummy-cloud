@@ -1,4 +1,4 @@
-import type { MockCateTreeItem } from './_type'
+import type {MockCateTreeItem} from './_type'
 
 const data: MockCateTreeItem[] = [
   {

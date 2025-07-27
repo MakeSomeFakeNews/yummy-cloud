@@ -10,8 +10,8 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Message } from '@arco-design/web-vue'
+import {ref} from 'vue'
+import {Message} from '@arco-design/web-vue'
 
 /** 组件名称 */
 defineOptions({ name: 'GiIframe' })

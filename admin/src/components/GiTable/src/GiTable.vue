@@ -109,11 +109,11 @@
 </template>
 
 <script setup lang="ts" generic="T extends TableData">
-import { computed, ref, watch } from 'vue'
-import type { DropdownInstance, TableColumnData, TableData, TableInstance } from '@arco-design/web-vue'
-import { VueDraggable } from 'vue-draggable-plus'
-import { omit } from 'lodash-es'
-import type { TableProps } from './type'
+import {computed, ref, watch} from 'vue'
+import type {DropdownInstance, TableColumnData, TableData, TableInstance} from '@arco-design/web-vue'
+import {VueDraggable} from 'vue-draggable-plus'
+import {omit} from 'lodash-es'
+import type {TableProps} from './type'
 
 defineOptions({ name: 'GiTable' })
 

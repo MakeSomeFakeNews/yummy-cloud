@@ -1,7 +1,7 @@
 /** @file 路由配置模块 - 处理路由的创建、守卫和重置 */
 
-import { type RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router'
-import { useRouteStore } from '@/stores'
+import {createRouter, createWebHashHistory, type RouteRecordRaw} from 'vue-router'
+import {useRouteStore} from '@/stores'
 import createRouteGuard from '@/router/guard'
 
 /** 默认布局组件 */

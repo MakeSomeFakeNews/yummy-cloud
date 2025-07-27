@@ -13,8 +13,8 @@
 
 <script lang="ts" setup>
 import VCharts from 'vue-echarts'
-import { graphic } from 'echarts'
-import { useChart } from '@/hooks'
+import {graphic} from 'echarts'
+import {useChart} from '@/hooks'
 // import { ToolTipFormatterParams } from '@/types/echarts';
 
 const xData = ref<string[]>([])

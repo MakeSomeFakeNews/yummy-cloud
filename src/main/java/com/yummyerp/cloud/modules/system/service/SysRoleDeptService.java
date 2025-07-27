@@ -1,7 +1,7 @@
 package com.yummyerp.cloud.modules.system.service;
 
-import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
 
 /**
  * <p>

@@ -1,5 +1,5 @@
-import { reactive } from 'vue'
-import { Form, type FormInstance, Modal } from '@arco-design/web-vue'
+import {reactive} from 'vue'
+import {Form, type FormInstance, Modal} from '@arco-design/web-vue'
 import * as Regexp from '@/utils/regexp'
 
 // 打开添加用户的弹窗

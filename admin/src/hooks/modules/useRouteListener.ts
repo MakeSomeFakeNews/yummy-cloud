@@ -3,10 +3,10 @@
  * @description 使用发布订阅模式管理路由变化，避免重复监听导致的性能问题
  */
 
-import { onUnmounted, ref } from 'vue'
-import type { Handler } from 'mitt'
+import {onUnmounted, ref} from 'vue'
+import type {Handler} from 'mitt'
 import mitt from 'mitt'
-import type { RouteLocationNormalized } from 'vue-router'
+import type {RouteLocationNormalized} from 'vue-router'
 
 // 事件类型定义
 type RouteChangeEvent = {

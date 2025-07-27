@@ -116,7 +116,7 @@
 </template>
 
 <script setup lang="ts">
-import { Message } from '@arco-design/web-vue'
+import {Message} from '@arco-design/web-vue'
 
 const onClose = () => {
   Message.success('点击了关闭图标')

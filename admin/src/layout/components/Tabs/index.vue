@@ -74,12 +74,12 @@
 </template>
 
 <script setup lang="ts">
-import type { TabsInstance } from '@arco-design/web-vue'
+import type {TabsInstance} from '@arco-design/web-vue'
 import Sortable from 'sortablejs'
 import MagicIcon from './MagicIcon.vue'
 import ReloadIcon from './ReloadIcon.vue'
-import { useAppStore, useTabsStore } from '@/stores'
-import { useRouteListener } from '@/hooks'
+import {useAppStore, useTabsStore} from '@/stores'
+import {useRouteListener} from '@/hooks'
 
 /** 组件名称 */
 defineOptions({ name: 'Tabs' })

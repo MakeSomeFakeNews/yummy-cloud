@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import type { StepForm } from './type'
+import type {StepForm} from './type'
 
 defineOptions({ name: 'Step3' })
 

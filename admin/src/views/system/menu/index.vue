@@ -121,12 +121,12 @@
 
 <script setup lang="ts">
 import AddMenuModal from './AddMenuModal.vue'
-import { baseAPI } from '@/apis/system/menu'
 import type * as T from '@/apis/system/menu'
-import { isExternal } from '@/utils/validate'
-import { transformPathToName } from '@/utils'
-import { useDict } from '@/hooks/app'
-import { useTable } from '@/hooks'
+import {baseAPI} from '@/apis/system/menu'
+import {isExternal} from '@/utils/validate'
+import {transformPathToName} from '@/utils'
+import {useDict} from '@/hooks/app'
+import {useTable} from '@/hooks'
 
 defineOptions({ name: 'SystemMenu' })
 

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { type CSSProperties, computed } from 'vue'
+import {computed, type CSSProperties} from 'vue'
 
 const props = withDefaults(defineProps<Props>(), {
   size: 8,

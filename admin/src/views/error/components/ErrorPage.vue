@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import type { Component } from 'vue'
+import type {Component} from 'vue'
 import Icon403 from '@/components/icons/Icon403.vue'
 import Icon404 from '@/components/icons/Icon404.vue'
 import Icon500 from '@/components/icons/Icon500.vue'

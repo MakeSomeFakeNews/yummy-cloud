@@ -1,8 +1,8 @@
-import { findTree, mapTree } from 'xe-utils'
-import { defineMock } from '../_base'
-import { USER_TOKENS, filterTree, getBaseApi, getDelayTime, isAdmin, resultError, resultSuccess } from '../_utils'
+import {findTree, mapTree} from 'xe-utils'
+import {defineMock} from '../_base'
+import {filterTree, getBaseApi, getDelayTime, isAdmin, resultError, resultSuccess, USER_TOKENS} from '../_utils'
 import menuData from '../_data/system_menu'
-import type { MockSystemMenuItem } from '../_data/_type'
+import type {MockSystemMenuItem} from '../_data/_type'
 
 export default defineMock([
   ...getBaseApi({

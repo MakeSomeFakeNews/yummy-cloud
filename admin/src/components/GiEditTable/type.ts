@@ -1,5 +1,5 @@
 import type * as A from '@arco-design/web-vue'
-import type { VNode } from 'vue'
+import type {VNode} from 'vue'
 
 export type ColumnItemType =
   | 'input'

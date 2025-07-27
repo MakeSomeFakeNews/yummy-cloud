@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useUserStore } from '@/stores'
+import {useUserStore} from '@/stores'
 
 defineOptions({ name: 'TestPage1' })
 const userStore = useUserStore()

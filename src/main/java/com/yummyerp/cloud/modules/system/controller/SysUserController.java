@@ -1,15 +1,15 @@
 package com.yummyerp.cloud.modules.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
+import com.yummyerp.cloud.annotation.Log;
+import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.yummyerp.cloud.modules.system.service.SysUserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -27,12 +27,16 @@ import java.util.stream.Collectors;
 @RequestMapping("/system/user")
 public class SysUserController {
 
-    @Autowired
-    private SysUserService sysUserService;
+    private final SysUserService sysUserService;
+
+    public SysUserController(SysUserService sysUserService) {
+        this.sysUserService = sysUserService;
+    }
 
     @ApiOperation("获取用户分页列表")
     @GetMapping("/getList")
     @SaCheckPermission("sys:user:list")
+    @Log(title = "系统用户管理")
     public Result<Map<String, Object>> getList(
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size,
@@ -45,6 +49,7 @@ public class SysUserController {
     @ApiOperation("获取用户详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:user:detail")
+    @Log(title = "系统用户管理")
     public Result<SysUser> getDetail(@RequestParam String id) {
         SysUser user = sysUserService.getUserDetailById(Long.parseLong(id));
         return Result.success(user);
@@ -53,6 +58,7 @@ public class SysUserController {
     @ApiOperation("新增用户")
     @PostMapping("/add")
     @SaCheckPermission("sys:user:add")
+    @Log(title = "系统用户管理", businessType = LogConst.BusinessType.INSERT)
     public Result<SysUser> add(@RequestBody SysUser sysUser) {
         sysUserService.saveUserWithRoles(sysUser);
         return Result.success(sysUser);
@@ -61,6 +67,7 @@ public class SysUserController {
     @ApiOperation("修改用户")
     @PostMapping("/update")
     @SaCheckPermission("sys:user:edit")
+    @Log(title = "系统用户管理", businessType = LogConst.BusinessType.UPDATE)
     public Result<SysUser> update(@RequestBody SysUser sysUser) {
         sysUserService.updateUserWithRoles(sysUser);
         return Result.success(sysUser);
@@ -69,6 +76,7 @@ public class SysUserController {
     @ApiOperation("删除用户")
     @PostMapping("/delete")
     @SaCheckPermission("sys:user:del")
+    @Log(title = "系统用户管理", businessType = LogConst.BusinessType.DELETE)
     public Result<Boolean> delete(@RequestBody Map<String, List<Integer>> params) {
         List<Integer> ids = params.get("ids");
         List<Long> userIds = ids.stream()

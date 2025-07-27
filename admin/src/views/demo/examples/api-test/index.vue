@@ -13,9 +13,9 @@
 </template>
 
 <script lang="ts" setup>
-import { Message } from '@arco-design/web-vue'
-import { getTestFail, getTestSuccess } from '@/apis/test'
-import { useTabsStore, useUserStore } from '@/stores'
+import {Message} from '@arco-design/web-vue'
+import {getTestFail, getTestSuccess} from '@/apis/test'
+import {useTabsStore, useUserStore} from '@/stores'
 
 const userStore = useUserStore()
 

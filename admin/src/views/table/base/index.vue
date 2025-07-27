@@ -52,10 +52,10 @@
 </template>
 
 <script setup lang="ts">
-import type { PopconfirmInstance } from '@arco-design/web-vue'
-import { useTable } from '@/hooks'
-import { baseAPI } from '@/apis/person'
-import type { ColumnItem } from '@/components/GiForm'
+import type {PopconfirmInstance} from '@arco-design/web-vue'
+import {useTable} from '@/hooks'
+import {baseAPI} from '@/apis/person'
+import type {ColumnItem} from '@/components/GiForm'
 
 defineOptions({ name: 'TableBase' })
 

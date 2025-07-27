@@ -1,6 +1,8 @@
 package com.yummyerp.cloud.modules.system.controller;
 
 import cn.dev33.satoken.annotation.SaCheckLogin;
+import com.yummyerp.cloud.annotation.Log;
+import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.dto.*;
 import com.yummyerp.cloud.modules.system.service.UserService;
@@ -25,12 +27,14 @@ public class AuthController {
 
     @GetMapping("/captcha")
     @ApiOperation("获取验证码")
+    @Log(title = "获取验证码", businessType = LogConst.BusinessType.OTHER)
     public Result<CaptchaResponse> getCaptcha() {
         return Result.success(userService.getCaptcha());
     }
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
+    @Log(title = "用户登录", businessType = LogConst.BusinessType.OTHER)
     public Result<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
         return Result.success(userService.login(request));
     }
@@ -38,6 +42,7 @@ public class AuthController {
     @PostMapping("/logout")
     @ApiOperation("用户登出")
     @SaCheckLogin
+    @Log(title = "用户登出", businessType = LogConst.BusinessType.OTHER)
     public Result<Void> logout() {
         userService.logout();
         return Result.success();
@@ -46,6 +51,7 @@ public class AuthController {
     @GetMapping("/getUserInfo")
     @ApiOperation("获取用户信息")
     @SaCheckLogin
+    @Log(title = "获取用户信息", businessType = LogConst.BusinessType.OTHER)
     public Result<UserInfoResponse> getUserInfo() {
         return Result.success(userService.getUserInfo());
     }
@@ -53,6 +59,7 @@ public class AuthController {
     @GetMapping("/getUserRoutes")
     @ApiOperation("获取用户路由")
     @SaCheckLogin
+    @Log(title = "获取用户路由", businessType = LogConst.BusinessType.OTHER)
     public Result<List<MenuTreeResponse>> getUserRoutes() {
         return Result.success(userService.getUserRoutes());
     }
@@ -60,6 +67,7 @@ public class AuthController {
     @PostMapping("/changePassword")
     @ApiOperation("修改密码")
     @SaCheckLogin
+    @Log(title = "修改密码", businessType = LogConst.BusinessType.UPDATE)
     public Result<Void> changePassword(@Validated @RequestBody ChangePasswordRequest request) {
         userService.changePassword(request);
         return Result.success();

@@ -9,7 +9,7 @@
 </template>
 
 <script setup lang="ts">
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import {Editor, Toolbar} from '@wangeditor/editor-for-vue'
 import '@wangeditor/editor/dist/css/style.css' // 引入 css
 
 // 编辑器实例，必须用shallowRef

@@ -24,8 +24,8 @@
 </template>
 
 <script setup lang="ts">
-import type { FormInstance } from '@arco-design/web-vue'
-import type { StepForm } from './type'
+import type {FormInstance} from '@arco-design/web-vue'
+import type {StepForm} from './type'
 
 defineOptions({ name: 'Step2' })
 

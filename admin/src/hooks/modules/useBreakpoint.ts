@@ -1,6 +1,6 @@
-import { type ComputedRef, computed } from 'vue'
-import { useBreakpoints } from '@vueuse/core'
-import type { ColProps } from '@arco-design/web-vue'
+import {computed, type ComputedRef} from 'vue'
+import {useBreakpoints} from '@vueuse/core'
+import type {ColProps} from '@arco-design/web-vue'
 
 type ColBreakpoint = Pick<ColProps, 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl'>
 type Breakpoint = keyof ColBreakpoint

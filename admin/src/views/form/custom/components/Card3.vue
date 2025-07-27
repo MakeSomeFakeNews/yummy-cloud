@@ -29,13 +29,13 @@
 </template>
 
 <script setup lang="ts">
-import { Drawer, Message } from '@arco-design/web-vue'
-import { useWindowSize } from '@vueuse/core'
+import {Drawer, Message} from '@arco-design/web-vue'
+import {useWindowSize} from '@vueuse/core'
 import Card3Json from './code/card3-json'
 import GiCodeView from '@/components/GiCodeView/index.vue'
-import { type ColumnItem, GiForm } from '@/components/GiForm'
+import {type ColumnItem, GiForm} from '@/components/GiForm'
 import * as Regexp from '@/utils/regexp'
-import { getAreaList } from '@/apis/area'
+import {getAreaList} from '@/apis/area'
 
 const { width } = useWindowSize()
 

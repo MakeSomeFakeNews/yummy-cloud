@@ -19,10 +19,10 @@
 </template>
 
 <script setup lang="ts">
-import { Drawer, Message } from '@arco-design/web-vue'
-import { useWindowSize } from '@vueuse/core'
+import {Drawer, Message} from '@arco-design/web-vue'
+import {useWindowSize} from '@vueuse/core'
 import Card1Json from './code/card1-json'
-import type { ColumnItem } from '@/components/GiForm'
+import type {ColumnItem} from '@/components/GiForm'
 import GiCodeView from '@/components/GiCodeView/index.vue'
 
 const { width } = useWindowSize()

@@ -1,12 +1,11 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.entity.SysDictData;
 import com.yummyerp.cloud.modules.system.mapper.SysDictDataMapper;
 import com.yummyerp.cloud.modules.system.mapper.SysDictMapper;
 import com.yummyerp.cloud.modules.system.service.SysDictDataService;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,4 +1,4 @@
-import type { TableInstance } from '@arco-design/web-vue'
+import type {TableInstance} from '@arco-design/web-vue'
 
 export type TableProps = {
   columns?: TableInstance['$props']['columns']

@@ -1,7 +1,7 @@
 package com.yummyerp.cloud.modules.system.service;
 
-import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.system.entity.SysUser;
 
 import java.util.List;
 import java.util.Map;
@@ -40,4 +40,12 @@ public interface SysUserService extends IService<SysUser> {
      * 删除用户及相关关联数据
      */
     boolean deleteUsersWithRelations(List<Long> userIds);
+    
+    /**
+     * 根据ID获取用户基本信息
+     * 
+     * @param userId 用户ID
+     * @return 用户信息
+     */
+    SysUser getUserById(Long userId);
 }

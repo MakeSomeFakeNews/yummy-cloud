@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { type CSSProperties, computed, ref } from 'vue'
-import { useBreakpoint } from '@/hooks'
+import {computed, type CSSProperties, ref} from 'vue'
+import {useBreakpoint} from '@/hooks'
 
 interface Props {
   visible: boolean

@@ -29,11 +29,11 @@
 </template>
 
 <script setup lang="tsx">
-import { Message, Modal } from '@arco-design/web-vue'
-import type { TreeNodeData } from '@arco-design/web-vue'
-import { mapTree } from 'xe-utils'
+import type {TreeNodeData} from '@arco-design/web-vue'
+import {Message, Modal} from '@arco-design/web-vue'
+import {mapTree} from 'xe-utils'
 import RightMenu from './RightMenu.vue'
-import { type CateTreeItem, getCateTree } from '@/apis/cate'
+import {type CateTreeItem, getCateTree} from '@/apis/cate'
 import GiSvgIcon from '@/components/GiSvgIcon/index.vue'
 
 interface Props {

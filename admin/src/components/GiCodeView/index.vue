@@ -5,9 +5,9 @@
 
 <script lang="ts" setup>
 import CodeMirror from 'vue-codemirror6'
-import { javascript } from '@codemirror/lang-javascript'
-import { vue } from '@codemirror/lang-vue'
-import { oneDark } from '@codemirror/theme-one-dark'
+import {javascript} from '@codemirror/lang-javascript'
+import {vue} from '@codemirror/lang-vue'
+import {oneDark} from '@codemirror/theme-one-dark'
 
 interface Props {
   type?: 'javascript' | 'vue'

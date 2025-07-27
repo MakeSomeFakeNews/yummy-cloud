@@ -39,10 +39,10 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
-import { Message } from '@arco-design/web-vue'
-import type { FormInstance } from '@arco-design/web-vue'
-import { useUserStore } from '@/stores'
+import {reactive, ref} from 'vue'
+import type {FormInstance} from '@arco-design/web-vue'
+import {Message} from '@arco-design/web-vue'
+import {useUserStore} from '@/stores'
 
 /** 组件名称 */
 defineOptions({ name: 'ChangePasswordModal' })

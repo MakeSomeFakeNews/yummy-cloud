@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { useAppStore, useTabsStore } from '@/stores'
+import {useAppStore, useTabsStore} from '@/stores'
 
 /** 组件名称 */
 defineOptions({ name: 'AppMain' })

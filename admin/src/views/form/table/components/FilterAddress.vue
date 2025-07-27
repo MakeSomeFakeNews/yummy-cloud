@@ -11,7 +11,7 @@
 </template>
 
 <script lang='ts' setup>
-import { IconEdit } from '@arco-design/web-vue/es/icon'
+import {IconEdit} from '@arco-design/web-vue/es/icon'
 
 const emit = defineEmits<{
   (e: 'confirm', value: string): void
