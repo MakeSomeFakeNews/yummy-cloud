@@ -26,21 +26,52 @@ public class CodeGenerator {
     private static final String PROJECT_PATH = System.getProperty("user.dir");
 
     public static void main(String[] args) {
-        // 交互式输入表名
+        // 交互式选择生成模式
         Scanner scanner = new Scanner(System.in);
-        System.out.println("请输入表名（多个表名用英文逗号分隔）：");
-        String tableNames = scanner.nextLine();
+        System.out.println("请选择生成模式：");
+        System.out.println("1. 生成权限管理系统相关表（推荐）");
+        System.out.println("2. 自定义表名生成");
+        System.out.print("请输入选择（1或2）：");
         
-        System.out.println("请输入模块名（如：system、user等）：");
-        String moduleName = scanner.nextLine();
+        String choice = scanner.nextLine();
+        String tableNames;
+        String moduleName;
+        String author;
         
-        System.out.println("请输入作者名：");
-        String author = scanner.nextLine();
+        if ("1".equals(choice)) {
+            // 预定义权限管理系统相关表
+            tableNames = "sys_dept,sys_dict,sys_dict_data,sys_menu,sys_role,sys_role_dept,sys_role_menu,sys_user,sys_user_role";
+            moduleName = "system";
+            System.out.println("请输入作者名：");
+            author = scanner.nextLine();
+            
+            System.out.println("将生成以下表的代码：");
+            System.out.println("sys_dept, sys_dict, sys_dict_data, sys_menu, sys_role, sys_role_dept, sys_role_menu, sys_user, sys_user_role");
+            System.out.println("模块名：system");
+        } else {
+            // 自定义模式
+            System.out.println("请输入表名（多个表名用英文逗号分隔）：");
+            tableNames = scanner.nextLine();
+            
+            System.out.println("请输入模块名（如：system、user等）：");
+            moduleName = scanner.nextLine();
+            
+            System.out.println("请输入作者名：");
+            author = scanner.nextLine();
+        }
 
         // 开始生成代码
         generateCode(tableNames, moduleName, author);
         
         System.out.println("代码生成完成！");
+    }
+
+    /**
+     * 快速生成权限管理系统相关表代码
+     */
+    public static void generateSystemTables(String author) {
+        String tableNames = "sys_dept,sys_dict,sys_dict_data,sys_menu,sys_role,sys_role_dept,sys_role_menu,sys_user,sys_user_role";
+        generateCode(tableNames, "system", author);
     }
 
     /**
@@ -76,7 +107,7 @@ public class CodeGenerator {
                             .enableLombok() // 开启 lombok 模式
                             .enableTableFieldAnnotation() // 开启生成实体时生成字段注解
                             .enableRemoveIsPrefix() // 开启 Boolean 类型字段移除 is 前缀
-                            .enableActiveRecord() // 开启 ActiveRecord 模式
+                            // .enableActiveRecord() // 关闭 ActiveRecord 模式，避免泛型问题
                             .logicDeleteColumnName("deleted") // 逻辑删除字段名(数据库)
                             .logicDeletePropertyName("deleted") // 逻辑删除属性名(实体)
                             .addSuperEntityColumns("id", "create_time", "update_time", "deleted") // 添加父类公共字段

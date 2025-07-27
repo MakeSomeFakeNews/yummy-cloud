@@ -1,0 +1,95 @@
+package com.yummyerp.cloud.modules.system.controller;
+
+import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.entity.SysDict;
+import com.yummyerp.cloud.modules.system.service.SysDictService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+/**
+ * <p>
+ * 系统字典表 前端控制器
+ * </p>
+ *
+ * @author 周欢
+ * @since 2025-07-27
+ */
+@Api(tags = "系统字典管理")
+@RestController
+@RequestMapping("/system/dict")
+public class SysDictController {
+
+    @Autowired
+    private SysDictService sysDictService;
+
+    @ApiOperation("获取字典分页列表")
+    @GetMapping("/getList")
+    public Result<Map<String, Object>> getList(
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer size,
+            @RequestParam(required = false) String name,
+            @RequestParam(required = false) Integer status) {
+        return Result.success(sysDictService.getDictPageList(page, size, name, status));
+    }
+
+    @ApiOperation("获取字典详情")
+    @GetMapping("/getDetail")
+    public Result<SysDict> getDetail(@RequestParam String id) {
+        SysDict dict = sysDictService.getById(Long.parseLong(id));
+        return Result.success(dict);
+    }
+
+    @ApiOperation("新增字典")
+    @PostMapping("/add")
+    public Result<SysDict> add(@RequestBody SysDict sysDict) {
+        sysDictService.save(sysDict);
+        return Result.success(sysDict);
+    }
+
+    @ApiOperation("修改字典")
+    @PostMapping("/update")
+    public Result<SysDict> update(@RequestBody SysDict sysDict) {
+        sysDictService.updateById(sysDict);
+        return Result.success(sysDict);
+    }
+
+    @ApiOperation("删除字典")
+    @PostMapping("/delete")
+    public Result<Boolean> delete(@RequestBody Map<String, Object> params) {
+        @SuppressWarnings("unchecked")
+        List<Object> ids = (List<Object>) params.get("ids");
+        List<Long> dictIds = ids.stream()
+                .map(id -> Long.parseLong(id.toString()))
+                .collect(Collectors.toList());
+        boolean result = sysDictService.deleteDictsWithData(dictIds);
+        return Result.success(result);
+    }
+
+    @ApiOperation("获取字典数据列表")
+    @GetMapping("/getDictDataList")
+    public Result<Map<String, Object>> getDictDataList(
+            @RequestParam String code,
+            @RequestParam(defaultValue = "1") Integer page,
+            @RequestParam(defaultValue = "10") Integer size) {
+        return Result.success(sysDictService.getDictDataPageList(code, page, size));
+    }
+
+    @ApiOperation("获取字典数据详情")
+    @GetMapping("/getDictDataDetail")
+    public Result<Object> getDictDataDetail(@RequestParam String id, @RequestParam String code) {
+        Object dictData = sysDictService.getDictDataDetail(Long.parseLong(id));
+        return Result.success(dictData);
+    }
+
+    @ApiOperation("获取所有字典数据映射")
+    @GetMapping("/getDictData")
+    public Result<Map<String, Object>> getDictData() {
+        return Result.success(sysDictService.getAllDictDataMap());
+    }
+}
