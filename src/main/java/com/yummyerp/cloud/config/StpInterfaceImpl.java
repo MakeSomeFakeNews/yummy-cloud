@@ -1,9 +1,11 @@
 package com.yummyerp.cloud.config;
 
 import cn.dev33.satoken.stp.StpInterface;
+import com.yummyerp.cloud.modules.system.service.SysRoleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,21 +14,32 @@ import java.util.List;
 @Component
 public class StpInterfaceImpl implements StpInterface {
 
+    @Autowired
+    private SysRoleService sysRoleService;
+
     /**
      * 返回一个账号所拥有的权限码集合
      */
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        // 本list仅做模拟，实际项目中要根据具体业务逻辑来查询权限
-        return Arrays.asList("user.add", "user.delete", "user.get");
+        try {
+            Long userId = Long.parseLong(loginId.toString());
+            return sysRoleService.getUserPermissions(userId);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 
     /**
-     * 返回一个账号所拥有的角色标识集合 (权限与角色可分开校验)
+     * 返回一个账号所拥有的角色标识集合
      */
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        // 本list仅做模拟，实际项目中要根据具体业务逻辑来查询角色
-        return Arrays.asList("admin", "super-admin");
+        try {
+            Long userId = Long.parseLong(loginId.toString());
+            return sysRoleService.getUserRoles(userId);
+        } catch (Exception e) {
+            return new ArrayList<>();
+        }
     }
 }

@@ -35,4 +35,91 @@
         username, password, nickname, real_name, gender, avatar, email, phone, birthday, status, type, dept_id, login_ip, login_time, description, create_user_id
     </sql>
 
+    <!-- 根据用户ID查询用户角色和权限信息 -->
+    <select id="getUserRolePermissionByUserId" resultType="com.yummyerp.cloud.modules.system.dto.UserRolePermissionDto">
+        SELECT 
+            u.id as userId,
+            GROUP_CONCAT(DISTINCT r.code) as roleCodes,
+            GROUP_CONCAT(DISTINCT m.permission) as permissionCodes
+        FROM sys_user u
+        LEFT JOIN sys_user_role ur ON u.id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.id AND r.status = 1 AND r.deleted = 0
+        LEFT JOIN sys_role_menu rm ON r.id = rm.role_id
+        LEFT JOIN sys_menu m ON rm.menu_id = m.id AND m.status = 1 AND m.deleted = 0 AND m.permission IS NOT NULL AND m.permission != ''
+        WHERE u.id = #{userId} AND u.status = 1 AND u.deleted = 0
+        GROUP BY u.id
+    </select>
+
+    <!-- 根据用户ID查询用户可访问的菜单路由 -->
+    <resultMap id="MenuWithRolesMap" type="com.yummyerp.cloud.modules.system.entity.SysMenu">
+        <id column="id" property="id"/>
+        <result column="parentId" property="parentId"/>
+        <result column="path" property="path"/>
+        <result column="component" property="component"/>
+        <result column="redirect" property="redirect"/>
+        <result column="type" property="type"/>
+        <result column="title" property="title"/>
+        <result column="svgIcon" property="svgIcon"/>
+        <result column="icon" property="icon"/>
+        <result column="keepAlive" property="keepAlive"/>
+        <result column="hidden" property="hidden"/>
+        <result column="sort" property="sort"/>
+        <result column="activeMenu" property="activeMenu"/>
+        <result column="breadcrumb" property="breadcrumb"/>
+        <result column="status" property="status"/>
+        <result column="permission" property="permission"/>
+        <result column="showInTabs" property="showInTabs"/>
+        <result column="alwaysShow" property="alwaysShow"/>
+        <result column="affix" property="affix"/>
+        <result column="createTime" property="createTime"/>
+        <result column="updateTime" property="updateTime"/>
+        <result column="deleted" property="deleted"/>
+        <result column="createUserId" property="createUserId"/>
+        <result column="roleCodes" property="roleCodes"/>
+    </resultMap>
+    
+    <select id="getUserMenusByUserId" resultMap="MenuWithRolesMap">
+        SELECT 
+            m.id,
+            m.parent_id as parentId,
+            m.path,
+            m.component,
+            m.redirect,
+            m.type,
+            m.title,
+            m.svg_icon as svgIcon,
+            m.icon,
+            m.keep_alive as keepAlive,
+            m.hidden,
+            m.sort,
+            m.active_menu as activeMenu,
+            m.breadcrumb,
+            m.status,
+            m.permission,
+            m.show_in_tabs as showInTabs,
+            m.always_show as alwaysShow,
+            m.affix,
+            m.create_time as createTime,
+            m.update_time as updateTime,
+            m.deleted,
+            m.create_user_id as createUserId,
+            GROUP_CONCAT(DISTINCT r2.code) as roleCodes
+        FROM sys_menu m
+        INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
+        INNER JOIN sys_role r ON rm.role_id = r.id AND r.status = 1 AND r.deleted = 0
+        INNER JOIN sys_user_role ur ON r.id = ur.role_id
+        INNER JOIN sys_user u ON ur.user_id = u.id AND u.status = 1 AND u.deleted = 0
+        LEFT JOIN sys_role_menu rm2 ON m.id = rm2.menu_id
+        LEFT JOIN sys_role r2 ON rm2.role_id = r2.id AND r2.status = 1 AND r2.deleted = 0
+        WHERE u.id = #{userId} 
+          AND m.status = 1 
+          AND m.deleted = 0
+          AND m.type IN (1, 2)  -- 1:目录 2:菜单 (排除按钮类型3)
+        GROUP BY m.id, m.parent_id, m.path, m.component, m.redirect, m.type, m.title, 
+                 m.svg_icon, m.icon, m.keep_alive, m.hidden, m.sort, m.active_menu, 
+                 m.breadcrumb, m.status, m.permission, m.show_in_tabs, m.always_show, 
+                 m.affix, m.create_time, m.update_time, m.deleted, m.create_user_id
+        ORDER BY m.sort ASC, m.id ASC
+    </select>
+
 </mapper>

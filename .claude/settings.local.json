@@ -3,7 +3,11 @@
     "allow": [
       "Bash(mv:*)",
       "WebFetch(domain:baomidou.com)",
-      "Bash(mkdir:*)"
+      "Bash(mkdir:*)",
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(find:*)",
+      "Bash(ls:*)"
     ],
     "deny": []
   }
