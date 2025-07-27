@@ -92,6 +92,7 @@ const tabsType = computed(() => {
   return (['custom1', 'custom2'].includes(appStore.tab) ? 'card' : appStore.tab) as unknown as TabsInstance['type']
 })
 
+/** 初始化标签页 */
 tabsStore.init()
 
 /** 监听路由变化 */
