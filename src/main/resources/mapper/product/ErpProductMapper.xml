@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyerp.cloud.modules.product.mapper.ErpProductMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yummyerp.cloud.modules.product.entity.ErpProduct">
+        <result column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="category_id" property="categoryId" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="short_name" property="shortName" />
+        <result column="sku" property="sku" />
+        <result column="barcode" property="barcode" />
+        <result column="brand" property="brand" />
+        <result column="model" property="model" />
+        <result column="specification" property="specification" />
+        <result column="unit_id" property="unitId" />
+        <result column="weight" property="weight" />
+        <result column="volume" property="volume" />
+        <result column="purchase_price" property="purchasePrice" />
+        <result column="sale_price" property="salePrice" />
+        <result column="cost_price" property="costPrice" />
+        <result column="min_stock" property="minStock" />
+        <result column="max_stock" property="maxStock" />
+        <result column="safety_stock" property="safetyStock" />
+        <result column="lead_time" property="leadTime" />
+        <result column="shelf_life" property="shelfLife" />
+        <result column="storage_condition" property="storageCondition" />
+        <result column="main_image" property="mainImage" />
+        <result column="description" property="description" />
+        <result column="status" property="status" />
+        <result column="create_user_id" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        deleted,
+        category_id, code, name, short_name, sku, barcode, brand, model, specification, unit_id, weight, volume, purchase_price, sale_price, cost_price, min_stock, max_stock, safety_stock, lead_time, shelf_life, storage_condition, main_image, description, status, create_user_id
+    </sql>
+
+</mapper>

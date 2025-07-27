@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyerp.cloud.modules.basic.mapper.ErpSupplierEvaluationMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yummyerp.cloud.modules.basic.entity.ErpSupplierEvaluation">
+        <result column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="supplier_id" property="supplierId" />
+        <result column="evaluation_date" property="evaluationDate" />
+        <result column="evaluator_id" property="evaluatorId" />
+        <result column="quality_score" property="qualityScore" />
+        <result column="delivery_score" property="deliveryScore" />
+        <result column="service_score" property="serviceScore" />
+        <result column="price_score" property="priceScore" />
+        <result column="total_score" property="totalScore" />
+        <result column="evaluation_period" property="evaluationPeriod" />
+        <result column="comments" property="comments" />
+        <result column="create_user_id" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        deleted,
+        supplier_id, evaluation_date, evaluator_id, quality_score, delivery_score, service_score, price_score, total_score, evaluation_period, comments, create_user_id
+    </sql>
+
+</mapper>

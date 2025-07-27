@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyerp.cloud.modules.product.mapper.ErpProductImageMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yummyerp.cloud.modules.product.entity.ErpProductImage">
+        <result column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="product_id" property="productId" />
+        <result column="variant_id" property="variantId" />
+        <result column="image_url" property="imageUrl" />
+        <result column="image_name" property="imageName" />
+        <result column="image_type" property="imageType" />
+        <result column="sort" property="sort" />
+        <result column="status" property="status" />
+        <result column="create_user_id" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        deleted,
+        product_id, variant_id, image_url, image_name, image_type, sort, status, create_user_id
+    </sql>
+
+</mapper>

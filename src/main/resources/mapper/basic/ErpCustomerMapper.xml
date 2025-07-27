@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yummyerp.cloud.modules.basic.mapper.ErpCustomerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.yummyerp.cloud.modules.basic.entity.ErpCustomer">
+        <result column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="short_name" property="shortName" />
+        <result column="type" property="type" />
+        <result column="level" property="level" />
+        <result column="industry" property="industry" />
+        <result column="contact_person" property="contactPerson" />
+        <result column="contact_phone" property="contactPhone" />
+        <result column="contact_email" property="contactEmail" />
+        <result column="address" property="address" />
+        <result column="credit_code" property="creditCode" />
+        <result column="credit_limit" property="creditLimit" />
+        <result column="credit_days" property="creditDays" />
+        <result column="tax_rate" property="taxRate" />
+        <result column="payment_terms" property="paymentTerms" />
+        <result column="delivery_terms" property="deliveryTerms" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_user_id" property="createUserId" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id,
+        create_time,
+        update_time,
+        deleted,
+        code, name, short_name, type, level, industry, contact_person, contact_phone, contact_email, address, credit_code, credit_limit, credit_days, tax_rate, payment_terms, delivery_terms, status, remark, create_user_id
+    </sql>
+
+</mapper>
