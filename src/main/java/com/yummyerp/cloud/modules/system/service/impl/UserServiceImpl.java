@@ -114,4 +114,29 @@ public class UserServiceImpl implements UserService {
         // 获取用户菜单路由
         return sysMenuService.getUserRoutes(userId);
     }
+
+    @Override
+    public void changePassword(ChangePasswordRequest request) {
+        // 获取当前登录用户ID
+        Long userId = StpUtil.getLoginIdAsLong();
+
+        // 查询用户信息
+        SysUser user = sysUserMapper.selectById(userId);
+        if (user == null) {
+            throw new RuntimeException("用户不存在");
+        }
+
+        // 验证当前密码
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPassword())) {
+            throw new RuntimeException("当前密码错误");
+        }
+
+        // 更新密码
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        int result = sysUserMapper.updateById(user);
+        
+        if (result != 1) {
+            throw new RuntimeException("密码修改失败");
+        }
+    }
 }

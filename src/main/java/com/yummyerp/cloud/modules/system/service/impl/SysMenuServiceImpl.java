@@ -110,9 +110,6 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 MenuTreeResponse parent = menuMap.get(parentId);
                 if (parent != null) {
                     parent.getChildren().add(menu);
-                } else {
-                    // 父菜单不存在（用户没有权限），将其作为根节点
-                    rootMenus.add(menu);
                 }
             }
         }

@@ -1,7 +1,6 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.yummyerp.cloud.modules.system.dto.*;
-import com.yummyerp.cloud.modules.system.entity.SysMenu;
 
 import java.util.List;
 
@@ -34,4 +33,9 @@ public interface UserService {
      * 获取用户路由
      */
     List<MenuTreeResponse> getUserRoutes();
+
+    /**
+     * 修改密码
+     */
+    void changePassword(ChangePasswordRequest request);
 }

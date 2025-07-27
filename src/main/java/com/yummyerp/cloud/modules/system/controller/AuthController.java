@@ -56,4 +56,12 @@ public class AuthController {
     public Result<List<MenuTreeResponse>> getUserRoutes() {
         return Result.success(userService.getUserRoutes());
     }
+
+    @PostMapping("/changePassword")
+    @ApiOperation("修改密码")
+    @SaCheckLogin
+    public Result<Void> changePassword(@Validated @RequestBody ChangePasswordRequest request) {
+        userService.changePassword(request);
+        return Result.success();
+    }
 }
