@@ -48,8 +48,8 @@ public class SysOperLogController {
     @ApiOperation("获取操作日志详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:log:detail")
-    public Result<SysOperLog> getDetail(@RequestParam String id) {
-        return Result.success(operLogService.getById(Long.parseLong(id)));
+    public Result<SysOperLog> getDetail(@RequestParam Long id) {
+        return Result.success(operLogService.getById(id));
     }
 
     @ApiOperation("清空操作日志")

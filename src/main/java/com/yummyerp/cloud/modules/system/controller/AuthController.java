@@ -22,19 +22,22 @@ import java.util.List;
 @Api(tags = "用户认证")
 public class AuthController {
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    public AuthController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/captcha")
     @ApiOperation("获取验证码")
-    @Log(title = "获取验证码", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "获取验证码")
     public Result<CaptchaResponse> getCaptcha() {
         return Result.success(userService.getCaptcha());
     }
 
     @PostMapping("/login")
     @ApiOperation("用户登录")
-    @Log(title = "用户登录", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "用户登录")
     public Result<LoginResponse> login(@Validated @RequestBody LoginRequest request) {
         return Result.success(userService.login(request));
     }
@@ -42,7 +45,7 @@ public class AuthController {
     @PostMapping("/logout")
     @ApiOperation("用户登出")
     @SaCheckLogin
-    @Log(title = "用户登出", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "用户登出")
     public Result<Void> logout() {
         userService.logout();
         return Result.success();

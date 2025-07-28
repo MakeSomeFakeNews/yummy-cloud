@@ -31,8 +31,11 @@ import java.util.stream.Collectors;
 @RequestMapping("/system/dictData")
 public class SysDictDataController {
 
-    @Autowired
-    private SysDictDataService sysDictDataService;
+    private final SysDictDataService sysDictDataService;
+
+    public SysDictDataController(SysDictDataService sysDictDataService) {
+        this.sysDictDataService = sysDictDataService;
+    }
 
     @ApiOperation("新增字典数据")
     @PostMapping("/add")
