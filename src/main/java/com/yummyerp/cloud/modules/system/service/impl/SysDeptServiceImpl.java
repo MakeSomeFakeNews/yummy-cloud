@@ -2,6 +2,7 @@ package com.yummyerp.cloud.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yummyerp.cloud.modules.system.dto.SysDeptQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
 import com.yummyerp.cloud.modules.system.entity.SysRoleDept;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
@@ -35,6 +36,30 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     private SysRoleDeptMapper sysRoleDeptMapper;
 
     @Override
+    public List<SysDept> getDeptTreeList(SysDeptQuery query) {
+        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        
+        // 构建查询条件
+        if (query.getName() != null && !query.getName().trim().isEmpty()) {
+            queryWrapper.like("name", query.getName());
+        }
+        if (query.getStatus() != null) {
+            queryWrapper.eq("status", query.getStatus());
+        }
+        if (query.getParentId() != null) {
+            queryWrapper.eq("parent_id", query.getParentId());
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByAsc("sort");
+        
+        List<SysDept> allDepts = this.list(queryWrapper);
+        
+        // 构建树形结构
+        return buildDeptTreeFromList(allDepts, 0L);
+    }
+
+    @Override
+    @Deprecated
     public List<SysDept> getDeptTreeList(String name, Integer status) {
         QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
         

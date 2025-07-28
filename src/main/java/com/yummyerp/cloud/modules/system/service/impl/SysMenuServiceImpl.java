@@ -3,6 +3,7 @@ package com.yummyerp.cloud.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.dto.MenuTreeResponse;
+import com.yummyerp.cloud.modules.system.dto.SysMenuQuery;
 import com.yummyerp.cloud.modules.system.entity.SysMenu;
 import com.yummyerp.cloud.modules.system.entity.SysRoleMenu;
 import com.yummyerp.cloud.modules.system.mapper.SysMenuMapper;
@@ -133,6 +134,33 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
+    public List<SysMenu> getMenuTreeList(SysMenuQuery query) {
+        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+
+        // 查询条件
+        if (query.getName() != null && !query.getName().trim().isEmpty()) {
+            queryWrapper.like("title", query.getName());
+        }
+        if (query.getStatus() != null) {
+            queryWrapper.eq("status", query.getStatus());
+        }
+        if (query.getMenuType() != null && !query.getMenuType().trim().isEmpty()) {
+            queryWrapper.eq("menu_type", query.getMenuType());
+        }
+        if (query.getParentId() != null) {
+            queryWrapper.eq("parent_id", query.getParentId());
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByAsc("sort");
+
+        List<SysMenu> allMenus = this.list(queryWrapper);
+
+        // 构建树形结构
+        return buildMenuTreeFromList(allMenus, 0L);
+    }
+
+    @Override
+    @Deprecated
     public List<SysMenu> getMenuTreeList(String title, Integer status) {
         QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
 

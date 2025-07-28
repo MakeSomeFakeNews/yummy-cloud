@@ -1,6 +1,7 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.system.dto.SysDeptQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public interface SysDeptService extends IService<SysDept> {
     /**
      * 获取部门树形列表
      */
+    List<SysDept> getDeptTreeList(SysDeptQuery query);
+    
+    /**
+     * 获取部门树形列表（兼容旧版本）
+     */
+    @Deprecated
     List<SysDept> getDeptTreeList(String name, Integer status);
 
     /**

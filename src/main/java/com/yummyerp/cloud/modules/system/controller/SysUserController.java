@@ -6,6 +6,7 @@ import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.dto.PageRequest;
 import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.dto.SysUserQuery;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.yummyerp.cloud.modules.system.service.SysUserService;
 import io.swagger.annotations.Api;
@@ -42,18 +43,16 @@ public class SysUserController {
     @Log(title = "系统用户管理")
     public Result<PageResult<SysUser>> getList(
             @Valid PageRequest pageRequest,
-            @RequestParam(required = false) String username,
-            @RequestParam(required = false) Integer status,
-            @RequestParam(required = false) Long deptId) {
-        return Result.success(sysUserService.getUserPageList(pageRequest, username, status, deptId));
+            @Valid SysUserQuery query) {
+        return Result.success(sysUserService.getUserPageList(pageRequest, query));
     }
 
     @ApiOperation("获取用户详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:user:detail")
     @Log(title = "系统用户管理")
-    public Result<SysUser> getDetail(@RequestParam String id) {
-        SysUser user = sysUserService.getUserDetailById(Long.parseLong(id));
+    public Result<SysUser> getDetail(@RequestParam Long id) {
+        SysUser user = sysUserService.getUserDetailById(id);
         return Result.success(user);
     }
 

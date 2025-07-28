@@ -2,6 +2,7 @@ package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.yummyerp.cloud.modules.system.dto.MenuTreeResponse;
+import com.yummyerp.cloud.modules.system.dto.SysMenuQuery;
 import com.yummyerp.cloud.modules.system.entity.SysMenu;
 
 import java.util.List;
@@ -30,6 +31,12 @@ public interface SysMenuService extends IService<SysMenu> {
     /**
      * 获取菜单树形列表
      */
+    List<SysMenu> getMenuTreeList(SysMenuQuery query);
+    
+    /**
+     * 获取菜单树形列表（兼容旧版本）
+     */
+    @Deprecated
     List<SysMenu> getMenuTreeList(String title, Integer status);
 
     /**

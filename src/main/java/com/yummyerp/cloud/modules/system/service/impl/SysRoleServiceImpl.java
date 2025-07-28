@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.common.dto.PageRequest;
 import com.yummyerp.cloud.modules.common.dto.PageResult;
+import com.yummyerp.cloud.modules.system.dto.SysRoleQuery;
 import com.yummyerp.cloud.modules.system.dto.UserRolePermissionDto;
 import com.yummyerp.cloud.modules.system.entity.SysRole;
 import com.yummyerp.cloud.modules.system.entity.SysRoleMenu;
@@ -66,6 +67,29 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     }
 
     @Override
+    public PageResult<SysRole> getRolePageList(PageRequest pageRequest, SysRoleQuery query) {
+        Page<SysRole> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
+        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        
+        if (query.getName() != null && !query.getName().trim().isEmpty()) {
+            queryWrapper.like("name", query.getName());
+        }
+        if (query.getStatus() != null) {
+            queryWrapper.eq("status", query.getStatus());
+        }
+        if (query.getCode() != null && !query.getCode().trim().isEmpty()) {
+            queryWrapper.like("code", query.getCode());
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByAsc("sort");
+        
+        IPage<SysRole> pageResult = this.page(pageObj, queryWrapper);
+        
+        return PageResult.of((Page<SysRole>) pageResult);
+    }
+
+    @Override
+    @Deprecated
     public PageResult<SysRole> getRolePageList(PageRequest pageRequest, String name, Integer status) {
         Page<SysRole> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
         QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();

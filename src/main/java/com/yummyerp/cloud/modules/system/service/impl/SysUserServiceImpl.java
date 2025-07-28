@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.common.dto.PageRequest;
 import com.yummyerp.cloud.modules.common.dto.PageResult;
+import com.yummyerp.cloud.modules.system.dto.SysUserQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.yummyerp.cloud.modules.system.entity.SysUserRole;
@@ -44,6 +45,49 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
+    public PageResult<SysUser> getUserPageList(PageRequest pageRequest, SysUserQuery query) {
+        Page<SysUser> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        
+        // 构建查询条件
+        if (query.getUsername() != null && !query.getUsername().trim().isEmpty()) {
+            queryWrapper.like("username", query.getUsername());
+        }
+        if (query.getStatus() != null) {
+            queryWrapper.eq("status", query.getStatus());
+        }
+        if (query.getDeptId() != null) {
+            // 获取该部门及其所有子部门的ID列表
+            List<Long> deptIds = getDeptAndChildrenIds(query.getDeptId());
+            if (!deptIds.isEmpty()) {
+                queryWrapper.in("dept_id", deptIds);
+            }
+        }
+        if (query.getPhonenumber() != null && !query.getPhonenumber().trim().isEmpty()) {
+            queryWrapper.like("phonenumber", query.getPhonenumber());
+        }
+        if (query.getEmail() != null && !query.getEmail().trim().isEmpty()) {
+            queryWrapper.like("email", query.getEmail());
+        }
+        if (query.getRealName() != null && !query.getRealName().trim().isEmpty()) {
+            queryWrapper.like("real_name", query.getRealName());
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByDesc("create_time");
+        
+        IPage<SysUser> pageResult = this.page(pageObj, queryWrapper);
+        
+        // 填充用户的角色和部门信息
+        List<SysUser> users = pageResult.getRecords();
+        for (SysUser user : users) {
+            fillUserExtraInfo(user);
+        }
+        
+        return PageResult.of((Page<SysUser>) pageResult);
+    }
+
+    @Override
+    @Deprecated
     public PageResult<SysUser> getUserPageList(PageRequest pageRequest, String username, Integer status, Long deptId) {
         Page<SysUser> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();

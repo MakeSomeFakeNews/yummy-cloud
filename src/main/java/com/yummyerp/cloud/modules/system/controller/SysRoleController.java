@@ -7,6 +7,7 @@ import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.dto.PageRequest;
 import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.dto.SysRoleQuery;
 import com.yummyerp.cloud.modules.system.entity.SysRole;
 import com.yummyerp.cloud.modules.system.entity.SysUserRole;
 import com.yummyerp.cloud.modules.system.service.SysRoleService;
@@ -43,20 +44,19 @@ public class SysRoleController {
     @ApiOperation("获取角色分页列表")
     @GetMapping("/getList")
     @SaCheckPermission("sys:role:list")
-    @Log(title = "系统角色管理", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "系统角色管理")
     public Result<PageResult<SysRole>> getList(
             @Valid PageRequest pageRequest,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer status) {
-        return Result.success(sysRoleService.getRolePageList(pageRequest, name, status));
+            @Valid SysRoleQuery query) {
+        return Result.success(sysRoleService.getRolePageList(pageRequest, query));
     }
 
     @ApiOperation("获取角色详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:role:detail")
-    @Log(title = "系统角色管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<SysRole> getDetail(@RequestParam String id) {
-        SysRole role = sysRoleService.getById(Long.parseLong(id));
+    @Log(title = "系统角色管理")
+    public Result<SysRole> getDetail(@RequestParam Long id) {
+        SysRole role = sysRoleService.getById(id);
         return Result.success(role);
     }
 
@@ -102,7 +102,7 @@ public class SysRoleController {
     @ApiOperation("获取角色菜单权限")
     @GetMapping("/getRoleMenuIds")
     @SaCheckPermission("sys:role:menu:list")
-    @Log(title = "系统角色菜单管理", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "系统角色菜单管理")
     public Result<List<String>> getRoleMenuIds(@RequestParam String role) {
         List<String> menuIds = sysRoleService.getRoleMenuIds(role);
         return Result.success(menuIds);

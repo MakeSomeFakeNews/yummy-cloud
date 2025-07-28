@@ -3,13 +3,18 @@ package com.yummyerp.cloud.modules.system.controller;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.annotation.Log;
 import com.yummyerp.cloud.constant.LogConst;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.dto.SysDictQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.service.SysDictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 import java.util.List;
 import java.util.Map;
@@ -28,26 +33,27 @@ import java.util.stream.Collectors;
 @RequestMapping("/system/dict")
 public class SysDictController {
 
-    @Autowired
-    private SysDictService sysDictService;
+    private final SysDictService sysDictService;
+
+    public SysDictController(SysDictService sysDictService) {
+        this.sysDictService = sysDictService;
+    }
 
     @ApiOperation("获取字典分页列表")
     @GetMapping("/getList")
     @SaCheckPermission("sys:dict:list")
-    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<Map<String, Object>> getList(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer size,
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer status) {
-        return Result.success(sysDictService.getDictPageList(page, size, name, status));
+    @Log(title = "系统字典管理")
+    public Result<PageResult<SysDict>> getList(
+            @Valid PageRequest pageRequest,
+            @Valid SysDictQuery query) {
+        return Result.success(sysDictService.getDictPageList(pageRequest, query));
     }
 
     @ApiOperation("获取字典详情")
     @GetMapping("/getDetail")
-    @Log(title = "系统字典管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<SysDict> getDetail(@RequestParam String id) {
-        SysDict dict = sysDictService.getById(Long.parseLong(id));
+    @Log(title = "系统字典管理")
+    public Result<SysDict> getDetail(@RequestParam Long id) {
+        SysDict dict = sysDictService.getById(id);
         return Result.success(dict);
     }
 
@@ -85,7 +91,7 @@ public class SysDictController {
 
     @ApiOperation("获取字典数据列表")
     @GetMapping("/getDictDataList")
-    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "字典数据管理")
     public Result<Map<String, Object>> getDictDataList(
             @RequestParam String code,
             @RequestParam(defaultValue = "1") Integer page,
@@ -95,15 +101,15 @@ public class SysDictController {
 
     @ApiOperation("获取字典数据详情")
     @GetMapping("/getDictDataDetail")
-    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<Object> getDictDataDetail(@RequestParam String id, @RequestParam String code) {
-        Object dictData = sysDictService.getDictDataDetail(Long.parseLong(id));
+    @Log(title = "字典数据管理")
+    public Result<Object> getDictDataDetail(@RequestParam Long id) {
+        Object dictData = sysDictService.getDictDataDetail(id);
         return Result.success(dictData);
     }
 
     @ApiOperation("获取所有字典数据映射")
     @GetMapping("/getDictData")
-    @Log(title = "字典数据管理", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "字典数据管理")
     public Result<Map<String, Object>> getDictData() {
         return Result.success(sysDictService.getAllDictDataMap());
     }

@@ -4,12 +4,14 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.annotation.Log;
 import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.dto.SysDeptQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
 import com.yummyerp.cloud.modules.system.service.SysDeptService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,20 +38,18 @@ public class SysDeptController {
     @ApiOperation("获取部门列表（树形结构）")
     @GetMapping("/getList")
     @SaCheckPermission("sys:dept:list")
-    @Log(title = "系统部门管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<List<SysDept>> getList(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer status) {
-        List<SysDept> deptList = sysDeptService.getDeptTreeList(name, status);
+    @Log(title = "系统部门管理")
+    public Result<List<SysDept>> getList(@Valid SysDeptQuery query) {
+        List<SysDept> deptList = sysDeptService.getDeptTreeList(query);
         return Result.success(deptList);
     }
 
     @ApiOperation("获取部门详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:dept:detail")
-    @Log(title = "系统部门管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<SysDept> getDetail(@RequestParam String id) {
-        SysDept dept = sysDeptService.getById(Long.parseLong(id));
+    @Log(title = "系统部门管理")
+    public Result<SysDept> getDetail(@RequestParam Long id) {
+        SysDept dept = sysDeptService.getById(id);
         return Result.success(dept);
     }
 

@@ -4,6 +4,7 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.annotation.Log;
 import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.dto.SysMenuQuery;
 import com.yummyerp.cloud.modules.system.entity.SysMenu;
 import com.yummyerp.cloud.modules.system.service.SysMenuService;
 import io.swagger.annotations.Api;
@@ -11,6 +12,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -28,25 +30,26 @@ import java.util.stream.Collectors;
 @RequestMapping("/system/menu")
 public class SysMenuController {
 
-    @Autowired
-    private SysMenuService sysMenuService;
+    private final SysMenuService sysMenuService;
+
+    public SysMenuController(SysMenuService sysMenuService) {
+        this.sysMenuService = sysMenuService;
+    }
 
     @ApiOperation("获取菜单列表（树形结构）")
     @GetMapping("/getList")
-    @Log(title = "系统菜单管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<List<SysMenu>> getList(
-            @RequestParam(required = false) String name,
-            @RequestParam(required = false) Integer status) {
-        List<SysMenu> menuList = sysMenuService.getMenuTreeList(name, status);
+    @Log(title = "系统菜单管理")
+    public Result<List<SysMenu>> getList(@Valid SysMenuQuery query) {
+        List<SysMenu> menuList = sysMenuService.getMenuTreeList(query);
         return Result.success(menuList);
     }
 
     @ApiOperation("获取菜单详情")
     @GetMapping("/getDetail")
     @SaCheckPermission("sys:menu:detail")
-    @Log(title = "系统菜单管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<SysMenu> getDetail(@RequestParam String id) {
-        SysMenu menu = sysMenuService.getById(Long.parseLong(id));
+    @Log(title = "系统菜单管理")
+    public Result<SysMenu> getDetail(@RequestParam Long id) {
+        SysMenu menu = sysMenuService.getById(id);
         return Result.success(menu);
     }
 

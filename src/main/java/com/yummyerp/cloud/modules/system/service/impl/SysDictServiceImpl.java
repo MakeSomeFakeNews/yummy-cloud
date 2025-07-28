@@ -4,6 +4,9 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
+import com.yummyerp.cloud.modules.system.dto.SysDictQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.entity.SysDictData;
 import com.yummyerp.cloud.modules.system.mapper.SysDictDataMapper;
@@ -34,6 +37,32 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     private SysDictDataMapper sysDictDataMapper;
 
     @Override
+    public PageResult<SysDict> getDictPageList(PageRequest pageRequest, SysDictQuery query) {
+        Page<SysDict> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
+        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
+        
+        if (query.getName() != null && !query.getName().trim().isEmpty()) {
+            queryWrapper.like("name", query.getName());
+        }
+        if (query.getStatus() != null) {
+            queryWrapper.eq("status", query.getStatus());
+        }
+        if (query.getType() != null && !query.getType().trim().isEmpty()) {
+            queryWrapper.like("type", query.getType());
+        }
+        if (query.getCode() != null && !query.getCode().trim().isEmpty()) {
+            queryWrapper.like("code", query.getCode());
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByAsc("sort");
+        
+        IPage<SysDict> pageResult = this.page(pageObj, queryWrapper);
+        
+        return PageResult.of((Page<SysDict>) pageResult);
+    }
+
+    @Override
+    @Deprecated
     public Map<String, Object> getDictPageList(Integer page, Integer size, String name, Integer status) {
         Page<SysDict> pageObj = new Page<>(page, size);
         QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();

@@ -1,6 +1,9 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
+import com.yummyerp.cloud.modules.system.dto.SysDictQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.entity.SysDictData;
 
@@ -20,6 +23,12 @@ public interface SysDictService extends IService<SysDict> {
     /**
      * 获取字典分页列表
      */
+    PageResult<SysDict> getDictPageList(PageRequest pageRequest, SysDictQuery query);
+    
+    /**
+     * 获取字典分页列表（兼容旧版本）
+     */
+    @Deprecated
     Map<String, Object> getDictPageList(Integer page, Integer size, String name, Integer status);
 
     /**
