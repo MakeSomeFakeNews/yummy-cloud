@@ -1,7 +1,9 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.yummyerp.cloud.modules.system.entity.SysMenu;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
+import com.yummyerp.cloud.modules.system.dto.SysOperLogQuery;
 import com.yummyerp.cloud.modules.system.entity.SysOperLog;
 
 import java.util.Date;
@@ -29,7 +31,32 @@ public interface SysOperLogService  extends IService<SysOperLog> {
                                     String operName, Integer status, Date startTime, Date endTime);
     
     /**
-     * 获取操作日志分页数据（包含总记录数）
+     * 获取操作日志分页数据
+     *
+     * @param pageRequest 分页请求参数
+     * @param query 查询条件
+     * @return 分页结果
+     */
+    PageResult<SysOperLog> getOperLogPage(PageRequest pageRequest, SysOperLogQuery query);
+
+    /**
+     * 获取操作日志分页数据（兼容旧版本）
+     *
+     * @param pageRequest 分页请求参数
+     * @param title 模块标题
+     * @param businessType 业务类型
+     * @param operName 操作人员
+     * @param status 操作状态
+     * @param startTime 开始时间
+     * @param endTime 结束时间
+     * @return 分页结果
+     */
+    @Deprecated
+    PageResult<SysOperLog> getOperLogPage(PageRequest pageRequest, String title, Integer businessType,
+                                         String operName, Integer status, Date startTime, Date endTime);
+    
+    /**
+     * 获取操作日志分页数据（保留旧版本兼容）
      *
      * @param pageNum 页码
      * @param pageSize 每页记录数
@@ -41,6 +68,7 @@ public interface SysOperLogService  extends IService<SysOperLog> {
      * @param endTime 结束时间
      * @return 包含分页记录和总记录数的Map
      */
+    @Deprecated
     Map<String, Object> getOperLogPage(Integer pageNum, Integer pageSize, String title, Integer businessType,
                                       String operName, Integer status, Date startTime, Date endTime);
 

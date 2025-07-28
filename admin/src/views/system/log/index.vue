@@ -32,7 +32,7 @@
     </a-row>
 
     <a-table class="gi_table" row-key="id" :data="tableData" :bordered="{ cell: true }" :loading="loading"
-      :scroll="{ x: '100%', y: '100%', minWidth: 1300 }" :pagination="pagination" @page-change="onPageChange" @paginate="onPaginationChange">
+      :scroll="{ x: '100%', y: '100%', minWidth: 1300 }" :pagination="pagination">
       <template #columns>
         <a-table-column title="序号" :width="64">
           <template #cell="cell">{{ cell.rowIndex + 1 }}</template>
@@ -135,6 +135,7 @@ import { Message, Modal } from '@arco-design/web-vue'
 import type { ListItem } from '@/apis/system/operLog'
 import { baseAPI } from '@/apis/system/operLog'
 import { hasPerm } from '@/utils/has'
+import { usePagination } from '@/hooks'
 import GiCodeView from '@/components/GiCodeView/index.vue'
 
 defineOptions({ name: 'OperationLog' })
@@ -170,15 +171,11 @@ const statusOptions = [
   { label: '失败', value: 1 }
 ]
 
-// 表格数据
+// 表格数据和分页
 const loading = ref(false)
 const tableData = ref<ListItem[]>([])
-const pagination = reactive({
-  total: 0,
-  current: 1,
-  pageSize: 10,
-  showTotal: true,
-  showPageSize: true
+const { pagination, setTotal } = usePagination(() => {
+  getTableData()
 })
 
 // 获取表格数据
@@ -193,8 +190,8 @@ const getTableData = async () => {
       endTime: dateRange.value?.[1]
     }
     const res = await baseAPI.getList(params)
-    tableData.value = res.data.records || res.data
-    pagination.total = res.data.total || res.data.length
+    tableData.value = res.data.records || []
+    setTotal(res.data.total || 0)
   } catch (error) {
     console.error(error)
   } finally {
@@ -204,8 +201,7 @@ const getTableData = async () => {
 
 // 查询
 const search = () => {
-  pagination.current = 1
-  getTableData()
+  pagination.onChange(1)
 }
 
 // 重置
@@ -256,13 +252,20 @@ const getBusinessTypeColor = (type: number) => {
 
 // 清空日志
 const handleClean = async () => {
-  try {
-    await baseAPI.clean()
-    Message.success('日志清空成功')
-    search()
-  } catch (error) {
-    Message.error('日志清空失败')
-  }
+  Modal.warning({
+    title: '确认清空',
+    content: '确定要清空所有操作日志吗？此操作不可恢复！',
+    hideCancel: false,
+    onOk: async () => {
+      try {
+        await baseAPI.clean()
+        Message.success('日志清空成功')
+        search()
+      } catch (error) {
+        Message.error('日志清空失败')
+      }
+    }
+  })
 }
 
 // 详情相关
@@ -369,23 +372,6 @@ const formatRequestParam = (param: string) => {
 onMounted(() => {
   getTableData()
 })
-
-// 监听分页变化
-// watch([() => pagination.current, () => pagination.pageSize], () => {
-//   getTableData()
-// })
-
-// 分页事件处理
-const onPageChange = (page: number) => {
-  pagination.current = page
-  getTableData()
-}
-
-const onPaginationChange = (page: number, pageSize: number) => {
-  pagination.current = page
-  pagination.pageSize = pageSize
-  getTableData()
-}
 </script>
 
 <style lang="less" scoped>

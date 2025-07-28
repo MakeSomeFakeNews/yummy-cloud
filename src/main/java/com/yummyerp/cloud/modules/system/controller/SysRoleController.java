@@ -4,6 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.yummyerp.cloud.annotation.Log;
 import com.yummyerp.cloud.constant.LogConst;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.entity.SysRole;
 import com.yummyerp.cloud.modules.system.entity.SysUserRole;
@@ -14,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -41,12 +44,11 @@ public class SysRoleController {
     @GetMapping("/getList")
     @SaCheckPermission("sys:role:list")
     @Log(title = "系统角色管理", businessType = LogConst.BusinessType.OTHER)
-    public Result<Map<String, Object>> getList(
-            @RequestParam(defaultValue = "1") Integer page,
-            @RequestParam(defaultValue = "10") Integer size,
+    public Result<PageResult<SysRole>> getList(
+            @Valid PageRequest pageRequest,
             @RequestParam(required = false) String name,
             @RequestParam(required = false) Integer status) {
-        return Result.success(sysRoleService.getRolePageList(page, size, name, status));
+        return Result.success(sysRoleService.getRolePageList(pageRequest, name, status));
     }
 
     @ApiOperation("获取角色详情")

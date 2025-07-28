@@ -1,6 +1,8 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 
 import java.util.List;
@@ -19,6 +21,12 @@ public interface SysUserService extends IService<SysUser> {
     /**
      * 获取用户分页列表
      */
+    PageResult<SysUser> getUserPageList(PageRequest pageRequest, String username, Integer status, Long deptId);
+    
+    /**
+     * 获取用户分页列表（兼容旧版本）
+     */
+    @Deprecated
     Map<String, Object> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId);
 
     /**

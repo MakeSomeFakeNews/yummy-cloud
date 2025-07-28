@@ -1,6 +1,8 @@
 package com.yummyerp.cloud.modules.system.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.system.dto.UserRolePermissionDto;
 import com.yummyerp.cloud.modules.system.entity.SysRole;
 
@@ -35,6 +37,12 @@ public interface SysRoleService extends IService<SysRole> {
     /**
      * 获取角色分页列表
      */
+    PageResult<SysRole> getRolePageList(PageRequest pageRequest, String name, Integer status);
+    
+    /**
+     * 获取角色分页列表（兼容旧版本）
+     */
+    @Deprecated
     Map<String, Object> getRolePageList(Integer page, Integer size, String name, Integer status);
 
     /**

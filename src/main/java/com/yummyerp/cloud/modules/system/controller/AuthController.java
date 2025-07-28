@@ -51,7 +51,7 @@ public class AuthController {
     @GetMapping("/getUserInfo")
     @ApiOperation("获取用户信息")
     @SaCheckLogin
-    @Log(title = "获取用户信息", businessType = LogConst.BusinessType.OTHER)
+    @Log(title = "获取用户信息")
     public Result<UserInfoResponse> getUserInfo() {
         return Result.success(userService.getUserInfo());
     }
@@ -59,7 +59,6 @@ public class AuthController {
     @GetMapping("/getUserRoutes")
     @ApiOperation("获取用户路由")
     @SaCheckLogin
-    @Log(title = "获取用户路由", businessType = LogConst.BusinessType.OTHER)
     public Result<List<MenuTreeResponse>> getUserRoutes() {
         return Result.success(userService.getUserRoutes());
     }

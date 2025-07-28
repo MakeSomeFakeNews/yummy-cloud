@@ -33,7 +33,6 @@ public class SysMenuController {
 
     @ApiOperation("获取菜单列表（树形结构）")
     @GetMapping("/getList")
-    @SaCheckPermission("sys:menu:list")
     @Log(title = "系统菜单管理", businessType = LogConst.BusinessType.OTHER)
     public Result<List<SysMenu>> getList(
             @RequestParam(required = false) String name,
@@ -90,7 +89,6 @@ public class SysMenuController {
 
     @ApiOperation("获取菜单选项（用于下拉选择）")
     @GetMapping("/getMenuOptions")
-    @Log(title = "系统菜单管理", businessType = LogConst.BusinessType.OTHER)
     public Result<List<Map<String, Object>>> getMenuOptions() {
         return Result.success(sysMenuService.getMenuOptions());
     }

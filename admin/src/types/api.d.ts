@@ -10,4 +10,9 @@ interface ApiRes<T> {
 interface PageRes<T> {
   records: T
   total: number
+  current?: number
+  size?: number
+  pages?: number
+  hasPrevious?: boolean
+  hasNext?: boolean
 }

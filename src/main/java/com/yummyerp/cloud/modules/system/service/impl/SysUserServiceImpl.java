@@ -4,6 +4,8 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yummyerp.cloud.modules.common.dto.PageRequest;
+import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
 import com.yummyerp.cloud.modules.system.entity.SysUser;
 import com.yummyerp.cloud.modules.system.entity.SysUserRole;
@@ -42,6 +44,40 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
+    public PageResult<SysUser> getUserPageList(PageRequest pageRequest, String username, Integer status, Long deptId) {
+        Page<SysUser> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
+        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        
+        // 构建查询条件
+        if (username != null && !username.trim().isEmpty()) {
+            queryWrapper.like("username", username);
+        }
+        if (status != null) {
+            queryWrapper.eq("status", status);
+        }
+        if (deptId != null) {
+            // 获取该部门及其所有子部门的ID列表
+            List<Long> deptIds = getDeptAndChildrenIds(deptId);
+            if (!deptIds.isEmpty()) {
+                queryWrapper.in("dept_id", deptIds);
+            }
+        }
+        queryWrapper.eq("deleted", 0);
+        queryWrapper.orderByDesc("create_time");
+        
+        IPage<SysUser> pageResult = this.page(pageObj, queryWrapper);
+        
+        // 填充用户的角色和部门信息
+        List<SysUser> users = pageResult.getRecords();
+        for (SysUser user : users) {
+            fillUserExtraInfo(user);
+        }
+        
+        return PageResult.of((Page<SysUser>) pageResult);
+    }
+
+    @Override
+    @Deprecated
     public Map<String, Object> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId) {
         Page<SysUser> pageObj = new Page<>(page, size);
         QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
