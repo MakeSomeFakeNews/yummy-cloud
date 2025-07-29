@@ -2,7 +2,7 @@
   <GiPageLayout>
     <GiForm v-model="form" search :columns="searchColumns"
       :grid-item-props="{ span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 6, xxl: 6 } }" 
-      :collapsed="true"
+      :default-collapsed="true"
       @search="search" @reset="search">
     </GiForm>
 
@@ -21,15 +21,14 @@
       </template>
       
       <template #type="{ record }">
-        <a-tag :color="record.type === 1 ? 'blue' : 'green'">
-          {{ record.type === 1 ? '企业客户' : '个人客户' }}
+        <a-tag>
+          {{ customerTypeOptions?.find(opt => opt.value == record.type)?.label }}
         </a-tag>
       </template>
       
       <template #level="{ record }">
-        <a-tag 
-          :color="record.level === 1 ? 'red' : record.level === 2 ? 'orange' : 'gray'">
-          {{ record.level === 1 ? 'VIP' : record.level === 2 ? '普通' : '潜在' }}
+        <a-tag>
+          {{ customerLevelOptions?.find(opt => opt.value == record.level)?.label }}
         </a-tag>
       </template>
       
@@ -78,8 +77,10 @@ import CustomerDetail from './CustomerDetail.vue'
 defineOptions({ name: 'CustomerManagement' })
 
 const { data: statusOptions } = useDict({ code: 'status' })
-const { data: customerTypeOptions } = useDict({ code: 'customer_type' })
-const { data: customerLevelOptions } = useDict({ code: 'customer_level' })
+const { data: customerTypeOptions } = useDict({ code: 'cusType' })
+const { data: customerLevelOptions } = useDict({ code: 'cusLevel' })
+
+
 
 const form = reactive({})
 
@@ -99,10 +100,7 @@ const searchColumns = computed(() => [
     label: '客户类型',
     field: 'type',
     props: {
-      options: customerTypeOptions.value || [
-        { label: '企业客户', value: 1 },
-        { label: '个人客户', value: 2 }
-      ]
+      options: customerTypeOptions.value
     }
   },
   {
@@ -110,11 +108,7 @@ const searchColumns = computed(() => [
     label: '客户级别',
     field: 'level',
     props: {
-      options: customerLevelOptions.value || [
-        { label: 'VIP', value: 1 },
-        { label: '普通', value: 2 },
-        { label: '潜在', value: 3 }
-      ]
+      options: customerLevelOptions.value
     }
   },
   {
@@ -135,10 +129,7 @@ const searchColumns = computed(() => [
     label: '状态',
     field: 'status',
     props: {
-      options: statusOptions.value || [
-        { label: '正常', value: 1 },
-        { label: '禁用', value: 0 }
-      ]
+      options: statusOptions.value
     }
   },
   {
