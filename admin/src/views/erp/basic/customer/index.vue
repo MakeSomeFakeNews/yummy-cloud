@@ -1,7 +1,9 @@
 <template>
   <GiPageLayout>
     <GiForm v-model="form" search :columns="searchColumns"
-      :grid-item-props="{ span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 6, xxl: 6 } }" @search="search" @reset="search">
+      :grid-item-props="{ span: { xs: 24, sm: 12, md: 8, lg: 8, xl: 6, xxl: 6 } }" 
+      :collapsed="true"
+      @search="search" @reset="search">
     </GiForm>
 
     <GiTable row-key="id" :loading="loading" :columns="columns" :data="tableData"
@@ -15,10 +17,6 @@
         <a-button type="primary" status="danger" @click="onMulDelete">
           <template #icon><icon-delete /></template>
           <span>删除</span>
-        </a-button>
-        <a-button @click="onImport">
-          <template #icon><icon-export /></template>
-          <span>导入</span>
         </a-button>
       </template>
       
@@ -51,16 +49,31 @@
     </GiTable>
 
     <GiFooter></GiFooter>
+    
+    <!-- 新增/编辑弹窗 -->
+    <CustomerModal 
+      v-model:visible="modalVisible" 
+      :customer-data="currentCustomer"
+      @success="handleModalSuccess" />
+    
+    <!-- 客户详情抽屉 -->
+    <CustomerDetail 
+      v-model:visible="detailVisible"
+      :customer-id="currentCustomerId"
+      @edit="handleDetailEdit" />
   </GiPageLayout>
 </template>
 
 <script setup lang="ts">
+import { ref, reactive, computed, h } from 'vue'
 import { Message, type PopconfirmInstance, type TableInstance } from '@arco-design/web-vue'
 import { useTable } from '@/hooks'
 import { useDict } from '@/hooks/app'
 import type * as T from '@/apis/customer'
 import { customerAPI } from '@/apis/customer'
 import type { ColumnItem } from '@/components/GiForm'
+import CustomerModal from './CustomerModal.vue'
+import CustomerDetail from './CustomerDetail.vue'
 
 defineOptions({ name: 'CustomerManagement' })
 
@@ -163,34 +176,54 @@ const columns: TableInstance['columns'] = [
 
 const { tableData, getTableData, pagination, search, loading } = useTable((p) => customerAPI.getList(p))
 
+// 弹窗相关状态
+const modalVisible = ref(false)
+const currentCustomer = ref<T.CustomerItem | undefined>()
+
+// 详情抽屉相关状态
+const detailVisible = ref(false)
+const currentCustomerId = ref<string | undefined>()
+
 const onAdd = () => {
-  Message.info('新增客户功能待开发')
+  currentCustomer.value = undefined
+  modalVisible.value = true
 }
 
 const onEdit = (record: T.CustomerItem) => {
-  Message.info(`编辑客户：${record.name}`)
+  currentCustomer.value = record
+  modalVisible.value = true
 }
 
 const onDetail = (record: T.CustomerItem) => {
-  Message.info(`查看客户详情：${record.name}`)
+  currentCustomerId.value = record.id
+  detailVisible.value = true
 }
 
 const onMulDelete = () => {
   Message.error('批量删除功能待开发')
 }
 
-const onImport = () => {
-  Message.warning('导入功能待开发')
+const handleModalSuccess = () => {
+  getTableData()
 }
 
-const onDelete = (record: T.CustomerItem): Promise<boolean> => {
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      Message.success(`删除客户：${record.name}`)
-      getTableData()
-      resolve(true)
-    }, 300)
-  })
+// 从详情页面跳转到编辑
+const handleDetailEdit = (customer: T.CustomerItem) => {
+  currentCustomer.value = customer
+  modalVisible.value = true
+}
+
+const onDelete = async (record: T.CustomerItem): Promise<boolean> => {
+  try {
+    await customerAPI.delete({ ids: [record.id] })
+    Message.success(`客户 ${record.name} 删除成功`)
+    getTableData()
+    return true
+  } catch (error) {
+    console.error('删除失败:', error)
+    Message.error('删除失败，请稍后重试')
+    return false
+  }
 }
 </script>
 
