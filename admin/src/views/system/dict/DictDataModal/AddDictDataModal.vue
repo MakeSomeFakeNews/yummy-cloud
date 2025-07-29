@@ -1,6 +1,6 @@
 <template>
   <a-modal v-model:visible="visible" :title="title" width="90%" :mask-closable="false"
-    :modal-style="{ maxWidth: '520px' }" @before-ok="save" @close="close">
+           :modal-style="{ maxWidth: '520px' }" @before-ok="save" @close="close">
     <a-spin :loading="loading" class="w-full">
       <a-form ref="formRef" :model="form" :rules="rules" size="medium" auto-label-width>
         <a-form-item label="字典名" field="name">
@@ -11,7 +11,7 @@
         </a-form-item>
         <a-form-item label="状态" field="status">
           <a-switch v-model="form.status" type="round" :checked-value="1" :unchecked-value="0" checked-text="正常"
-            unchecked-text="禁用" />
+                    unchecked-text="禁用"/>
         </a-form-item>
       </a-form>
     </a-spin>
@@ -43,12 +43,12 @@ const [form, resetForm] = useResetReactive({
 })
 
 const rules: FormInstance['rules'] = {
-  name: [{ required: true, message: '请输入字典名' }],
+  name: [{required: true, message: '请输入字典名'}],
   value: [
-    { required: true, message: '请输入字典值' },
-    { match: /^\w*$/, message: '格式不对！只能包含英文数字下划线' }
+    {required: true, message: '请输入字典值'},
+    {match: /^\w*$/, message: '格式不对！只能包含英文数字下划线'}
   ],
-  status: [{ required: true }]
+  status: [{required: true}]
 }
 
 const add = (code: string) => {
@@ -64,7 +64,7 @@ const edit = async (data: { id: string, code: string }) => {
   dictCode.value = data.code
   loading.value = true
   const res = await getDictDataDetail(data)
-  Object.assign(form, { ...res.data, dictCode: data.code })
+  Object.assign(form, {...res.data, dictCode: data.code})
   loading.value = false
 }
 
@@ -77,14 +77,14 @@ const save = async () => {
   try {
     const valid = await formRef.value?.validate()
     if (valid) return false
-    
+
     let res
     if (isEdit.value) {
-      res = await updateDictData({ ...form, id: dictDataId.value })
+      res = await updateDictData({...form, id: dictDataId.value})
     } else {
       res = await addDictData(form)
     }
-    
+
     if (res) {
       Message.success(isEdit.value ? '字典数据更新成功' : '字典数据新增成功')
       emit('save-success')
@@ -99,5 +99,5 @@ const save = async () => {
   }
 }
 
-defineExpose({ add, edit })
+defineExpose({add, edit})
 </script>

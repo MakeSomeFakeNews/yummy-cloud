@@ -50,4 +50,6 @@ public interface SysDictService extends IService<SysDict> {
      * 获取所有字典数据映射
      */
     Map<String, Object> getAllDictDataMap();
+
+    SysDict getByDictCode(String dictCode);
 }

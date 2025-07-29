@@ -4,10 +4,13 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.yummyerp.cloud.annotation.Log;
 import com.yummyerp.cloud.constant.LogConst;
 import com.yummyerp.cloud.modules.common.result.Result;
+import com.yummyerp.cloud.modules.system.entity.SysDict;
 import com.yummyerp.cloud.modules.system.entity.SysDictData;
 import com.yummyerp.cloud.modules.system.service.SysDictDataService;
+import com.yummyerp.cloud.modules.system.service.SysDictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import net.bytebuddy.implementation.bytecode.Throw;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -32,9 +35,11 @@ import java.util.stream.Collectors;
 public class SysDictDataController {
 
     private final SysDictDataService sysDictDataService;
+    private final SysDictService sysDictService;
 
-    public SysDictDataController(SysDictDataService sysDictDataService) {
+    public SysDictDataController(SysDictDataService sysDictDataService, SysDictService sysDictService) {
         this.sysDictDataService = sysDictDataService;
+        this.sysDictService = sysDictService;
     }
 
     @ApiOperation("新增字典数据")
@@ -42,6 +47,12 @@ public class SysDictDataController {
     @SaCheckPermission("sys:dict:data:add")
     @Log(title = "字典数据管理", businessType = LogConst.BusinessType.INSERT)
     public Result<SysDictData> add(@RequestBody SysDictData sysDictData) {
+        System.out.println(sysDictData);
+        SysDict dict = sysDictService.getByDictCode(sysDictData.getDictCode());
+        if (dict == null) {
+            throw new RuntimeException("字典不存在");
+        }
+        sysDictData.setDictId(dict.getId());
         sysDictDataService.save(sysDictData);
         return Result.success(sysDictData);
     }
@@ -60,11 +71,8 @@ public class SysDictDataController {
     @SaCheckPermission("sys:dict:data:del")
     @Log(title = "字典数据管理", businessType = LogConst.BusinessType.DELETE)
     public Result<Boolean> delete(@RequestBody Map<String, Object> params) {
-        @SuppressWarnings("unchecked")
-        List<Object> ids = (List<Object>) params.get("ids");
-        List<Long> dictDataIds = ids.stream()
-                .map(id -> Long.parseLong(id.toString()))
-                .collect(Collectors.toList());
+        @SuppressWarnings("unchecked") List<Object> ids = (List<Object>) params.get("ids");
+        List<Long> dictDataIds = ids.stream().map(id -> Long.parseLong(id.toString())).collect(Collectors.toList());
         boolean result = sysDictDataService.removeByIds(dictDataIds);
         return Result.success(result);
     }

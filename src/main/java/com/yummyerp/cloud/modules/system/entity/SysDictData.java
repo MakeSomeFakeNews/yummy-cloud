@@ -37,7 +37,7 @@ public class SysDictData extends BaseEntity {
     /**
      * 字典编码（非数据库字段，用于前端传递）
      */
-    @TableField(exist = false)
+    @TableField("dict_code")
     @ApiModelProperty("字典编码")
     private String dictCode;
 
