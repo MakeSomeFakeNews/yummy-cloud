@@ -1,78 +1,75 @@
 <template>
   <a-drawer
     :visible="props.visible"
-    title="客户详情"
+    title="仓库详情"
     width="800px"
     :footer="false"
     unmount-on-close
     @cancel="handleClose"
-    class="customer-detail-drawer">
+    class="warehouse-detail-drawer">
     
     <div v-if="loading" class="loading-container">
       <div class="loading-content">
         <a-spin :size="32" />
-        <p class="loading-text">正在加载客户信息...</p>
+        <p class="loading-text">正在加载仓库信息...</p>
       </div>
     </div>
     
-    <div v-else-if="customerDetail" class="customer-detail">
-      <!-- 客户头像和基本信息 -->
-      <div class="customer-header">
-        <div class="customer-avatar">
+    <div v-else-if="warehouseDetail" class="warehouse-detail">
+      <!-- 仓库头像和基本信息 -->
+      <div class="warehouse-header">
+        <div class="warehouse-avatar">
           <div class="avatar-circle">
-            <icon-user />
+            <icon-archive />
           </div>
         </div>
-        <div class="customer-info">
-          <h2 class="customer-name">{{ customerDetail.name }}</h2>
-                     <div class="customer-meta">
-             <a-tag class="type-tag">
-               {{ getTypeName(customerDetail.type) }}
-             </a-tag>
-             <a-tag class="level-tag">
-               <icon-star />
-               {{ getLevelName(customerDetail.level) }}
-             </a-tag>
-             <div class="status-tag">
-              <GiCellStatus :status="customerDetail.status"></GiCellStatus>
+        <div class="warehouse-info">
+          <h2 class="warehouse-name">{{ warehouseDetail.name }}</h2>
+          <div class="warehouse-meta">
+            <a-tag class="type-tag">
+              {{ getTypeName(warehouseDetail.type) }}
+            </a-tag>
+            <div class="status-tag">
+              <GiCellStatus :status="warehouseDetail.status"></GiCellStatus>
             </div>
-           </div>
+          </div>
         </div>
       </div>
-
-
 
       <!-- 详细信息卡片 -->
       <div class="detail-cards">
         <!-- 基本信息 -->
-                 <div class="detail-card fade-in" style="animation-delay: 0.1s">
-           <div class="card-header">
-             <div class="header-icon basic">
-               <icon-user />
-             </div>
-             <h3>基本信息</h3>
-           </div>
+        <div class="detail-card fade-in" style="animation-delay: 0.1s">
+          <div class="card-header">
+            <div class="header-icon basic">
+              <icon-archive />
+            </div>
+            <h3>基本信息</h3>
+          </div>
           <div class="card-body">
             <div class="info-grid">
               <div class="info-item">
-                <div class="info-label">客户编码</div>
-                <div class="info-value code">{{ customerDetail.code }}</div>
+                <div class="info-label">仓库编码</div>
+                <div class="info-value code">{{ warehouseDetail.code }}</div>
               </div>
               <div class="info-item">
-                <div class="info-label">客户名称</div>
-                <div class="info-value">{{ customerDetail.name }}</div>
+                <div class="info-label">仓库名称</div>
+                <div class="info-value">{{ warehouseDetail.name }}</div>
               </div>
               <div class="info-item">
-                <div class="info-label">简称</div>
-                <div class="info-value">{{ customerDetail.shortName || '-' }}</div>
+                <div class="info-label">仓库类型</div>
+                <div class="info-value">{{ getTypeName(warehouseDetail.type) }}</div>
               </div>
               <div class="info-item">
-                <div class="info-label">所属行业</div>
-                <div class="info-value">{{ customerDetail.industry || '-' }}</div>
+                <div class="info-label">仓库管理员</div>
+                <div class="info-value">{{ warehouseDetail.manager }}</div>
               </div>
               <div class="info-item full-width">
-                <div class="info-label">统一社会信用代码</div>
-                <div class="info-value code">{{ customerDetail.creditCode || '-' }}</div>
+                <div class="info-label">仓库地址</div>
+                <div class="info-value address">
+                  <icon-location class="icon" />
+                  {{ warehouseDetail.address || '-' }}
+                </div>
               </div>
             </div>
           </div>
@@ -89,70 +86,33 @@
           <div class="card-body">
             <div class="info-grid">
               <div class="info-item">
-                <div class="info-label">联系人</div>
-                <div class="info-value">{{ customerDetail.contactPerson }}</div>
-              </div>
-              <div class="info-item">
                 <div class="info-label">联系电话</div>
                 <div class="info-value">
                   <icon-phone class="icon" />
-                  {{ customerDetail.contactPhone }}
-                </div>
-              </div>
-              <div class="info-item">
-                <div class="info-label">联系邮箱</div>
-                <div class="info-value">
-                  <icon-email class="icon" />
-                  {{ customerDetail.contactEmail || '-' }}
-                </div>
-              </div>
-              <div class="info-item full-width">
-                <div class="info-label">地址</div>
-                <div class="info-value address">
-                  <icon-location class="icon" />
-                  {{ customerDetail.address || '-' }}
+                  {{ warehouseDetail.phone }}
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- 财务信息 -->
-                 <div class="detail-card fade-in" style="animation-delay: 0.3s">
-           <div class="card-header">
-             <div class="header-icon finance">
-               <icon-star />
-             </div>
-             <h3>财务信息</h3>
-           </div>
+        <!-- 容量信息 -->
+        <div class="detail-card fade-in" style="animation-delay: 0.3s">
+          <div class="card-header">
+            <div class="header-icon capacity">
+              <icon-apps />
+            </div>
+            <h3>容量信息</h3>
+          </div>
           <div class="card-body">
             <div class="info-grid">
               <div class="info-item">
-                <div class="info-label">信用额度</div>
-                <div class="info-value amount">
-                  <span class="currency">¥</span>
-                  {{ formatMoney(customerDetail.creditLimit) }}
-                </div>
+                <div class="info-label">仓库面积</div>
+                <div class="info-value amount">{{ warehouseDetail.area }} ㎡</div>
               </div>
               <div class="info-item">
-                <div class="info-label">信用期限</div>
-                <div class="info-value">
-                  <span class="number">{{ customerDetail.creditDays }}</span> 天
-                </div>
-              </div>
-              <div class="info-item">
-                <div class="info-label">税率</div>
-                <div class="info-value">
-                  <span class="number">{{ (customerDetail.taxRate * 100).toFixed(1) }}</span>%
-                </div>
-              </div>
-              <div class="info-item">
-                <div class="info-label">付款条件</div>
-                <div class="info-value">{{ customerDetail.paymentTerms || '-' }}</div>
-              </div>
-              <div class="info-item full-width">
-                <div class="info-label">交货条件</div>
-                <div class="info-value">{{ customerDetail.deliveryTerms || '-' }}</div>
+                <div class="info-label">存储容量</div>
+                <div class="info-value amount">{{ warehouseDetail.capacity }}</div>
               </div>
             </div>
           </div>
@@ -162,7 +122,7 @@
         <div class="detail-card fade-in" style="animation-delay: 0.4s">
           <div class="card-header">
             <div class="header-icon system">
-              <icon-settings />
+              <icon-clock-circle />
             </div>
             <h3>系统信息</h3>
           </div>
@@ -170,113 +130,78 @@
             <div class="info-grid">
               <div class="info-item">
                 <div class="info-label">创建时间</div>
-                <div class="info-value">{{ formatDate(customerDetail.createTime) }}</div>
+                <div class="info-value">{{ formatDate(warehouseDetail.createTime) }}</div>
               </div>
               <div class="info-item">
                 <div class="info-label">更新时间</div>
-                <div class="info-value">{{ formatDate(customerDetail.updateTime) }}</div>
+                <div class="info-value">{{ formatDate(warehouseDetail.updateTime) }}</div>
               </div>
-                             <div v-if="customerDetail.remark" class="info-item full-width">
-                 <div class="info-label">备注</div>
-                 <div class="info-value remark">
-                   {{ customerDetail.remark }}
-                 </div>
-               </div>
+              <div v-if="warehouseDetail.remark" class="info-item full-width">
+                <div class="info-label">备注</div>
+                <div class="info-value remark">
+                  {{ warehouseDetail.remark }}
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-
     </div>
 
-         <div v-else class="empty-container">
-       <div class="empty-content">
-         <h3>暂无数据</h3>
-         <p>无法获取客户详细信息</p>
-       </div>
-     </div>
+    <div v-else class="error-container">
+      <div class="error-content">
+        <icon-exclamation-circle-fill class="error-icon" />
+        <h3>仓库信息加载失败</h3>
+        <p>请检查网络连接后重试</p>
+        <a-button type="primary" @click="fetchWarehouseDetail">重新加载</a-button>
+      </div>
+    </div>
   </a-drawer>
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { ref, watch, computed } from 'vue'
 import { Message } from '@arco-design/web-vue'
-import { customerAPI, type CustomerItem } from '@/apis/customer'
+import { warehouseAPI, type WarehouseItem } from '@/apis/warehouse'
 import { useDict } from '@/hooks/app'
-import { 
-  IconPhone, 
-  IconEmail, 
-  IconUser,
-  IconStar,
-  IconSettings,
+import {
+  IconArchive,
+  IconPhone,
+  IconApps,
+  IconFile,
+  IconClockCircle,
+  IconEdit,
+  IconExclamationCircleFill,
   IconLocation
 } from '@arco-design/web-vue/es/icon'
 
 interface Props {
   visible: boolean
-  customerId?: string | number
+  warehouseId?: string
 }
 
 interface Emits {
   (e: 'update:visible', value: boolean): void
-  (e: 'edit', customer: CustomerItem): void
+  (e: 'edit', warehouse: WarehouseItem): void
 }
 
 const props = withDefaults(defineProps<Props>(), {
   visible: false,
-  customerId: undefined
+  warehouseId: undefined
 })
 
 const emit = defineEmits<Emits>()
 
-const { data: customerTypeOptions } = useDict({ code: 'cusType' })
-const { data: customerLevelOptions } = useDict({ code: 'cusLevel' })
+const { data: warehouseTypeOptions } = useDict({ code: 'warehouse' })
 
 const loading = ref(false)
-const customerDetail = ref<CustomerItem | null>(null)
+const warehouseDetail = ref<WarehouseItem | null>(null)
 
-// 获取客户类型名称
+// 获取仓库类型名称
 const getTypeName = (type: string | number) => {
-  const option = customerTypeOptions.value?.find(opt => opt.value == type)
+  const option = warehouseTypeOptions.value?.find(opt => opt.value == type)
   return option?.label || '未知类型'
-}
-
-// 获取客户级别名称
-const getLevelName = (level: string | number) => {
-  const option = customerLevelOptions.value?.find(opt => opt.value == level)
-  return option?.label || '未知级别'
-}
-
-// 监听弹窗显示状态和客户ID变化
-watch([() => props.visible, () => props.customerId], ([newVisible, newCustomerId]) => {
-  if (newVisible && newCustomerId) {
-    fetchCustomerDetail(String(newCustomerId))
-  }
-})
-
-// 获取客户详情
-const fetchCustomerDetail = async (customerId: string | number) => {
-  try {
-    loading.value = true
-    const res = await customerAPI.getDetail({ id: String(customerId) })
-    customerDetail.value = res.data
-  } catch (error) {
-    console.error('获取客户详情失败:', error)
-    Message.error('获取客户详情失败')
-    customerDetail.value = null
-  } finally {
-    loading.value = false
-  }
-}
-
-// 格式化金额
-const formatMoney = (amount: number): string => {
-  if (!amount) return '0.00'
-  return amount.toLocaleString('zh-CN', {
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2
-  })
 }
 
 // 格式化日期
@@ -292,16 +217,45 @@ const formatDate = (dateStr: string): string => {
   })
 }
 
+// 获取仓库详情
+const fetchWarehouseDetail = async () => {
+  if (!props.warehouseId) return
 
+  try {
+    loading.value = true
+    const response = await warehouseAPI.getDetail({ id: props.warehouseId })
+    warehouseDetail.value = response.data
+  } catch (error) {
+    console.error('获取仓库详情失败:', error)
+    Message.error('获取仓库详情失败，请稍后重试')
+    warehouseDetail.value = null
+  } finally {
+    loading.value = false
+  }
+}
 
-// 关闭抽屉
+// 监听弹窗状态和仓库ID变化
+watch([() => props.visible, () => props.warehouseId], ([visible, warehouseId]) => {
+  if (visible && warehouseId) {
+    fetchWarehouseDetail()
+  }
+}, { immediate: true })
+
 const handleClose = () => {
   emit('update:visible', false)
+  warehouseDetail.value = null
+}
+
+const handleEdit = () => {
+  if (warehouseDetail.value) {
+    emit('edit', warehouseDetail.value)
+    handleClose()
+  }
 }
 </script>
 
 <style lang="scss" scoped>
-.customer-detail-drawer {
+.warehouse-detail-drawer {
   :deep(.arco-drawer-header) {
     background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     color: white;
@@ -346,34 +300,31 @@ const handleClose = () => {
   }
 }
 
-.empty-container {
+.error-container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 300px;
-  
-  .empty-content {
-    text-align: center;
-    
-    h3 {
-      margin: 0 0 8px 0;
-      color: var(--color-text-2);
-      font-size: 16px;
-    }
-    
-    p {
-      margin: 0;
-      color: var(--color-text-3);
-      font-size: 14px;
-    }
-  }
+  text-align: center;
 }
 
-.customer-detail {
+.error-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.error-icon {
+  font-size: 48px;
+  color: #f53f3f;
+}
+
+.warehouse-detail {
   padding: 16px;
 }
 
-.customer-header {
+.warehouse-header {
   display: flex;
   align-items: center;
   padding: 16px 20px;
@@ -383,7 +334,7 @@ const handleClose = () => {
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
   color: white;
   
-  .customer-avatar {
+  .warehouse-avatar {
     margin-right: 16px;
     
     .avatar-circle {
@@ -401,23 +352,22 @@ const handleClose = () => {
     }
   }
   
-  .customer-info {
+  .warehouse-info {
     flex: 1;
     
-    .customer-name {
+    .warehouse-name {
       margin: 0 0 8px 0;
       font-size: 22px;
       font-weight: 700;
       color: white;
     }
     
-    .customer-meta {
+    .warehouse-meta {
       display: flex;
       gap: 8px;
       flex-wrap: wrap;
       
       .type-tag,
-      .level-tag,
       .status-tag {
         backdrop-filter: blur(10px);
         border: 1px solid rgba(255, 255, 255, 0.2);
@@ -434,8 +384,6 @@ const handleClose = () => {
     }
   }
 }
-
-
 
 .detail-cards {
   display: flex;
@@ -483,7 +431,7 @@ const handleClose = () => {
         color: white;
       }
       
-      &.finance {
+      &.capacity {
         background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
         color: white;
       }
@@ -554,11 +502,6 @@ const handleClose = () => {
         font-size: 14px;
         font-weight: 700;
         color: var(--color-success-6);
-        
-        .currency {
-          font-size: 12px;
-          margin-right: 1px;
-        }
       }
       
       &.address {
@@ -574,18 +517,29 @@ const handleClose = () => {
         border-left: 2px solid var(--color-primary-6);
         font-size: 12px;
       }
-      
-      .number {
-        font-weight: 700;
-        color: var(--color-primary-6);
-      }
     }
   }
 }
 
-
+.action-footer {
+  margin-top: 16px;
+  padding: 12px 16px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
 
 // 动画效果
+.fade-in {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeIn 0.5s ease forwards;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -597,18 +551,14 @@ const handleClose = () => {
   }
 }
 
-.fade-in {
-  animation: fadeIn 0.5s ease forwards;
-}
-
 // 响应式设计
 @media (max-width: 768px) {
-  .customer-header {
+  .warehouse-header {
     flex-direction: column;
     text-align: center;
     padding: 12px 16px;
     
-    .customer-avatar {
+    .warehouse-avatar {
       margin-right: 0;
       margin-bottom: 12px;
     }
@@ -622,8 +572,8 @@ const handleClose = () => {
     }
   }
   
-  .customer-detail {
+  .warehouse-detail {
     padding: 12px;
   }
 }
-</style>
+</style> 

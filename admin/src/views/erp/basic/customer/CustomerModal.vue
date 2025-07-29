@@ -111,10 +111,7 @@ const formColumns = computed(() => [
     field: 'type',
     props: {
       placeholder: '请选择客户类型',
-      options: customerTypeOptions.value || [
-        { label: '企业客户', value: 1 },
-        { label: '个人客户', value: 2 }
-      ]
+      options: customerTypeOptions.value
     },
     rules: [{required: true, message: '客户类型不能为空'}]
   },
@@ -124,11 +121,7 @@ const formColumns = computed(() => [
     field: 'level',
     props: {
       placeholder: '请选择客户级别',
-      options: customerLevelOptions.value || [
-        { label: 'VIP', value: 1 },
-        { label: '普通', value: 2 },
-        { label: '潜在', value: 3 }
-      ]
+      options: customerLevelOptions.value
     },
     rules: [{required: true, message: '客户级别不能为空'}]
   },
@@ -257,10 +250,7 @@ const formColumns = computed(() => [
     field: 'status',
     props: {
       placeholder: '请选择状态',
-      options: statusOptions.value || [
-        { label: '正常', value: 1 },
-        { label: '禁用', value: 0 }
-      ]
+      options: statusOptions.value
     },
     rules: [{required: true, message: '状态不能为空'}]
   },
@@ -282,8 +272,13 @@ watch(() => props.visible, (newVal) => {
   if (newVal) {
     resetForm()
     if (props.customerData) {
-      // 编辑模式，填充数据
-      Object.assign(formData, props.customerData)
+      // 编辑模式，填充数据，确保字典字段为字符串类型
+      Object.assign(formData, {
+        ...props.customerData,
+        type: String(props.customerData.type),
+        level: String(props.customerData.level),
+        status: String(props.customerData.status)
+      })
     }
   }
 })
