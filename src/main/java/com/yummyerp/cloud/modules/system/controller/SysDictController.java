@@ -8,6 +8,7 @@ import com.yummyerp.cloud.modules.common.dto.PageResult;
 import com.yummyerp.cloud.modules.common.result.Result;
 import com.yummyerp.cloud.modules.system.dto.SysDictQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDict;
+import com.yummyerp.cloud.modules.system.entity.SysDictData;
 import com.yummyerp.cloud.modules.system.service.SysDictService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -92,7 +93,7 @@ public class SysDictController {
     @ApiOperation("获取字典数据列表")
     @GetMapping("/getDictDataList")
     @Log(title = "字典数据管理")
-    public Result<Map<String, Object>> getDictDataList(
+    public Result<PageResult<SysDictData>> getDictDataList(
             @RequestParam String code,
             @RequestParam(defaultValue = "1") Integer page,
             @RequestParam(defaultValue = "10") Integer size) {

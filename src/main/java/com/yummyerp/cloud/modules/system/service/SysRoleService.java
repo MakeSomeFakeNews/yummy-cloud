@@ -50,7 +50,7 @@ public interface SysRoleService extends IService<SysRole> {
      * 获取角色分页列表（兼容旧版本）
      */
     @Deprecated
-    Map<String, Object> getRolePageList(Integer page, Integer size, String name, Integer status);
+    PageResult<SysRole> getRolePageList(Integer page, Integer size, String name, Integer status);
 
     /**
      * 删除角色及相关关联数据

@@ -1,6 +1,6 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -69,19 +69,19 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     public PageResult<SysRole> getRolePageList(PageRequest pageRequest, SysRoleQuery query) {
         Page<SysRole> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         
         if (query.getName() != null && !query.getName().trim().isEmpty()) {
-            queryWrapper.like("name", query.getName());
+            queryWrapper.like(SysRole::getName, query.getName());
         }
         if (query.getStatus() != null) {
-            queryWrapper.eq("status", query.getStatus());
+            queryWrapper.eq(SysRole::getStatus, query.getStatus());
         }
         if (query.getCode() != null && !query.getCode().trim().isEmpty()) {
-            queryWrapper.like("code", query.getCode());
+            queryWrapper.like(SysRole::getCode, query.getCode());
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysRole::getDeleted, 0);
+        queryWrapper.orderByAsc(SysRole::getSort);
         
         IPage<SysRole> pageResult = this.page(pageObj, queryWrapper);
         
@@ -92,16 +92,16 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Deprecated
     public PageResult<SysRole> getRolePageList(PageRequest pageRequest, String name, Integer status) {
         Page<SysRole> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         
         if (name != null && !name.trim().isEmpty()) {
-            queryWrapper.like("name", name);
+            queryWrapper.like(SysRole::getName, name);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysRole::getStatus, status);
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysRole::getDeleted, 0);
+        queryWrapper.orderByAsc(SysRole::getSort);
         
         IPage<SysRole> pageResult = this.page(pageObj, queryWrapper);
         
@@ -110,29 +110,22 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     @Deprecated
-    public Map<String, Object> getRolePageList(Integer page, Integer size, String name, Integer status) {
+    public PageResult<SysRole> getRolePageList(Integer page, Integer size, String name, Integer status) {
         Page<SysRole> pageObj = new Page<>(page, size);
-        QueryWrapper<SysRole> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysRole> queryWrapper = new LambdaQueryWrapper<>();
         
         if (name != null && !name.trim().isEmpty()) {
-            queryWrapper.like("name", name);
+            queryWrapper.like(SysRole::getName, name);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysRole::getStatus, status);
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysRole::getDeleted, 0);
+        queryWrapper.orderByAsc(SysRole::getSort);
         
         IPage<SysRole> pageResult = this.page(pageObj, queryWrapper);
         
-        Map<String, Object> result = new HashMap<>();
-        result.put("records", pageResult.getRecords());
-        result.put("total", pageResult.getTotal());
-        result.put("current", pageResult.getCurrent());
-        result.put("size", pageResult.getSize());
-        result.put("pages", pageResult.getPages());
-        
-        return result;
+        return PageResult.of((Page<SysRole>) pageResult);
     }
 
     @Override
@@ -143,13 +136,13 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         
         // Delete role-menu relations
-        QueryWrapper<SysRoleMenu> roleMenuWrapper = new QueryWrapper<>();
-        roleMenuWrapper.in("role_id", roleIds);
+        LambdaQueryWrapper<SysRoleMenu> roleMenuWrapper = new LambdaQueryWrapper<>();
+        roleMenuWrapper.in(SysRoleMenu::getRoleId, roleIds);
         sysRoleMenuMapper.delete(roleMenuWrapper);
         
         // Delete user-role relations
-        QueryWrapper<SysUserRole> userRoleWrapper = new QueryWrapper<>();
-        userRoleWrapper.in("role_id", roleIds);
+        LambdaQueryWrapper<SysUserRole> userRoleWrapper = new LambdaQueryWrapper<>();
+        userRoleWrapper.in(SysUserRole::getRoleId, roleIds);
         sysUserRoleMapper.delete(userRoleWrapper);
         
         // Delete roles (logical deletion)
@@ -158,17 +151,17 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
 
     @Override
     public List<String> getRoleMenuIds(String roleCode) {
-        QueryWrapper<SysRole> roleWrapper = new QueryWrapper<>();
-        roleWrapper.eq("code", roleCode);
-        roleWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysRole> roleWrapper = new LambdaQueryWrapper<>();
+        roleWrapper.eq(SysRole::getCode, roleCode);
+        roleWrapper.eq(SysRole::getDeleted, 0);
         SysRole role = this.getOne(roleWrapper);
         
         if (role == null) {
             return new ArrayList<>();
         }
         
-        QueryWrapper<SysRoleMenu> wrapper = new QueryWrapper<>();
-        wrapper.eq("role_id", role.getId());
+        LambdaQueryWrapper<SysRoleMenu> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysRoleMenu::getRoleId, role.getId());
         List<SysRoleMenu> roleMenus = sysRoleMenuMapper.selectList(wrapper);
         
         return roleMenus.stream()
@@ -179,9 +172,9 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
     @Override
     @Transactional(rollbackFor = Exception.class)
     public boolean setRoleMenus(String roleCode, List<String> menuIds) {
-        QueryWrapper<SysRole> roleWrapper = new QueryWrapper<>();
-        roleWrapper.eq("code", roleCode);
-        roleWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysRole> roleWrapper = new LambdaQueryWrapper<>();
+        roleWrapper.eq(SysRole::getCode, roleCode);
+        roleWrapper.eq(SysRole::getDeleted, 0);
         SysRole role = this.getOne(roleWrapper);
         
         if (role == null) {
@@ -189,8 +182,8 @@ public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> impl
         }
         
         // Delete existing role-menu relations
-        QueryWrapper<SysRoleMenu> deleteWrapper = new QueryWrapper<>();
-        deleteWrapper.eq("role_id", role.getId());
+        LambdaQueryWrapper<SysRoleMenu> deleteWrapper = new LambdaQueryWrapper<>();
+        deleteWrapper.eq(SysRoleMenu::getRoleId, role.getId());
         sysRoleMenuMapper.delete(deleteWrapper);
         
         // Insert new role-menu relations

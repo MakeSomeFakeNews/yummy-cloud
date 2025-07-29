@@ -1,6 +1,6 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.dto.MenuTreeResponse;
 import com.yummyerp.cloud.modules.system.dto.SysMenuQuery;
@@ -135,23 +135,23 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenu> getMenuTreeList(SysMenuQuery query) {
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
 
         // 查询条件
         if (query.getName() != null && !query.getName().trim().isEmpty()) {
-            queryWrapper.like("title", query.getName());
+            queryWrapper.like(SysMenu::getTitle, query.getName());
         }
         if (query.getStatus() != null) {
-            queryWrapper.eq("status", query.getStatus());
+            queryWrapper.eq(SysMenu::getStatus, query.getStatus());
         }
         if (query.getMenuType() != null && !query.getMenuType().trim().isEmpty()) {
-            queryWrapper.eq("menu_type", query.getMenuType());
+            queryWrapper.eq(SysMenu::getType, query.getMenuType());
         }
         if (query.getParentId() != null) {
-            queryWrapper.eq("parent_id", query.getParentId());
+            queryWrapper.eq(SysMenu::getParentId, query.getParentId());
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysMenu::getDeleted, 0);
+        queryWrapper.orderByAsc(SysMenu::getSort);
 
         List<SysMenu> allMenus = this.list(queryWrapper);
 
@@ -162,17 +162,17 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     @Deprecated
     public List<SysMenu> getMenuTreeList(String title, Integer status) {
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
 
         // 查询条件
         if (title != null && !title.trim().isEmpty()) {
-            queryWrapper.like("title", title);
+            queryWrapper.like(SysMenu::getTitle, title);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysMenu::getStatus, status);
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysMenu::getDeleted, 0);
+        queryWrapper.orderByAsc(SysMenu::getSort);
 
         List<SysMenu> allMenus = this.list(queryWrapper);
 
@@ -182,10 +182,10 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<Map<String, Object>> getMenuOptions() {
-        QueryWrapper<SysMenu> queryWrapper = new QueryWrapper<>();
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.eq("status", 1);
-        queryWrapper.orderByAsc("sort");
+        LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<>();
+        queryWrapper.eq(SysMenu::getDeleted, 0);
+        queryWrapper.eq(SysMenu::getStatus, 1);
+        queryWrapper.orderByAsc(SysMenu::getSort);
 
         List<SysMenu> allMenus = this.list(queryWrapper);
 
@@ -263,8 +263,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         }
 
         // 先删除角色菜单关联表中的数据
-        QueryWrapper<SysRoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
-        roleMenuQueryWrapper.in("menu_id", menuIds);
+        LambdaQueryWrapper<SysRoleMenu> roleMenuQueryWrapper = new LambdaQueryWrapper<>();
+        roleMenuQueryWrapper.in(SysRoleMenu::getMenuId, menuIds);
         sysRoleMenuMapper.delete(roleMenuQueryWrapper);
 
         // 再删除菜单本身
@@ -274,8 +274,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public int cleanupInvalidRoleMenuRelations() {
         // 查询所有存在的菜单ID
-        QueryWrapper<SysMenu> menuQueryWrapper = new QueryWrapper<>();
-        menuQueryWrapper.select("id");
+        LambdaQueryWrapper<SysMenu> menuQueryWrapper = new LambdaQueryWrapper<>();
+        menuQueryWrapper.select(SysMenu::getId);
         List<SysMenu> existingMenus = this.list(menuQueryWrapper);
         List<Long> existingMenuIds = existingMenus.stream()
                 .map(SysMenu::getId)
@@ -283,13 +283,13 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
         if (existingMenuIds.isEmpty()) {
             // 如果没有任何菜单，删除所有角色菜单关联记录
-            QueryWrapper<SysRoleMenu> deleteAllWrapper = new QueryWrapper<>();
+            LambdaQueryWrapper<SysRoleMenu> deleteAllWrapper = new LambdaQueryWrapper<>();
             return sysRoleMenuMapper.delete(deleteAllWrapper);
         }
 
         // 查询sys_role_menu中不存在于菜单表的记录并删除
-        QueryWrapper<SysRoleMenu> roleMenuQueryWrapper = new QueryWrapper<>();
-        roleMenuQueryWrapper.notIn("menu_id", existingMenuIds);
+        LambdaQueryWrapper<SysRoleMenu> roleMenuQueryWrapper = new LambdaQueryWrapper<>();
+        roleMenuQueryWrapper.notIn(SysRoleMenu::getMenuId, existingMenuIds);
 
         return sysRoleMenuMapper.delete(roleMenuQueryWrapper);
     }

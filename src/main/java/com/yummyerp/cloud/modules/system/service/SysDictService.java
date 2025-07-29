@@ -29,7 +29,7 @@ public interface SysDictService extends IService<SysDict> {
      * 获取字典分页列表（兼容旧版本）
      */
     @Deprecated
-    Map<String, Object> getDictPageList(Integer page, Integer size, String name, Integer status);
+    PageResult<SysDict> getDictPageList(Integer page, Integer size, String name, Integer status);
 
     /**
      * 删除字典及相关数据
@@ -39,7 +39,7 @@ public interface SysDictService extends IService<SysDict> {
     /**
      * 获取字典数据分页列表
      */
-    Map<String, Object> getDictDataPageList(String dictCode, Integer page, Integer size);
+    PageResult<SysDictData> getDictDataPageList(String dictCode, Integer page, Integer size);
 
     /**
      * 获取字典数据详情

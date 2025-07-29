@@ -1,7 +1,6 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.common.dto.PageRequest;
@@ -20,9 +19,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
@@ -47,35 +44,35 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     public PageResult<SysUser> getUserPageList(PageRequest pageRequest, SysUserQuery query) {
         Page<SysUser> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         
         // 构建查询条件
         if (query.getUsername() != null && !query.getUsername().trim().isEmpty()) {
-            queryWrapper.like("username", query.getUsername());
+            queryWrapper.like(SysUser::getUsername, query.getUsername());
         }
         if (query.getStatus() != null) {
-            queryWrapper.eq("status", query.getStatus());
+            queryWrapper.eq(SysUser::getStatus, query.getStatus());
         }
         if (query.getDeptId() != null) {
             // 获取该部门及其所有子部门的ID列表
             List<Long> deptIds = getDeptAndChildrenIds(query.getDeptId());
             if (!deptIds.isEmpty()) {
-                queryWrapper.in("dept_id", deptIds);
+                queryWrapper.in(SysUser::getDeptId, deptIds);
             }
         }
         if (query.getPhonenumber() != null && !query.getPhonenumber().trim().isEmpty()) {
-            queryWrapper.like("phonenumber", query.getPhonenumber());
+            queryWrapper.like(SysUser::getPhone, query.getPhonenumber());
         }
         if (query.getEmail() != null && !query.getEmail().trim().isEmpty()) {
-            queryWrapper.like("email", query.getEmail());
+            queryWrapper.like(SysUser::getEmail, query.getEmail());
         }
         if (query.getRealName() != null && !query.getRealName().trim().isEmpty()) {
-            queryWrapper.like("real_name", query.getRealName());
+            queryWrapper.like(SysUser::getRealName, query.getRealName());
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.eq(SysUser::getDeleted, 0);
+        queryWrapper.orderByDesc(SysUser::getCreateTime);
         
-        IPage<SysUser> pageResult = this.page(pageObj, queryWrapper);
+        Page<SysUser> pageResult = this.page(pageObj, queryWrapper);
         
         // 填充用户的角色和部门信息
         List<SysUser> users = pageResult.getRecords();
@@ -83,33 +80,33 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             fillUserExtraInfo(user);
         }
         
-        return PageResult.of((Page<SysUser>) pageResult);
+        return PageResult.of(pageResult);
     }
 
     @Override
     @Deprecated
     public PageResult<SysUser> getUserPageList(PageRequest pageRequest, String username, Integer status, Long deptId) {
         Page<SysUser> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         
         // 构建查询条件
         if (username != null && !username.trim().isEmpty()) {
-            queryWrapper.like("username", username);
+            queryWrapper.like(SysUser::getUsername, username);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysUser::getStatus, status);
         }
         if (deptId != null) {
             // 获取该部门及其所有子部门的ID列表
             List<Long> deptIds = getDeptAndChildrenIds(deptId);
             if (!deptIds.isEmpty()) {
-                queryWrapper.in("dept_id", deptIds);
+                queryWrapper.in(SysUser::getDeptId, deptIds);
             }
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.eq(SysUser::getDeleted, 0);
+        queryWrapper.orderByDesc(SysUser::getCreateTime);
         
-        IPage<SysUser> pageResult = this.page(pageObj, queryWrapper);
+        Page<SysUser> pageResult = this.page(pageObj, queryWrapper);
         
         // 填充用户的角色和部门信息
         List<SysUser> users = pageResult.getRecords();
@@ -117,33 +114,33 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             fillUserExtraInfo(user);
         }
         
-        return PageResult.of((Page<SysUser>) pageResult);
+        return PageResult.of(pageResult);
     }
 
     @Override
     @Deprecated
-    public Map<String, Object> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId) {
+    public PageResult<SysUser> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId) {
         Page<SysUser> pageObj = new Page<>(page, size);
-        QueryWrapper<SysUser> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
         
         // 构建查询条件
         if (username != null && !username.trim().isEmpty()) {
-            queryWrapper.like("username", username);
+            queryWrapper.like(SysUser::getUsername, username);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysUser::getStatus, status);
         }
         if (deptId != null) {
             // 获取该部门及其所有子部门的ID列表
             List<Long> deptIds = getDeptAndChildrenIds(deptId);
             if (!deptIds.isEmpty()) {
-                queryWrapper.in("dept_id", deptIds);
+                queryWrapper.in(SysUser::getDeptId, deptIds);
             }
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByDesc("create_time");
+        queryWrapper.eq(SysUser::getDeleted, 0);
+        queryWrapper.orderByDesc(SysUser::getCreateTime);
         
-        IPage<SysUser> pageResult = this.page(pageObj, queryWrapper);
+        Page<SysUser> pageResult = this.page(pageObj, queryWrapper);
         
         // 填充用户的角色和部门信息
         List<SysUser> users = pageResult.getRecords();
@@ -151,14 +148,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
             fillUserExtraInfo(user);
         }
         
-        Map<String, Object> result = new HashMap<>();
-        result.put("records", users);
-        result.put("total", pageResult.getTotal());
-        result.put("size", pageResult.getSize());
-        result.put("current", pageResult.getCurrent());
-        result.put("pages", pageResult.getPages());
-        
-        return result;
+        return PageResult.of(pageResult);
     }
 
     @Override
@@ -200,8 +190,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         
         if (result) {
             // 删除原有的用户角色关联
-            QueryWrapper<SysUserRole> deleteWrapper = new QueryWrapper<>();
-            deleteWrapper.eq("user_id", sysUser.getId());
+            LambdaQueryWrapper<SysUserRole> deleteWrapper = new LambdaQueryWrapper<>();
+            deleteWrapper.eq(SysUserRole::getUserId, sysUser.getId());
             sysUserRoleMapper.delete(deleteWrapper);
             
             // 保存新的用户角色关联
@@ -221,8 +211,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         }
         
         // 删除用户角色关联
-        QueryWrapper<SysUserRole> roleWrapper = new QueryWrapper<>();
-        roleWrapper.in("user_id", userIds);
+        LambdaQueryWrapper<SysUserRole> roleWrapper = new LambdaQueryWrapper<>();
+        roleWrapper.in(SysUserRole::getUserId, userIds);
         sysUserRoleMapper.delete(roleWrapper);
         
         // 删除用户
@@ -267,8 +257,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // user.setCreateUserString(getUsernameById(user.getCreateUserId()));
         
         // 填充用户角色信息
-        QueryWrapper<SysUserRole> wrapper = new QueryWrapper<>();
-        wrapper.eq("user_id", user.getId());
+        LambdaQueryWrapper<SysUserRole> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysUserRole::getUserId, user.getId());
         List<SysUserRole> userRoles = sysUserRoleMapper.selectList(wrapper);
         
         if (!userRoles.isEmpty()) {
@@ -319,8 +309,8 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         deptIds.add(deptId);
         
         // 查询所有部门，筛选出子部门
-        QueryWrapper<SysDept> wrapper = new QueryWrapper<>();
-        wrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysDept> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysDept::getDeleted, 0);
         List<SysDept> allDepts = sysDeptMapper.selectList(wrapper);
         
         // 使用ancestors字段找出所有子部门

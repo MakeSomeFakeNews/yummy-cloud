@@ -1,7 +1,6 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -40,53 +39,40 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public PageResult<SysDict> getDictPageList(PageRequest pageRequest, SysDictQuery query) {
         Page<SysDict> pageObj = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<>();
 
         if (query.getName() != null && !query.getName().trim().isEmpty()) {
-            queryWrapper.like("name", query.getName());
+            queryWrapper.like(SysDict::getName, query.getName());
         }
         if (query.getStatus() != null) {
-            queryWrapper.eq("status", query.getStatus());
-        }
-        if (query.getType() != null && !query.getType().trim().isEmpty()) {
-            queryWrapper.like("type", query.getType());
+            queryWrapper.eq(SysDict::getStatus, query.getStatus());
         }
         if (query.getCode() != null && !query.getCode().trim().isEmpty()) {
-            queryWrapper.like("code", query.getCode());
+            queryWrapper.like(SysDict::getCode, query.getCode());
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        Page<SysDict> pageResult = this.page(pageObj, queryWrapper);
 
-        IPage<SysDict> pageResult = this.page(pageObj, queryWrapper);
-
-        return PageResult.of((Page<SysDict>) pageResult);
+        return PageResult.of(pageResult);
     }
 
     @Override
     @Deprecated
-    public Map<String, Object> getDictPageList(Integer page, Integer size, String name, Integer status) {
+    public PageResult<SysDict> getDictPageList(Integer page, Integer size, String name, Integer status) {
         Page<SysDict> pageObj = new Page<>(page, size);
-        QueryWrapper<SysDict> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<>();
 
         if (name != null && !name.trim().isEmpty()) {
-            queryWrapper.like("name", name).or().like("code", name);
+            queryWrapper.like(SysDict::getName, name).or().like(SysDict::getCode, name);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysDict::getStatus, status);
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysDict::getDeleted, 0);
+        queryWrapper.orderByAsc(SysDict::getSort);
 
         IPage<SysDict> pageResult = this.page(pageObj, queryWrapper);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("records", pageResult.getRecords());
-        result.put("total", pageResult.getTotal());
-        result.put("current", pageResult.getCurrent());
-        result.put("size", pageResult.getSize());
-        result.put("pages", pageResult.getPages());
-
-        return result;
+        return PageResult.of((Page<SysDict>) pageResult);
     }
 
     @Override
@@ -97,52 +83,37 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         }
 
         // 删除字典数据（使用dict_id）
-        if (!dictIds.isEmpty()) {
-            QueryWrapper<SysDictData> dataWrapper = new QueryWrapper<>();
-            dataWrapper.in("dict_id", dictIds);
-            sysDictDataMapper.delete(dataWrapper);
-        }
+        LambdaQueryWrapper<SysDictData> dataWrapper = new LambdaQueryWrapper<>();
+        dataWrapper.in(SysDictData::getDictId, dictIds);
+        sysDictDataMapper.delete(dataWrapper);
 
         // 删除字典（逻辑删除）
         return this.removeByIds(dictIds);
     }
 
     @Override
-    public Map<String, Object> getDictDataPageList(String dictCode, Integer page, Integer size) {
+    public PageResult<SysDictData> getDictDataPageList(String dictCode, Integer page, Integer size) {
         // 先根据字典编码获取字典ID
-        QueryWrapper<SysDict> dictWrapper = new QueryWrapper<>();
-        dictWrapper.eq("code", dictCode);
-        dictWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysDict> dictWrapper = new LambdaQueryWrapper<>();
+        dictWrapper.eq(SysDict::getCode, dictCode);
+        dictWrapper.eq(SysDict::getDeleted, 0);
         SysDict dict = this.getOne(dictWrapper);
 
         if (dict == null) {
             // 如果字典不存在，返回空结果
-            Map<String, Object> result = new HashMap<>();
-            result.put("records", new ArrayList<>());
-            result.put("total", 0);
-            result.put("current", page);
-            result.put("size", size);
-            result.put("pages", 0);
-            return result;
+            return new PageResult<>((long) page, (long) size, 0L, new ArrayList<>());
         }
 
         Page<SysDictData> pageObj = new Page<>(page, size);
-        QueryWrapper<SysDictData> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysDictData> queryWrapper = new LambdaQueryWrapper<>();
 
-        queryWrapper.eq("dict_id", dict.getId());
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysDictData::getDictId, dict.getId());
+        queryWrapper.eq(SysDictData::getDeleted, 0);
+        queryWrapper.orderByAsc(SysDictData::getSort);
 
         IPage<SysDictData> pageResult = sysDictDataMapper.selectPage(pageObj, queryWrapper);
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("records", pageResult.getRecords());
-        result.put("total", pageResult.getTotal());
-        result.put("current", pageResult.getCurrent());
-        result.put("size", pageResult.getSize());
-        result.put("pages", pageResult.getPages());
-
-        return result;
+        return PageResult.of((Page<SysDictData>) pageResult);
     }
 
     @Override
@@ -153,20 +124,20 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     @Override
     public Map<String, Object> getAllDictDataMap() {
         // 获取所有有效的字典
-        QueryWrapper<SysDict> dictWrapper = new QueryWrapper<>();
-        dictWrapper.eq("status", 1);
-        dictWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysDict> dictWrapper = new LambdaQueryWrapper<>();
+        dictWrapper.eq(SysDict::getStatus, 1);
+        dictWrapper.eq(SysDict::getDeleted, 0);
         List<SysDict> dicts = this.list(dictWrapper);
 
         Map<String, Object> result = new HashMap<>();
 
         for (SysDict dict : dicts) {
             // 获取每个字典的数据
-            QueryWrapper<SysDictData> dataWrapper = new QueryWrapper<>();
-            dataWrapper.eq("dict_id", dict.getId());
-            dataWrapper.eq("status", 1);
-            dataWrapper.eq("deleted", 0);
-            dataWrapper.orderByAsc("sort");
+            LambdaQueryWrapper<SysDictData> dataWrapper = new LambdaQueryWrapper<>();
+            dataWrapper.eq(SysDictData::getDictId, dict.getId());
+            dataWrapper.eq(SysDictData::getStatus, 1);
+            dataWrapper.eq(SysDictData::getDeleted, 0);
+            dataWrapper.orderByAsc(SysDictData::getSort);
 
             List<SysDictData> dataList = sysDictDataMapper.selectList(dataWrapper);
 

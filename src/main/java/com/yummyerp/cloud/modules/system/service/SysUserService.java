@@ -34,7 +34,7 @@ public interface SysUserService extends IService<SysUser> {
      * 获取用户分页列表（兼容旧版本）
      */
     @Deprecated
-    Map<String, Object> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId);
+    PageResult<SysUser> getUserPageList(Integer page, Integer size, String username, Integer status, Long deptId);
 
     /**
      * 根据ID获取用户详情（包含角色、部门信息）

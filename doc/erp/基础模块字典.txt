@@ -1,0 +1,7 @@
+字典名 字典编码
+库位信息    warehouse
+计量单位    unit
+供应商级别   supLevel
+供应商类型   supType
+客户类型    cusType
+客户级别    cusLevel

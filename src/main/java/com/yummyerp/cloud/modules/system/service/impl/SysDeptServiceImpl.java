@@ -1,6 +1,6 @@
 package com.yummyerp.cloud.modules.system.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.system.dto.SysDeptQuery;
 import com.yummyerp.cloud.modules.system.entity.SysDept;
@@ -37,20 +37,20 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
 
     @Override
     public List<SysDept> getDeptTreeList(SysDeptQuery query) {
-        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<>();
         
         // 构建查询条件
         if (query.getName() != null && !query.getName().trim().isEmpty()) {
-            queryWrapper.like("name", query.getName());
+            queryWrapper.like(SysDept::getName, query.getName());
         }
         if (query.getStatus() != null) {
-            queryWrapper.eq("status", query.getStatus());
+            queryWrapper.eq(SysDept::getStatus, query.getStatus());
         }
         if (query.getParentId() != null) {
-            queryWrapper.eq("parent_id", query.getParentId());
+            queryWrapper.eq(SysDept::getParentId, query.getParentId());
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysDept::getDeleted, 0);
+        queryWrapper.orderByAsc(SysDept::getSort);
         
         List<SysDept> allDepts = this.list(queryWrapper);
         
@@ -61,17 +61,17 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
     @Override
     @Deprecated
     public List<SysDept> getDeptTreeList(String name, Integer status) {
-        QueryWrapper<SysDept> queryWrapper = new QueryWrapper<>();
+        LambdaQueryWrapper<SysDept> queryWrapper = new LambdaQueryWrapper<>();
         
         // 构建查询条件
         if (name != null && !name.trim().isEmpty()) {
-            queryWrapper.like("name", name);
+            queryWrapper.like(SysDept::getName, name);
         }
         if (status != null) {
-            queryWrapper.eq("status", status);
+            queryWrapper.eq(SysDept::getStatus, status);
         }
-        queryWrapper.eq("deleted", 0);
-        queryWrapper.orderByAsc("sort");
+        queryWrapper.eq(SysDept::getDeleted, 0);
+        queryWrapper.orderByAsc(SysDept::getSort);
         
         List<SysDept> allDepts = this.list(queryWrapper);
         
@@ -113,9 +113,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         }
         
         // 检查是否有子部门
-        QueryWrapper<SysDept> childWrapper = new QueryWrapper<>();
-        childWrapper.in("parent_id", deptIds);
-        childWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysDept> childWrapper = new LambdaQueryWrapper<>();
+        childWrapper.in(SysDept::getParentId, deptIds);
+        childWrapper.eq(SysDept::getDeleted, 0);
         long childCount = this.count(childWrapper);
         
         if (childCount > 0) {
@@ -123,9 +123,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         }
         
         // 检查是否有用户
-        QueryWrapper<SysUser> userWrapper = new QueryWrapper<>();
-        userWrapper.in("dept_id", deptIds);
-        userWrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysUser> userWrapper = new LambdaQueryWrapper<>();
+        userWrapper.in(SysUser::getDeptId, deptIds);
+        userWrapper.eq(SysUser::getDeleted, 0);
         long userCount = sysUserMapper.selectCount(userWrapper);
         
         if (userCount > 0) {
@@ -133,8 +133,8 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
         }
         
         // 删除角色部门关联
-        QueryWrapper<SysRoleDept> roleDeptWrapper = new QueryWrapper<>();
-        roleDeptWrapper.in("dept_id", deptIds);
+        LambdaQueryWrapper<SysRoleDept> roleDeptWrapper = new LambdaQueryWrapper<>();
+        roleDeptWrapper.in(SysRoleDept::getDeptId, deptIds);
         sysRoleDeptMapper.delete(roleDeptWrapper);
         
         // 删除部门
@@ -183,9 +183,9 @@ public class SysDeptServiceImpl extends ServiceImpl<SysDeptMapper, SysDept> impl
      * 更新子部门的祖级信息
      */
     private void updateChildrenAncestors(SysDept sysDept) {
-        QueryWrapper<SysDept> wrapper = new QueryWrapper<>();
-        wrapper.eq("parent_id", sysDept.getId());
-        wrapper.eq("deleted", 0);
+        LambdaQueryWrapper<SysDept> wrapper = new LambdaQueryWrapper<>();
+        wrapper.eq(SysDept::getParentId, sysDept.getId());
+        wrapper.eq(SysDept::getDeleted, 0);
         List<SysDept> children = this.list(wrapper);
         
         for (SysDept child : children) {
