@@ -178,7 +178,7 @@ import {
 
 interface Props {
   visible: boolean
-  warehouseId?: string
+  warehouseId?: string | number
 }
 
 interface Emits {
@@ -223,7 +223,7 @@ const fetchWarehouseDetail = async () => {
 
   try {
     loading.value = true
-    const response = await warehouseAPI.getDetail({ id: props.warehouseId })
+    const response = await warehouseAPI.getDetail({ id: String(props.warehouseId) })
     warehouseDetail.value = response.data
   } catch (error) {
     console.error('获取仓库详情失败:', error)
