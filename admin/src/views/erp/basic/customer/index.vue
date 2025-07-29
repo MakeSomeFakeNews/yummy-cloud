@@ -7,16 +7,12 @@
     </GiForm>
 
     <GiTable row-key="id" :loading="loading" :columns="columns" :data="tableData"
-      :scroll="{ x: '100%', y: '100%', minWidth: 1600 }" :row-selection="{ type: 'checkbox', showCheckedAll: true }"
+      :scroll="{ x: '100%', y: '100%', minWidth: 1600 }"
       :pagination="pagination" :disabled-column-keys="['序号', 'name']" @refresh="getTableData">
       <template #custom-title>
         <a-button type="primary" @click="onAdd">
           <template #icon><icon-plus /></template>
           <span>新增</span>
-        </a-button>
-        <a-button type="primary" status="danger" @click="onMulDelete">
-          <template #icon><icon-delete /></template>
-          <span>删除</span>
         </a-button>
       </template>
       
@@ -73,6 +69,7 @@ import { customerAPI } from '@/apis/customer'
 import type { ColumnItem } from '@/components/GiForm'
 import CustomerModal from './CustomerModal.vue'
 import CustomerDetail from './CustomerDetail.vue'
+import { IconPlus } from '@arco-design/web-vue/es/icon'
 
 defineOptions({ name: 'CustomerManagement' })
 
@@ -188,10 +185,6 @@ const onEdit = (record: T.CustomerItem) => {
 const onDetail = (record: T.CustomerItem) => {
   currentCustomerId.value = record.id
   detailVisible.value = true
-}
-
-const onMulDelete = () => {
-  Message.error('批量删除功能待开发')
 }
 
 const handleModalSuccess = () => {

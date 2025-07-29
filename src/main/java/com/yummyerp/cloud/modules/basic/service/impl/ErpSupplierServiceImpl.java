@@ -1,7 +1,6 @@
 package com.yummyerp.cloud.modules.basic.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.yummyerp.cloud.modules.basic.dto.ErpSupplierQuery;
@@ -53,8 +52,8 @@ public class ErpSupplierServiceImpl extends ServiceImpl<ErpSupplierMapper, ErpSu
         wrapper.orderByDesc(ErpSupplier::getCreateTime);
         
         Page<ErpSupplier> page = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
-        IPage<ErpSupplier> pageResult = page(page, wrapper);
-        
-        return PageResult.of(pageResult);
+        Page<ErpSupplier> result = this.page(page, wrapper);
+
+        return PageResult.of(result);
     }
 }

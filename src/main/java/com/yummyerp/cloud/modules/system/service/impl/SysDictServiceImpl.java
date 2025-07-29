@@ -146,6 +146,7 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                         Map<String, Object> option = new HashMap<>();
                         option.put("label", data.getName());
                         option.put("value", data.getValue());
+                        option.put("status", data.getStatus());
                         return option;
                     })
                     .collect(Collectors.toList());
