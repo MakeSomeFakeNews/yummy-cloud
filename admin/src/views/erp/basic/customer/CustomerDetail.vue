@@ -2,7 +2,7 @@
   <a-drawer
     :visible="props.visible"
     title="客户详情"
-    width="900px"
+    width="800px"
     :footer="false"
     unmount-on-close
     @cancel="handleClose"
@@ -10,7 +10,7 @@
     
     <div v-if="loading" class="loading-container">
       <div class="loading-content">
-        <a-spin size="large" />
+        <a-spin :size="32" />
         <p class="loading-text">正在加载客户信息...</p>
       </div>
     </div>
@@ -25,59 +25,35 @@
         </div>
         <div class="customer-info">
           <h2 class="customer-name">{{ customerDetail.name }}</h2>
-          <div class="customer-meta">
-            <a-tag :color="customerDetail.type === 1 ? 'blue' : 'green'" class="type-tag">
-              <icon-office v-if="customerDetail.type === 1" />
-              <icon-user v-else />
-              {{ customerDetail.type === 1 ? '企业客户' : '个人客户' }}
-            </a-tag>
-            <a-tag 
-              :color="customerDetail.level === 1 ? 'red' : customerDetail.level === 2 ? 'orange' : 'gray'"
-              class="level-tag">
-              <icon-star-fill v-if="customerDetail.level === 1" />
-              <icon-star v-else />
-              {{ customerDetail.level === 1 ? 'VIP客户' : customerDetail.level === 2 ? '普通客户' : '潜在客户' }}
-            </a-tag>
-            <GiCellStatus :status="customerDetail.status" class="status-tag"></GiCellStatus>
-          </div>
+                     <div class="customer-meta">
+             <a-tag :color="customerDetail.type === 1 ? 'blue' : 'green'" class="type-tag">
+               {{ customerDetail.type === 1 ? '企业客户' : '个人客户' }}
+             </a-tag>
+             <a-tag 
+               :color="customerDetail.level === 1 ? 'red' : customerDetail.level === 2 ? 'orange' : 'gray'"
+               class="level-tag">
+               <icon-star />
+               {{ customerDetail.level === 1 ? 'VIP客户' : customerDetail.level === 2 ? '普通客户' : '潜在客户' }}
+             </a-tag>
+             <div class="status-tag">
+              <GiCellStatus :status="customerDetail.status"></GiCellStatus>
+            </div>
+           </div>
         </div>
       </div>
 
-      <!-- 快速操作栏 -->
-      <div class="quick-actions">
-        <div class="action-item" @click="callPhone(customerDetail.contactPhone)">
-          <div class="action-icon phone">
-            <icon-phone />
-          </div>
-          <span>拨打电话</span>
-        </div>
-        <div 
-          v-if="customerDetail.contactEmail"
-          class="action-item" 
-          @click="sendEmail(customerDetail.contactEmail)">
-          <div class="action-icon email">
-            <icon-email />
-          </div>
-          <span>发送邮件</span>
-        </div>
-        <div class="action-item" @click="handleEdit">
-          <div class="action-icon edit">
-            <icon-edit />
-          </div>
-          <span>编辑客户</span>
-        </div>
-      </div>
+
 
       <!-- 详细信息卡片 -->
       <div class="detail-cards">
         <!-- 基本信息 -->
-        <div class="detail-card fade-in" style="animation-delay: 0.1s">
-          <div class="card-header">
-            <div class="header-icon basic">
-              <icon-idcard />
-            </div>
-            <h3>基本信息</h3>
-          </div>
+                 <div class="detail-card fade-in" style="animation-delay: 0.1s">
+           <div class="card-header">
+             <div class="header-icon basic">
+               <icon-user />
+             </div>
+             <h3>基本信息</h3>
+           </div>
           <div class="card-body">
             <div class="info-grid">
               <div class="info-item">
@@ -120,21 +96,17 @@
               </div>
               <div class="info-item">
                 <div class="info-label">联系电话</div>
-                <div class="info-value clickable" @click="callPhone(customerDetail.contactPhone)">
+                <div class="info-value">
                   <icon-phone class="icon" />
                   {{ customerDetail.contactPhone }}
                 </div>
               </div>
               <div class="info-item">
                 <div class="info-label">联系邮箱</div>
-                <div 
-                  v-if="customerDetail.contactEmail"
-                  class="info-value clickable" 
-                  @click="sendEmail(customerDetail.contactEmail)">
+                <div class="info-value">
                   <icon-email class="icon" />
-                  {{ customerDetail.contactEmail }}
+                  {{ customerDetail.contactEmail || '-' }}
                 </div>
-                <div v-else class="info-value">-</div>
               </div>
               <div class="info-item full-width">
                 <div class="info-label">地址</div>
@@ -151,7 +123,7 @@
                  <div class="detail-card fade-in" style="animation-delay: 0.3s">
            <div class="card-header">
              <div class="header-icon finance">
-               <icon-gift />
+               <icon-star />
              </div>
              <h3>财务信息</h3>
            </div>
@@ -206,37 +178,26 @@
                 <div class="info-label">更新时间</div>
                 <div class="info-value">{{ formatDate(customerDetail.updateTime) }}</div>
               </div>
-              <div v-if="customerDetail.remark" class="info-item full-width">
-                <div class="info-label">备注</div>
-                <div class="info-value remark">
-                  <icon-file-text class="icon" />
-                  {{ customerDetail.remark }}
-                </div>
-              </div>
+                             <div v-if="customerDetail.remark" class="info-item full-width">
+                 <div class="info-label">备注</div>
+                 <div class="info-value remark">
+                   {{ customerDetail.remark }}
+                 </div>
+               </div>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- 操作按钮 -->
-      <div class="detail-actions">
-        <a-button type="primary" size="large" @click="handleEdit" class="action-btn primary">
-          <template #icon><icon-edit /></template>
-          编辑客户
-        </a-button>
-        <a-button size="large" @click="handleClose" class="action-btn">
-          关闭
-        </a-button>
-      </div>
+
     </div>
 
-    <div v-else class="empty-container">
-      <div class="empty-content">
-        <icon-exclamation-circle class="empty-icon" />
-        <h3>暂无数据</h3>
-        <p>无法获取客户详细信息</p>
-      </div>
-    </div>
+         <div v-else class="empty-container">
+       <div class="empty-content">
+         <h3>暂无数据</h3>
+         <p>无法获取客户详细信息</p>
+       </div>
+     </div>
   </a-drawer>
 </template>
 
@@ -247,22 +208,15 @@ import { customerAPI, type CustomerItem } from '@/apis/customer'
 import { 
   IconPhone, 
   IconEmail, 
-  IconEdit, 
   IconUser,
-  IconOffice,
   IconStar,
-  IconStarFill,
-  IconIdcard,
-  IconGift,
   IconSettings,
-  IconLocation,
-  IconFileText,
-  IconExclamationCircle
+  IconLocation
 } from '@arco-design/web-vue/es/icon'
 
 interface Props {
   visible: boolean
-  customerId?: string
+  customerId?: string | number
 }
 
 interface Emits {
@@ -283,15 +237,15 @@ const customerDetail = ref<CustomerItem | null>(null)
 // 监听弹窗显示状态和客户ID变化
 watch([() => props.visible, () => props.customerId], ([newVisible, newCustomerId]) => {
   if (newVisible && newCustomerId) {
-    fetchCustomerDetail(newCustomerId)
+    fetchCustomerDetail(String(newCustomerId))
   }
 })
 
 // 获取客户详情
-const fetchCustomerDetail = async (customerId: string) => {
+const fetchCustomerDetail = async (customerId: string | number) => {
   try {
     loading.value = true
-    const res = await customerAPI.getDetail({ id: customerId })
+    const res = await customerAPI.getDetail({ id: String(customerId) })
     customerDetail.value = res.data
   } catch (error) {
     console.error('获取客户详情失败:', error)
@@ -324,27 +278,7 @@ const formatDate = (dateStr: string): string => {
   })
 }
 
-// 拨打电话
-const callPhone = (phone: string) => {
-  if (phone) {
-    window.open(`tel:${phone}`)
-  }
-}
 
-// 发送邮件
-const sendEmail = (email: string) => {
-  if (email) {
-    window.open(`mailto:${email}`)
-  }
-}
-
-// 编辑客户
-const handleEdit = () => {
-  if (customerDetail.value) {
-    emit('edit', customerDetail.value)
-    handleClose()
-  }
-}
 
 // 关闭抽屉
 const handleClose = () => {
@@ -385,7 +319,7 @@ const handleClose = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 300px;
   
   .loading-content {
     text-align: center;
@@ -402,16 +336,10 @@ const handleClose = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 400px;
+  height: 300px;
   
   .empty-content {
     text-align: center;
-    
-    .empty-icon {
-      font-size: 48px;
-      color: var(--color-text-4);
-      margin-bottom: 16px;
-    }
     
     h3 {
       margin: 0 0 8px 0;
@@ -428,34 +356,34 @@ const handleClose = () => {
 }
 
 .customer-detail {
-  padding: 24px;
+  padding: 16px;
 }
 
 .customer-header {
   display: flex;
   align-items: center;
-  padding: 24px;
+  padding: 16px 20px;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  border-radius: 16px;
-  margin-bottom: 24px;
-  box-shadow: 0 8px 32px rgba(102, 126, 234, 0.3);
+  border-radius: 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 20px rgba(102, 126, 234, 0.2);
   color: white;
   
   .customer-avatar {
-    margin-right: 20px;
+    margin-right: 16px;
     
     .avatar-circle {
-      width: 80px;
-      height: 80px;
+      width: 60px;
+      height: 60px;
       border-radius: 50%;
       background: rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(10px);
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 32px;
+      font-size: 24px;
       color: white;
-      border: 3px solid rgba(255, 255, 255, 0.3);
+      border: 2px solid rgba(255, 255, 255, 0.3);
     }
   }
   
@@ -463,15 +391,15 @@ const handleClose = () => {
     flex: 1;
     
     .customer-name {
-      margin: 0 0 12px 0;
-      font-size: 28px;
+      margin: 0 0 8px 0;
+      font-size: 22px;
       font-weight: 700;
       color: white;
     }
     
     .customer-meta {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       flex-wrap: wrap;
       
       .type-tag,
@@ -484,7 +412,7 @@ const handleClose = () => {
           background: rgba(255, 255, 255, 0.1);
           color: white;
           border: none;
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: 4px;
         }
@@ -493,104 +421,43 @@ const handleClose = () => {
   }
 }
 
-.quick-actions {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 16px;
-  margin-bottom: 24px;
-  
-  .action-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 20px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
-    
-    &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-      
-      .action-icon {
-        transform: scale(1.1);
-      }
-    }
-    
-    .action-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      margin-bottom: 12px;
-      transition: all 0.3s ease;
-      
-      &.phone {
-        background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
-        color: white;
-      }
-      
-      &.email {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-      }
-      
-      &.edit {
-        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
-        color: white;
-      }
-    }
-    
-    span {
-      font-size: 14px;
-      font-weight: 500;
-      color: var(--color-text-2);
-    }
-  }
-}
+
 
 .detail-cards {
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  margin-bottom: 32px;
+  gap: 12px;
 }
 
 .detail-card {
   background: white;
-  border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
   border: 1px solid rgba(0, 0, 0, 0.05);
   overflow: hidden;
   transition: all 0.3s ease;
   
   &:hover {
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    transform: translateY(-1px);
   }
   
   .card-header {
     display: flex;
     align-items: center;
-    padding: 20px 24px;
+    padding: 12px 16px;
     background: linear-gradient(135deg, #f8faff 0%, #f0f2ff 100%);
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     
     .header-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 10px;
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 18px;
-      margin-right: 12px;
+      font-size: 16px;
+      margin-right: 10px;
       
       &.basic {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
@@ -615,21 +482,21 @@ const handleClose = () => {
     
     h3 {
       margin: 0;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
       color: var(--color-text-1);
     }
   }
   
   .card-body {
-    padding: 24px;
+    padding: 16px;
   }
 }
 
 .info-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
+  gap: 12px;
   
   .info-item {
     display: flex;
@@ -640,67 +507,58 @@ const handleClose = () => {
     }
     
     .info-label {
-      font-size: 12px;
+      font-size: 11px;
       font-weight: 500;
       color: var(--color-text-3);
       text-transform: uppercase;
       letter-spacing: 0.5px;
-      margin-bottom: 6px;
+      margin-bottom: 4px;
     }
     
     .info-value {
-      font-size: 14px;
+      font-size: 13px;
       color: var(--color-text-1);
       font-weight: 500;
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 4px;
       
       .icon {
         color: var(--color-text-3);
-      }
-      
-      &.clickable {
-        color: var(--color-primary-6);
-        cursor: pointer;
-        transition: all 0.2s ease;
-        
-        &:hover {
-          color: var(--color-primary-5);
-          text-decoration: underline;
-        }
+        font-size: 12px;
       }
       
       &.code {
         font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
         background: var(--color-fill-1);
-        padding: 4px 8px;
-        border-radius: 4px;
-        font-size: 13px;
+        padding: 2px 6px;
+        border-radius: 3px;
+        font-size: 12px;
       }
       
       &.amount {
-        font-size: 16px;
+        font-size: 14px;
         font-weight: 700;
         color: var(--color-success-6);
         
         .currency {
-          font-size: 14px;
-          margin-right: 2px;
+          font-size: 12px;
+          margin-right: 1px;
         }
       }
       
       &.address {
-        line-height: 1.4;
+        line-height: 1.3;
       }
       
       &.remark {
         background: var(--color-fill-1);
-        padding: 12px;
-        border-radius: 8px;
-        line-height: 1.5;
-        margin-top: 4px;
-        border-left: 3px solid var(--color-primary-6);
+        padding: 8px 10px;
+        border-radius: 6px;
+        line-height: 1.4;
+        margin-top: 2px;
+        border-left: 2px solid var(--color-primary-6);
+        font-size: 12px;
       }
       
       .number {
@@ -711,44 +569,13 @@ const handleClose = () => {
   }
 }
 
-.detail-actions {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  padding-top: 24px;
-  border-top: 1px solid var(--color-border-2);
-  
-  .action-btn {
-    min-width: 120px;
-    height: 40px;
-    border-radius: 8px;
-    font-weight: 500;
-    transition: all 0.3s ease;
-    
-    &.primary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      border: none;
-      
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
-      }
-    }
-    
-    &:not(.primary) {
-      &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      }
-    }
-  }
-}
+
 
 // 动画效果
 @keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(15px);
   }
   to {
     opacity: 1;
@@ -757,7 +584,7 @@ const handleClose = () => {
 }
 
 .fade-in {
-  animation: fadeIn 0.6s ease forwards;
+  animation: fadeIn 0.5s ease forwards;
 }
 
 // 响应式设计
@@ -765,15 +592,12 @@ const handleClose = () => {
   .customer-header {
     flex-direction: column;
     text-align: center;
+    padding: 12px 16px;
     
     .customer-avatar {
       margin-right: 0;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
-  }
-  
-  .quick-actions {
-    grid-template-columns: repeat(2, 1fr);
   }
   
   .info-grid {
@@ -784,8 +608,8 @@ const handleClose = () => {
     }
   }
   
-  .detail-actions {
-    flex-direction: column;
+  .customer-detail {
+    padding: 12px;
   }
 }
 </style>
