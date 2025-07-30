@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.math.BigDecimal;
 
 /**
  * <p>
@@ -56,19 +55,6 @@ public class ErpUnit extends BaseEntity {
     @ApiModelProperty("单位类型：1-基本单位 2-长度 3-重量 4-体积 5-面积")
     private Integer type;
 
-    /**
-     * 基础单位ID
-     */
-    @ApiModelProperty("基础单位ID")
-    @TableField("base_unit_id")
-    private Long baseUnitId;
-
-    /**
-     * 转换比率
-     */
-    @ApiModelProperty("转换比率")
-    @TableField("conversion_rate")
-    private BigDecimal conversionRate;
 
     /**
      * 状态：0-禁用 1-正常
@@ -80,7 +66,7 @@ public class ErpUnit extends BaseEntity {
     /**
      * 创建人ID
      */
-    @ApiModelProperty("创建人ID")
-    @TableField("create_user_id")
-    private Long createUserId;
+    @ApiModelProperty("创建人")
+    @TableField("create_user")
+    private String createUser;
 }

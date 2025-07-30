@@ -43,9 +43,9 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<Emits>()
-const { data: statusOptions } = useDict({ code: 'status' })
-const { data: supplierTypeOptions } = useDict({ code: 'supType' })
-const { data: supplierLevelOptions } = useDict({ code: 'supLevel' })
+const {data: statusOptions} = useDict({code: 'status'})
+const {data: supplierTypeOptions} = useDict({code: 'supType'})
+const {data: supplierLevelOptions} = useDict({code: 'supLevel'})
 
 
 const formRef = ref()
@@ -159,7 +159,7 @@ const formColumns = computed(() => [
       placeholder: '请输入地址',
       maxLength: 200
     },
-    colProps: { span: 24 }
+    colProps: {span: 24}
   },
   {
     type: 'input',
@@ -208,7 +208,7 @@ const formColumns = computed(() => [
       placeholder: '请输入付款条件',
       maxLength: 200
     },
-    colProps: { span: 24 }
+    colProps: {span: 24}
   },
   {
     type: 'input',
@@ -218,7 +218,7 @@ const formColumns = computed(() => [
       placeholder: '请输入交货条件',
       maxLength: 200
     },
-    colProps: { span: 24 }
+    colProps: {span: 24}
   },
   {
     type: 'select',
@@ -238,9 +238,9 @@ const formColumns = computed(() => [
       placeholder: '请输入备注',
       maxLength: 500,
       showWordLimit: true,
-      autoSize: { minRows: 3, maxRows: 5 }
+      autoSize: {minRows: 3, maxRows: 5}
     },
-    colProps: { span: 24 }
+    colProps: {span: 24}
   }
 ] as ColumnItem[])
 
@@ -274,12 +274,9 @@ watch(() => props.visible, (newVal) => {
     resetForm()
     if (props.supplierData) {
       // 编辑模式，填充数据，确保字典字段为字符串类型
-      Object.assign(formData, {
-        ...props.supplierData,
-        type: String(props.supplierData.type),
-        level: String(props.supplierData.level),
-        status: String(props.supplierData.status)
-      })
+      Object.assign(formData,
+          props.supplierData
+      )
     }
   }
 })

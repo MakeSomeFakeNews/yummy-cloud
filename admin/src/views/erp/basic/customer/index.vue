@@ -79,7 +79,7 @@ const { data: customerLevelOptions } = useDict({ code: 'cusLevel' })
 
 
 
-const form = reactive({})
+const form = reactive<any>({})
 
 const searchColumns = computed(() => [
   {
@@ -162,7 +162,7 @@ const columns: TableInstance['columns'] = [
   { title: '操作', width: 200, slotName: 'action', align: 'center', fixed: 'right' }
 ]
 
-const { tableData, getTableData, pagination, search, loading } = useTable((p) => customerAPI.getList(p))
+const { tableData, getTableData, pagination, search, loading } = useTable((p) => customerAPI.getList({ ...p, ...form }))
 
 // 弹窗相关状态
 const modalVisible = ref(false)
@@ -170,7 +170,7 @@ const currentCustomer = ref<T.CustomerItem | undefined>()
 
 // 详情抽屉相关状态
 const detailVisible = ref(false)
-const currentCustomerId = ref<string | undefined>()
+const currentCustomerId = ref<string | number>()
 
 const onAdd = () => {
   currentCustomer.value = undefined

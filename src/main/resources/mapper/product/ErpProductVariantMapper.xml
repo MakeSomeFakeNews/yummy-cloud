@@ -20,7 +20,7 @@
         <result column="weight" property="weight" />
         <result column="image" property="image" />
         <result column="status" property="status" />
-        <result column="create_user_id" property="createUserId" />
+        <result column="create_user" property="createUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -29,7 +29,7 @@
         create_time,
         update_time,
         deleted,
-        product_id, code, name, sku, barcode, attributes, purchase_price, sale_price, cost_price, weight, image, status, create_user_id
+        product_id, code, name, sku, barcode, attributes, purchase_price, sale_price, cost_price, weight, image, status, create_user
     </sql>
 
 </mapper>

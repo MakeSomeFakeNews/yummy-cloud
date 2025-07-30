@@ -80,7 +80,14 @@ public class ErpWarehouseLocation extends BaseEntity {
     /**
      * 创建人ID
      */
-    @ApiModelProperty("创建人ID")
-    @TableField("create_user_id")
-    private Long createUserId;
+    @ApiModelProperty("创建人")
+    @TableField("create_user")
+    private String createUser;
+
+    /**
+     * 仓库名称（查询时关联获取，不存储在数据库）
+     */
+    @ApiModelProperty("仓库名称")
+    @TableField(exist = false)
+    private String warehouseName;
 }

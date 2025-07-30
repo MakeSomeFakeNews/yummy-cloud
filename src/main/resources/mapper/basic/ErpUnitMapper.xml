@@ -15,7 +15,7 @@
         <result column="base_unit_id" property="baseUnitId" />
         <result column="conversion_rate" property="conversionRate" />
         <result column="status" property="status" />
-        <result column="create_user_id" property="createUserId" />
+        <result column="create_user" property="createUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -24,7 +24,7 @@
         create_time,
         update_time,
         deleted,
-        code, name, symbol, type, base_unit_id, conversion_rate, status, create_user_id
+        code, name, symbol, type, base_unit_id, conversion_rate, status, create_user
     </sql>
 
 </mapper>

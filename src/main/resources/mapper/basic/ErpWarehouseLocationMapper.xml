@@ -15,7 +15,24 @@
         <result column="capacity" property="capacity" />
         <result column="status" property="status" />
         <result column="remark" property="remark" />
-        <result column="create_user_id" property="createUserId" />
+        <result column="create_user" property="createUser" />
+    </resultMap>
+
+    <!-- 包含仓库名称的查询映射结果 -->
+    <resultMap id="WarehouseLocationWithWarehouseNameResultMap" type="com.yummyerp.cloud.modules.basic.entity.ErpWarehouseLocation">
+        <result column="id" property="id" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+        <result column="deleted" property="deleted" />
+        <result column="warehouse_id" property="warehouseId" />
+        <result column="code" property="code" />
+        <result column="name" property="name" />
+        <result column="type" property="type" />
+        <result column="capacity" property="capacity" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_user" property="createUser" />
+        <result column="warehouse_name" property="warehouseName" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -24,7 +41,66 @@
         create_time,
         update_time,
         deleted,
-        warehouse_id, code, name, type, capacity, status, remark, create_user_id
+        warehouse_id, code, name, type, capacity, status, remark, create_user
     </sql>
+
+    <!-- 分页查询库位列表（包含仓库名称） -->
+    <select id="selectWarehouseLocationPageWithWarehouseName" 
+            resultMap="WarehouseLocationWithWarehouseNameResultMap">
+        SELECT 
+            wl.id,
+            wl.create_time,
+            wl.update_time,
+            wl.deleted,
+            wl.warehouse_id,
+            wl.code,
+            wl.name,
+            wl.type,
+            wl.capacity,
+            wl.status,
+            wl.remark,
+            wl.create_user,
+            w.name as warehouse_name
+        FROM erp_warehouse_location wl
+        LEFT JOIN erp_warehouse w ON wl.warehouse_id = w.id AND w.deleted = 0
+        WHERE wl.deleted = 0
+        <if test="query.warehouseId != null">
+            AND wl.warehouse_id = #{query.warehouseId}
+        </if>
+        <if test="query.code != null and query.code != ''">
+            AND wl.code LIKE CONCAT('%', #{query.code}, '%')
+        </if>
+        <if test="query.name != null and query.name != ''">
+            AND wl.name LIKE CONCAT('%', #{query.name}, '%')
+        </if>
+        <if test="query.type != null">
+            AND wl.type = #{query.type}
+        </if>
+        <if test="query.status != null">
+            AND wl.status = #{query.status}
+        </if>
+        <choose>
+            <when test="query.sortField != null and query.sortField != ''">
+                ORDER BY 
+                <choose>
+                    <when test="query.sortField == 'code'">wl.code</when>
+                    <when test="query.sortField == 'name'">wl.name</when>
+                    <when test="query.sortField == 'type'">wl.type</when>
+                    <when test="query.sortField == 'status'">wl.status</when>
+                    <when test="query.sortField == 'warehouseName'">w.name</when>
+                    <when test="query.sortField == 'createTime'">wl.create_time</when>
+                    <when test="query.sortField == 'updateTime'">wl.update_time</when>
+                    <otherwise>wl.create_time</otherwise>
+                </choose>
+                <choose>
+                    <when test="query.sortOrder == 'asc'">ASC</when>
+                    <otherwise>DESC</otherwise>
+                </choose>
+            </when>
+            <otherwise>
+                ORDER BY wl.create_time DESC
+            </otherwise>
+        </choose>
+    </select>
 
 </mapper>

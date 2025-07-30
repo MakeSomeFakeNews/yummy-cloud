@@ -45,8 +45,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<Emits>()
 
 const {data: statusOptions} = useDict({code: 'status'})
-const {data: customerTypeOptions} = useDict({code: 'customer_type'})
-const {data: customerLevelOptions} = useDict({code: 'customer_level'})
+const {data: customerTypeOptions} = useDict({code: 'cusType'})
+const {data: customerLevelOptions} = useDict({code: 'cusLevel'})
 
 const formRef = ref()
 const loading = ref(false)
@@ -273,12 +273,7 @@ watch(() => props.visible, (newVal) => {
     resetForm()
     if (props.customerData) {
       // 编辑模式，填充数据，确保字典字段为字符串类型
-      Object.assign(formData, {
-        ...props.customerData,
-        type: String(props.customerData.type),
-        level: String(props.customerData.level),
-        status: String(props.customerData.status)
-      })
+      Object.assign(formData, props.customerData)
     }
   }
 })

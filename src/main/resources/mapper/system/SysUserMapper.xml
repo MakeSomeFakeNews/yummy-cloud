@@ -23,7 +23,7 @@
         <result column="login_ip" property="loginIp" />
         <result column="login_time" property="loginTime" />
         <result column="description" property="description" />
-        <result column="create_user_id" property="createUserId" />
+        <result column="create_user" property="createUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -32,7 +32,7 @@
         create_time,
         update_time,
         deleted,
-        username, password, nickname, real_name, gender, avatar, email, phone, birthday, status, type, dept_id, login_ip, login_time, description, create_user_id
+        username, password, nickname, real_name, gender, avatar, email, phone, birthday, status, type, dept_id, login_ip, login_time, description, create_user
     </sql>
 
     <!-- 根据用户ID查询用户角色和权限信息 -->
@@ -74,7 +74,7 @@
         <result column="createTime" property="createTime"/>
         <result column="updateTime" property="updateTime"/>
         <result column="deleted" property="deleted"/>
-        <result column="createUserId" property="createUserId"/>
+        <result column="createUser" property="createUser"/>
         <result column="roleCodes" property="roleCodes"/>
     </resultMap>
     
@@ -102,7 +102,7 @@
             m.create_time as createTime,
             m.update_time as updateTime,
             m.deleted,
-            m.create_user_id as createUserId,
+            m.create_user as createUser,
             GROUP_CONCAT(DISTINCT r2.code) as roleCodes
         FROM sys_menu m
         INNER JOIN sys_role_menu rm ON m.id = rm.menu_id
@@ -118,7 +118,7 @@
         GROUP BY m.id, m.parent_id, m.path, m.component, m.redirect, m.type, m.title, 
                  m.svg_icon, m.icon, m.keep_alive, m.hidden, m.sort, m.active_menu, 
                  m.breadcrumb, m.status, m.permission, m.show_in_tabs, m.always_show, 
-                 m.affix, m.create_time, m.update_time, m.deleted, m.create_user_id
+                 m.affix, m.create_time, m.update_time, m.deleted, m.create_user
         ORDER BY m.sort ASC, m.id ASC
     </select>
 

@@ -155,9 +155,9 @@ public class SysMenu extends BaseEntity {
     /**
      * 创建用户ID
      */
-    @ApiModelProperty("创建用户ID")
-    @TableField("create_user_id")
-    private Long createUserId;
+    @ApiModelProperty("创建人")
+    @TableField("create_user")
+    private String createUser;
 
     /**
      * 角色编码字符串（逗号分隔，非数据库字段）

@@ -70,7 +70,7 @@ defineOptions({ name: 'WarehouseManagement' })
 const { data: statusOptions } = useDict({ code: 'status' })
 const { data: warehouseTypeOptions } = useDict({ code: 'warehouse' })
 
-const form = reactive({})
+const form = reactive<any>({})
 
 const searchColumns = computed(() => [
   {
@@ -138,7 +138,7 @@ const columns: TableInstance['columns'] = [
   { title: '操作', width: 200, slotName: 'action', align: 'center', fixed: 'right' }
 ]
 
-const { tableData, getTableData, pagination, search, loading } = useTable((p) => warehouseAPI.getList(p))
+const { tableData, getTableData, pagination, search, loading } = useTable((p) => warehouseAPI.getList({ ...p, ...form }))
 
 // 弹窗相关状态
 const modalVisible = ref(false)

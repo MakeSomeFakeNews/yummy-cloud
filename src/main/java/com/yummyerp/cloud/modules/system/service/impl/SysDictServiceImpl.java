@@ -145,7 +145,9 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
                     .map(data -> {
                         Map<String, Object> option = new HashMap<>();
                         option.put("label", data.getName());
-                        option.put("value", data.getValue());
+                        // 智能转换value类型：如果是纯数字字符串，转换为数字类型
+                        Object value = convertValueType(data.getValue());
+                        option.put("value", value);
                         option.put("status", data.getStatus());
                         return option;
                     })
@@ -161,5 +163,32 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public SysDict getByDictCode(String dictCode) {
         LambdaQueryWrapper<SysDict> sysDictLambdaQueryWrapper = new LambdaQueryWrapper<>();
         return baseMapper.selectOne(sysDictLambdaQueryWrapper.eq(SysDict::getCode, dictCode));
+    }
+
+    /**
+     * 智能转换字典值类型
+     * 如果字符串是纯数字，则转换为数字类型；否则保持字符串类型
+     * 
+     * @param value 原始字符串值
+     * @return 转换后的值（Integer 或 String）
+     */
+    private Object convertValueType(String value) {
+        if (value == null || value.trim().isEmpty()) {
+            return value;
+        }
+        
+        // 检查是否为纯数字字符串（支持负数）
+        if (value.matches("^-?\\d+$")) {
+            try {
+                // 尝试转换为Integer
+                return Integer.parseInt(value);
+            } catch (NumberFormatException e) {
+                // 如果转换失败，返回原字符串
+                return value;
+            }
+        }
+        
+        // 非数字字符串，保持原样
+        return value;
     }
 }

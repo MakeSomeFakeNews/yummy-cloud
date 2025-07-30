@@ -40,5 +40,6 @@ declare module 'vue' {
     ParentView: typeof import('./components/ParentView/index.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    WarehouseSelect: typeof import('./components/business/WarehouseSelect.vue')['default']
   }
 }

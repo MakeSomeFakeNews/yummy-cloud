@@ -1,6 +1,6 @@
 // 供应商信息项目
 export interface SupplierItem {
-  id: string
+  id: number
   /** 供应商编码 */
   code: string
   /** 供应商名称 */
@@ -8,9 +8,9 @@ export interface SupplierItem {
   /** 简称 */
   shortName: string
   /** 供应商类型：1-生产商 2-贸易商 3-服务商 */
-  type: string | number
+  type: number
   /** 供应商级别：1-A级 2-B级 3-C级 */
-  level: string | number
+  level: number
   /** 联系人 */
   contactPerson: string
   /** 联系电话 */
@@ -32,7 +32,7 @@ export interface SupplierItem {
   /** 交货条件 */
   deliveryTerms: string
   /** 状态：0-禁用 1-正常 */
-  status: string | number
+  status: number
   /** 备注 */
   remark: string
   /** 创建时间 */

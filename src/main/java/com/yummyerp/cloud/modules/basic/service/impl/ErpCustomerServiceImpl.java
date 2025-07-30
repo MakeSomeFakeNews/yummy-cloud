@@ -52,7 +52,41 @@ public class ErpCustomerServiceImpl extends ServiceImpl<ErpCustomerMapper, ErpCu
             wrapper.like(ErpCustomer::getIndustry, query.getIndustry());
         }
 
-        wrapper.orderByDesc(ErpCustomer::getCreateTime);
+        // 动态排序处理
+        if (StringUtils.hasText(pageRequest.getSortField())) {
+            String sortField = pageRequest.getSortField();
+            boolean isDesc = pageRequest.isDesc();
+            
+            switch (sortField) {
+                case "code":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getCode);
+                    break;
+                case "name":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getName);
+                    break;
+                case "type":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getType);
+                    break;
+                case "level":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getLevel);
+                    break;
+                case "status":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getStatus);
+                    break;
+                case "createTime":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getCreateTime);
+                    break;
+                case "updateTime":
+                    wrapper.orderBy(true, !isDesc, ErpCustomer::getUpdateTime);
+                    break;
+                default:
+                    wrapper.orderByDesc(ErpCustomer::getCreateTime);
+                    break;
+            }
+        } else {
+            // 默认按创建时间倒序
+            wrapper.orderByDesc(ErpCustomer::getCreateTime);
+        }
 
         Page<ErpCustomer> page = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
         Page<ErpCustomer> result = this.page(page, wrapper);

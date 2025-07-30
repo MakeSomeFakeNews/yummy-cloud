@@ -182,11 +182,9 @@ watch(() => props.visible, (newVal) => {
     resetForm()
     if (props.warehouseData) {
       // 编辑模式，填充数据，确保字典字段为字符串类型
-      Object.assign(formData, {
-        ...props.warehouseData,
-        type: String(props.warehouseData.type),
-        status: String(props.warehouseData.status)
-      })
+      Object.assign(formData,
+          props.warehouseData
+      )
     }
   }
 })

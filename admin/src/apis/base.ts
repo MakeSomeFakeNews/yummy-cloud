@@ -5,7 +5,7 @@ interface DefaultP {
   GetDetailParams?: { id: string }
   AddParams?: Record<string, any>
   UpdateParams?: Record<string, any>
-  DeleteParams?: { ids: string[] }
+  DeleteParams?: { ids: string[] | number[] }
 }
 
 // 获取基础接口

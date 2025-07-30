@@ -78,9 +78,9 @@ public class SysRole extends BaseEntity {
     /**
      * 创建用户ID
      */
-    @ApiModelProperty("创建用户ID")
-    @TableField("create_user_id")
-    private Long createUserId;
+    @ApiModelProperty("创建人")
+    @TableField("create_user")
+    private String createUser;
 
     // 以下为非数据库字段，用于前端显示
     

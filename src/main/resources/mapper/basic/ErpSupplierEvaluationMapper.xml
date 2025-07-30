@@ -18,7 +18,7 @@
         <result column="total_score" property="totalScore" />
         <result column="evaluation_period" property="evaluationPeriod" />
         <result column="comments" property="comments" />
-        <result column="create_user_id" property="createUserId" />
+        <result column="create_user" property="createUser" />
     </resultMap>
 
     <!-- 通用查询结果列 -->
@@ -27,7 +27,7 @@
         create_time,
         update_time,
         deleted,
-        supplier_id, evaluation_date, evaluator_id, quality_score, delivery_score, service_score, price_score, total_score, evaluation_period, comments, create_user_id
+        supplier_id, evaluation_date, evaluator_id, quality_score, delivery_score, service_score, price_score, total_score, evaluation_period, comments, create_user
     </sql>
 
 </mapper>

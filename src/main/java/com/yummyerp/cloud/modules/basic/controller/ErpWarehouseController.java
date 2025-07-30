@@ -86,4 +86,22 @@ public class ErpWarehouseController {
         boolean result = erpWarehouseService.removeByIds(warehouseIds);
         return Result.success(result);
     }
+
+    @ApiOperation("获取仓库选项列表")
+    @GetMapping("/options")
+    @SaCheckPermission("basic:wh:list")
+    public Result<List<Map<String, Object>>> getOptions(
+            @RequestParam(required = false) String keyword,
+            @RequestParam(defaultValue = "20") Integer size) {
+        List<Map<String, Object>> options = erpWarehouseService.getWarehouseOptions(keyword, size);
+        return Result.success(options);
+    }
+
+    @ApiOperation("根据ID获取仓库选项")
+    @GetMapping("/option/{id}")
+    @SaCheckPermission("basic:wh:list")
+    public Result<Map<String, Object>> getOptionById(@PathVariable Long id) {
+        Map<String, Object> option = erpWarehouseService.getWarehouseOptionById(id);
+        return Result.success(option);
+    }
 }

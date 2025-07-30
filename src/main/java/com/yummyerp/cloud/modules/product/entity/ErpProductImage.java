@@ -78,7 +78,7 @@ public class ErpProductImage extends BaseEntity {
     /**
      * 创建人ID
      */
-    @ApiModelProperty("创建人ID")
-    @TableField("create_user_id")
-    private Long createUserId;
+    @ApiModelProperty("创建人")
+    @TableField("create_user")
+    private String createUser;
 }

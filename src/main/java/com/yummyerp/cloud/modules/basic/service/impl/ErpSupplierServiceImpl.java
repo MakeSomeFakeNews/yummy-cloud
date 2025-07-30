@@ -49,7 +49,41 @@ public class ErpSupplierServiceImpl extends ServiceImpl<ErpSupplierMapper, ErpSu
             wrapper.eq(ErpSupplier::getStatus, query.getStatus());
         }
         
-        wrapper.orderByDesc(ErpSupplier::getCreateTime);
+        // 动态排序处理
+        if (StringUtils.hasText(pageRequest.getSortField())) {
+            String sortField = pageRequest.getSortField();
+            boolean isDesc = pageRequest.isDesc();
+            
+            switch (sortField) {
+                case "code":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getCode);
+                    break;
+                case "name":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getName);
+                    break;
+                case "type":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getType);
+                    break;
+                case "level":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getLevel);
+                    break;
+                case "status":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getStatus);
+                    break;
+                case "createTime":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getCreateTime);
+                    break;
+                case "updateTime":
+                    wrapper.orderBy(true, !isDesc, ErpSupplier::getUpdateTime);
+                    break;
+                default:
+                    wrapper.orderByDesc(ErpSupplier::getCreateTime);
+                    break;
+            }
+        } else {
+            // 默认按创建时间倒序
+            wrapper.orderByDesc(ErpSupplier::getCreateTime);
+        }
         
         Page<ErpSupplier> page = new Page<>(pageRequest.getCurrent(), pageRequest.getSize());
         Page<ErpSupplier> result = this.page(page, wrapper);
